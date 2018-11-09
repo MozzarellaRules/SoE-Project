@@ -11,13 +11,17 @@ public class Board extends JPanel {
     private void initBoard() {
         loadImage();
 
+
+
         int w = image.getWidth(this);
         int h =  image.getHeight(this);
         setPreferredSize(new Dimension(w, h));
+
+
     }
 
     private void loadImage() {
-        ImageIcon ii = new ImageIcon("src/resources/image.png");
+        ImageIcon ii = new ImageIcon("resources/pirate/Pirate Captain (Idle).png");
         image = ii.getImage();
     }
 

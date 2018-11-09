@@ -10,10 +10,12 @@ public class Application extends JFrame {
     private void initUI() {
         add(new Board());
 
+        pack();//Cosa fa??
+
         setSize(250, 200);
         setTitle("My Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+
     }
 
     public static void main(String[] args) {
