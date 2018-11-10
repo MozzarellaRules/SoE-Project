@@ -102,7 +102,7 @@ public class Board extends JPanel implements Runnable {
                     pirate.move();
                 }
             } else if (key == KeyEvent.VK_UP) {
-                
+
             }
 
             /*
