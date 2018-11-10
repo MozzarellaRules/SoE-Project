@@ -2,18 +2,16 @@ import java.awt.*;
 
 public class Sprite {
 
-    private boolean visible;
-    protected int dx;
-    protected int dy;
-    protected int x = 40;
-    protected int y = 60;
-    private Image image;
+    private boolean isVisible;
+    protected int x;
+    protected int y;
+    protected Image image;
 
     public Sprite() {
-        this.visible = true;
+        this.isVisible = true;
     }
 
-    public boolean isVisible() { return visible; }
+    public boolean isVisible() { return isVisible; }
 
     // Getters
     public int getX() { return x; }
@@ -21,8 +19,8 @@ public class Sprite {
     public Image getImage() { return image; }
 
     // Setters
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public void setVisible(boolean isVisible) {
+        this.isVisible = isVisible;
     }
     public void setX(int x) {
         this.x = x;

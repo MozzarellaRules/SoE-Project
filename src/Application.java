@@ -13,6 +13,7 @@ public class Application extends JFrame {
         setSize(350, 350);
         setTitle("My Game");
         setResizable(false);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
