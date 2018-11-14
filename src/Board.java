@@ -10,7 +10,7 @@ public class Board extends JPanel implements Runnable {
     private boolean isRunning = true;
 
     // The time an iteration must take place -- used in run()
-    private final int DELAY = 20;
+    private final int DELAY = 15;
 
     private Pirate pirate;
     private Thread animator;
@@ -29,6 +29,8 @@ public class Board extends JPanel implements Runnable {
         pirate = new Pirate();
     }
 
+    // The addNotify() method is called after our JPanel has been added to the JFrame component
+    // This method is used for various initialisation tasks
     @Override
     public void addNotify() {
         super.addNotify();
@@ -50,6 +52,7 @@ public class Board extends JPanel implements Runnable {
     }
 
     private void cycle() {
+        pirate.move();
         if (pirate.isJumping())
             pirate.jump();
         if (pirate.isFalling())
@@ -105,12 +108,10 @@ public class Board extends JPanel implements Runnable {
             if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
                 if (isRunning) {
                     pirate.keyPressed(e);
-                    pirate.move();
                 }
             } else if (key == KeyEvent.VK_UP) {
                 if (isRunning) {
                     pirate.keyPressed(e);
-                    pirate.jump();
                 }
             }
 

@@ -12,7 +12,7 @@ public class Pirate extends Sprite {
     private boolean isJumping = false;
     private boolean isFalling = false;
     private int currentJumpCycle = 0;
-    private int maxJumpCycles = 30;
+    private int maxJumpCycles = 25;
 
     private int widthImage;
     private int heightImage;
@@ -73,8 +73,12 @@ public class Pirate extends Sprite {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_LEFT) { dx = -4; }
-        if (key == KeyEvent.VK_RIGHT) { dx = 4; }
+        if (key == KeyEvent.VK_LEFT) {
+            dx = -4;
+        }
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 4;
+        }
         if (key == KeyEvent.VK_UP) {
             if (!isFalling) // No jump if falling
                 isJumping = true;
@@ -84,8 +88,12 @@ public class Pirate extends Sprite {
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_LEFT) { dx = 0; }
-        if (key == KeyEvent.VK_RIGHT) { dx = 0; }
+        if (key == KeyEvent.VK_LEFT) {
+            dx = 0;
+        }
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 0;
+        }
         if (key == KeyEvent.VK_UP) { }
     }
 
