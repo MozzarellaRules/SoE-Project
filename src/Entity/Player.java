@@ -35,21 +35,21 @@ public class Player extends MapObject {
 	private ImageIcon image;
 	//private Image image;
 	private ArrayList<BufferedImage[]> sprites;
-	private final int[] numFrames= {10,10,10,4,4,4,4};//,1,2,4,2,5};
-			//SI DEVONO VEDERE GLI SPRITES,IN BASE AL NUMERO DI SPRITE 
+	private final int[] numFrames = {6,12,12,0,0,0,0};//,1,2,4,2,5};
+			//SI DEVONO VEDERE GLI SPRITES,IN BASE AL NUMERO DI SPRITE
 			//PRESENTI SU UNA RIGA SI INSERISCONO I NUMERI DEI FRAMES CHE VERRANNO CARICATI
 			//VENGONO INSERITI IN BASE ALLE ANIMATION ACTIONS DEFINITE SOTTO QUINDI 2 CORRISPONDE 
 			//AGLI SPRITE DELL ANDLE,8 AGLI SPRITES DEL WALKING ECC.
 		
 	
 	//animation actions
-	private static final int IDLE=0;
-	private static final int WALKING=2;
-	private static final int JUMPING=0;
-	private static final int FALLING=3;
-	private static final int GLIDING=4;
-	private static final int FIREBALL=1;
-	private static final int SCRATCHING=1;
+	private static final int IDLE = 0;
+	private static final int WALKING = 1;
+	private static final int JUMPING = 1;
+	private static final int FALLING = 0;
+	private static final int GLIDING = 0;
+	private static final int FIREBALL = 0;
+	private static final int SCRATCHING = 2;
 	
 	public Player(TileMap tm) {
 		super(tm);
@@ -196,20 +196,28 @@ public class Player extends MapObject {
 		setPosition(xtemp,ytemp);
 		
 		//set animations
-		if(jumping) {
+		if(left || right) {
+			if(currentAction!=WALKING) {
+				currentAction=WALKING;
+				animation.setFrames(sprites.get(WALKING));
+				animation.setDelay(100);
+				width = 32;
+			}
+		}
+		else if(jumping) {
             if (currentAction != JUMPING) {
                 currentAction = JUMPING;
                 animation.setFrames(sprites.get(JUMPING));
                 animation.setDelay(50);
-                width = 60;
+                width = 32;
             }
         }
         else if(scratching) {
             if (currentAction != SCRATCHING) {
                 currentAction = SCRATCHING;
                 animation.setFrames(sprites.get(SCRATCHING));
-                animation.setDelay(10);
-                width = 60;
+                animation.setDelay(50);
+                width = 32;
             }
         }
         else {
@@ -217,7 +225,7 @@ public class Player extends MapObject {
                 currentAction=IDLE;
                 animation.setFrames(sprites.get(IDLE));
                 animation.setDelay(100);
-                width=30;
+                width = 32;
             }
         }
 
@@ -273,6 +281,11 @@ public class Player extends MapObject {
 			}
 		}*/
 		animation.update();
+
+		if(right)
+			facingRight=true;
+		if(left)
+			facingRight=false;
 		
 		//set direction
 		/*if(currentAction!=SCRATCHING && currentAction!=FIREBALL) {
