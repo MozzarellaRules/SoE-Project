@@ -2,7 +2,6 @@ package Entity;
 
 import java.awt.image.BufferedImage;
 
-import org.omg.CORBA.Current;
 public class Animation {
 	
 	private BufferedImage[] frames;

@@ -35,7 +35,7 @@ public class Player extends MapObject {
 	private ImageIcon image;
 	//private Image image;
 	private ArrayList<BufferedImage[]> sprites;
-	private final int[] numFrames= {10,5,10,10,10,10,10};//,1,2,4,2,5};
+	private final int[] numFrames= {10,10,10,4,4,4,4};//,1,2,4,2,5};
 			//SI DEVONO VEDERE GLI SPRITES,IN BASE AL NUMERO DI SPRITE 
 			//PRESENTI SU UNA RIGA SI INSERISCONO I NUMERI DEI FRAMES CHE VERRANNO CARICATI
 			//VENGONO INSERITI IN BASE ALLE ANIMATION ACTIONS DEFINITE SOTTO QUINDI 2 CORRISPONDE 
@@ -43,19 +43,19 @@ public class Player extends MapObject {
 		
 	
 	//animation actions
-	private static final int IDLE=1;
+	private static final int IDLE=0;
 	private static final int WALKING=2;
-	private static final int JUMPING=2;
+	private static final int JUMPING=0;
 	private static final int FALLING=3;
 	private static final int GLIDING=4;
-	private static final int FIREBALL=5;
-	private static final int SCRATCHING=3;
+	private static final int FIREBALL=1;
+	private static final int SCRATCHING=1;
 	
 	public Player(TileMap tm) {
 		super(tm);
 
-		width=64;
-		height=64;
+		width=32;
+		height=32;
 
 		cwidth=20;
 		cheight=20;
@@ -84,10 +84,10 @@ public class Player extends MapObject {
 		//load sprites
 		//image =new ImageIcon("Resources/Pirates/Pirate Captain (Idle) GIF.gif");
 		try {
-			BufferedImage spritesheet=ImageIO.read(getClass().getResourceAsStream("/Pirates/pirates_2.png"));
+			BufferedImage spritesheet=ImageIO.read(getClass().getResourceAsStream("/Pirates/pirates.png"));
 			//BufferedImage spritesheet=ImageIO.read(getClass().getResourceAsStream("/Pirates/Pirate Captain (Idle).png"));
 			sprites= new ArrayList<BufferedImage[]>();
-			for(int i=0;i<4;i++) {
+			for(int i=0;i<3;i++) {
 				BufferedImage[] bi= new BufferedImage[numFrames[i]];
 				for(int j=0;j<numFrames[i];j++) {
 					//if(i!=6) {

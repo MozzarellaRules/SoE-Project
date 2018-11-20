@@ -57,7 +57,7 @@ public class TileMap {
 			BufferedImage subimage;
 			for(int col=0;col<numTilesAcross;col++) {
 				for(int row=0;row<numTilesLines;row++) {
-					if(row < 4) {
+					if(row < 2) {
 						// Tiles non bloccanti
 						subimage=tileset.getSubimage(col*tileSize, row*tileSize, tileSize, tileSize); // Extract a subimage from tileset
 						tiles[row][col]=new Tile(subimage,Tile.NORMAL);

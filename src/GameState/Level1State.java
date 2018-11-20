@@ -22,9 +22,9 @@ public class Level1State extends GameState{
 	@Override
 	public void init() {
 		tileMap=new TileMap(32);
-		tileMap.loadTiles("/Tilesets/ship_tileset.png");
+		tileMap.loadTiles("/Tilesets/new_tileset.png");
 		//tileMap.loadMap("/Maps/map1.txt");
-		tileMap.loadMap("/Maps/map4.txt");
+		tileMap.loadMap("/Maps/new_map4.txt");
 		tileMap.setPosition(0, 0);
 		tileMap.setTween(1);
 		bg = new Background("/Background/full_background.jpeg",0.5);
