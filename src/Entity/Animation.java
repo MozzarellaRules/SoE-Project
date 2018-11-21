@@ -29,6 +29,7 @@ public class Animation {
 	public void setFrame(int i) {
 		currentFrame=i;
 	}
+
 	public void update() {
 		if(delay==-1)
 			return;
@@ -42,6 +43,7 @@ public class Animation {
 			playedOnce=true;
 		}
 	}
+
 	public int getFrame() {
 		return currentFrame;
 	}
