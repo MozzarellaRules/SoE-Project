@@ -25,7 +25,7 @@ public class Projectile extends MapObject {
         speed = 4;
 
         image = new ImageIcon("resources/Objects/projectile.png");
-        System.out.println(image.getIconWidth());
+
 
         if(facingRight)
             dx = speed;
