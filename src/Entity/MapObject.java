@@ -1,7 +1,8 @@
 package Entity;
 
 import TileMap.TileMap;
-import java.awt.Rectangle;
+
+import java.awt.*;
 
 import Main.GamePanel;
 import TileMap.Tile;
@@ -65,6 +66,10 @@ public abstract class MapObject {
 	public MapObject(TileMap tm) {
 		tileMap=tm;
 		tileSize=tm.getTileSize();
+		width = 32; // width of the sprite image
+		height = 32; // height of the sprite image
+		cwidth = 20; // width of the collision box
+		cheight = 20; // height of the collision box
 	}
 	
 	public boolean intersects(MapObject o){
@@ -202,6 +207,8 @@ public abstract class MapObject {
 				y+ymap+height<0||y+ymap-height>GamePanel.HEIGHT;
 				
 	}
-	
+
+
+
 	
 	}

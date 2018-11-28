@@ -4,15 +4,19 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import Entity.Enemy;
+import Entity.EnemyGround;
 import Entity.Player;
 import Entity.Projectile;
 import Main.GamePanel;
 import TileMap.*;
 
+
 public class Level1State extends GameState{
 	
 	private TileMap tileMap;
 	private Background bg;
+	private ArrayList<Enemy> enemies ;
 	
 	private Player player;
 	private ArrayList<Projectile> projectiles = new ArrayList<>();
@@ -32,13 +36,49 @@ public class Level1State extends GameState{
 		bg = new Background("/Background/full_background.jpeg",0.5);
 		player= new Player(tileMap);
 		player.setPosition(100,100);
+		enemies = new ArrayList<>();
+		createEnemies();
+
+
 	}
 
 	@Override
 	public void update() {
+
 		player.update();
 
 		tileMap.setPosition(GamePanel.WIDTH/2-player.getx(), GamePanel.HEIGHT/2-player.gety());
+
+		//Movimento del Background in funzione del personaggio
+		bg.setPosition(GamePanel.WIDTH-player.getx(),0);
+
+        player.setMapPosition();
+
+		for (Enemy e : enemies){
+		    if(!e.notOnScreen()){
+
+			    e.update();}
+		}
+
+		player.checkAttack(enemies);
+
+
+	}
+
+
+	private void createEnemies(){
+		Enemy e1 = new EnemyGround(tileMap);
+		//Enemy e2 = new EnemyGround(tileMap);
+
+		e1.setPosition(150,player.gety()-64);
+		//e2.setPosition(180,player.gety()-64);
+
+
+		enemies.add(e1);
+		//enemies.add(e2);
+
+
+
 	}
 
 	@Override
@@ -46,6 +86,11 @@ public class Level1State extends GameState{
 		bg.draw(g);
 		tileMap.draw(g);
 		player.draw(g);
+
+		for(Enemy e: enemies){
+			e.draw(g);
+
+		}
 	}
 
 	@Override

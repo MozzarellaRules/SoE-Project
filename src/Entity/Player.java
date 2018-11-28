@@ -13,7 +13,7 @@ public class Player extends MapObject {
 
     // Each element of the array refers to the number of frames (or columns) in a row of the sprite asset
     // The sprite asset now have 3 rows (to animate 3 states) so I'm defining the number of frames of each row
-    private final int[] numFrames = {6,12,12};
+    private final int[] numFrames = {6,12,4};
 
     // States
     // The integer refers to the row of the sprite asset
@@ -22,11 +22,11 @@ public class Player extends MapObject {
     private static final int JUMPING = 1;
     private static final int FALLING = 0;
     private static final int SHOOTING = 2;
-
+    private static int maxBullets = 10; //Ammo when you start the game
     // Firing
     private ArrayList<Projectile> projectiles;
     private boolean firing;
-    private int maxProjectiles = 1;
+    private int simultaneousProj = 1; //amount of bullets you can fire by pressing Spacebar ONCE (no spam)
     private int currentProjectile = 0;
 
     /* not now
@@ -38,10 +38,7 @@ public class Player extends MapObject {
     public Player(TileMap tm) {
         super(tm);
 
-        width = 32; // width of the sprite image
-        height = 32; // height of the sprite image
-        cwidth = 20; // width of the collision box
-        cheight = 20; // height of the collision box
+
 
         // Movement parameters
         moveSpeed = 0.3;
@@ -53,7 +50,7 @@ public class Player extends MapObject {
         stopJumpSpeed = 0.3;
 
         try {
-            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/Pirates/pirates.png"));
+            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/Pirates/pirate_1.png"));
             sprites= new ArrayList<BufferedImage[]>();
             for(int i=0; i<3; i++) { // i = number of row
                 BufferedImage[] bi= new BufferedImage[numFrames[i]];
@@ -139,11 +136,14 @@ public class Player extends MapObject {
 
         // Create projectile
         if(firing){
-            if(currentProjectile < maxProjectiles ) { // Check if max number of (simultaneous) projectiles has been reached
+            if(currentProjectile < simultaneousProj) { // Check if max number of (simultaneous) projectiles has been reached
+                if (maxBullets > 0){
                 Projectile pj = new Projectile(tileMap, facingRight); // Create new projectile
-                pj.setPosition(x, y); // Put it near the pirate
+                pj.setPosition(x-3, y); // Put it near the pirate
                 projectiles.add(pj); // Add it
                 currentProjectile++; // Increases max number of projectiles created
+                maxBullets--;
+            }
             }
         } else
             currentProjectile = 0; // I'm not firing anymore... reset the number of projectiles created
@@ -176,7 +176,7 @@ public class Player extends MapObject {
             if (currentAction != SHOOTING) {
                 currentAction = SHOOTING;
                 animation.setFrames(sprites.get(SHOOTING));
-                animation.setDelay(50);
+                animation.setDelay(20);
             }
         }
         else {
@@ -195,15 +195,61 @@ public class Player extends MapObject {
         animation.update();
     }
 
-    public void draw(Graphics2D g) {
-        setMapPosition(); // update xmap and ymap
 
-        // draw flaming projectiles
-        for (int i=0; i < projectiles.size(); i++){
-            projectiles.get(i).draw(g);
+
+    public void checkAttack(ArrayList<Enemy> enemies ){
+
+
+
+        Projectile projectile;
+
+        for (Enemy e :enemies){
+            int i = 0;
+            boolean hit = false;
+
+            if(projectiles.size() > 0){
+            projectile = projectiles.get(i);
+
+            do
+            {
+
+                projectile = projectiles.get(i);
+                i++;
+               if (projectile.intersects(e)){
+                   hit = true;
+               }
+
+            }while(i < projectiles.size() -1  && !hit);
+
+            if (hit){
+                e.hit(1);
+                projectiles.remove(projectile);
+
+            }
+
+
+
+            if (e.isDead()){
+                enemies.remove(e);
+                break;
+            }
+
+
         }
 
-        // draw player
+    }}
+
+    public void draw(Graphics2D g) {
+
+        //if (!notOnScreen()){ // Vogliamo gestire la condizione in cui il nemico non è sullo schermo
+        //In questo caso la draw non dovrebbe essere eseguita per questioni di ottimizzazione
+        setMapPosition(); // update xmap and ymap
+
+        for(Projectile p: projectiles){
+            p.draw(g);
+        }
+
+
         if(facingRight) {
             g.drawImage(animation.getImage(), (int)(x+xmap-width/2), (int)(y+ymap-height/2), null);
         }
@@ -211,5 +257,6 @@ public class Player extends MapObject {
             g.drawImage(animation.getImage(), (int)(x+xmap-width/2+width), (int)(y+ymap-height/2), -width, height, null);
         }
     }
+
 
 }

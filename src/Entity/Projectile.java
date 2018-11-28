@@ -22,9 +22,9 @@ public class Projectile extends MapObject {
         cwidth = 20; // width of the collision box
         cheight = 20; // height of the collision box
 
-        speed = 4;
+        speed = 2;
 
-        image = new ImageIcon("resources/Objects/projectile.png");
+        image = new ImageIcon("resources/Objects/Bullet2.png");
 
 
         if(facingRight)
@@ -34,11 +34,13 @@ public class Projectile extends MapObject {
     }
 
     public void update() {
+        setMapPosition();
         checkTileMapCollision();
         setPosition(xtemp, ytemp);
 
-        if(dx == 0.0) // The projectile is not moving... so it hit something... remove it
+        if(dx == 0.0 || notOnScreen()) // The projectile is not moving... so it hit something... remove it
             remove = true;
+
 
         x += dx;
     }
