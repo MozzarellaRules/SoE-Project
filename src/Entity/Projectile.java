@@ -24,7 +24,7 @@ public class Projectile extends MapObject {
 
         speed = 2;
 
-        image = new ImageIcon("resources/Objects/Bullet2.png");
+        image = new ImageIcon("resources/Objects/Bullet.png");
 
 
         if(facingRight)
