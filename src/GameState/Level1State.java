@@ -14,7 +14,7 @@ public class Level1State extends GameState{
 	private TileMap tileMap;
 	private Background bg;
 	private ArrayList<Enemy> enemies ;
-	private TreasureChest t;
+	private Ammo t;
 	
 	private Player player;
 	private ArrayList<Projectile> projectiles = new ArrayList<>();
@@ -27,20 +27,17 @@ public class Level1State extends GameState{
 	@Override
 	public void init() {
 		tileMap = new TileMap(32);
-		tileMap.loadTiles("/Tilesets/new_tileset_test.png");
-		tileMap.loadMap("/Maps/new_map.txt");
+		tileMap.loadTiles("/Tilesets/tileset_sarah.png");
+		tileMap.loadMap("/Maps/map_sarah.txt");
 		tileMap.setPosition(0, 0);
 		tileMap.setTween(1);
 		bg = new Background("/Background/full_background.jpeg",0.5);
 		player= new Player(tileMap);
-		player.setPosition(100,100);
+		player.setPosition(250,1460);
 		enemies = new ArrayList<>();
 		createEnemies();
-		t = new TreasureChest(tileMap);
-		t.setPosition(200,150);
-
-
-
+		t = new Ammo(tileMap);
+		t.setPosition(32*16,32*50);
 	}
 
 	@Override
@@ -69,7 +66,11 @@ public class Level1State extends GameState{
 
 		player.checkAttack(enemies);
 
-
+		if(t == null || t.intersects(player)){
+		    t = null;
+        } else {
+            t.update();
+        }
 	}
 
 
@@ -96,8 +97,10 @@ public class Level1State extends GameState{
 
 		for(Enemy e: enemies){
 			e.draw(g);
-	}
-		t.draw(g);
+	    }
+
+	    if(t != null)
+		    t.draw(g);
 	}
 
 	@Override
