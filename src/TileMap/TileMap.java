@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import Main.GamePanel;
 
 
-//Mettetevi comodi, questa è la mappa 
+
 public class TileMap {
 	//position
 	private double x;
