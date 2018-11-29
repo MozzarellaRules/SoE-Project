@@ -210,7 +210,7 @@ public abstract class MapObject {
 		jumping=b;
 	}
 	
-	//Dubbi anche su questa,ancora la doveva usare nel codice, attendiamo futuri sviluppi :D
+	
 	public boolean notOnScreen() {
 		return x+xmap+width<0||x+xmap-width>GamePanel.WIDTH||
 				y+ymap+height<0||y+ymap-height>GamePanel.HEIGHT;
