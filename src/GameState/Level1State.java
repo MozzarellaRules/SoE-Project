@@ -4,10 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import Entity.Enemy;
-import Entity.EnemyGround;
-import Entity.Player;
-import Entity.Projectile;
+import Entity.*;
 import Main.GamePanel;
 import TileMap.*;
 
@@ -17,6 +14,7 @@ public class Level1State extends GameState{
 	private TileMap tileMap;
 	private Background bg;
 	private ArrayList<Enemy> enemies ;
+	private TreasureChest t;
 	
 	private Player player;
 	private ArrayList<Projectile> projectiles = new ArrayList<>();
@@ -38,6 +36,9 @@ public class Level1State extends GameState{
 		player.setPosition(100,100);
 		enemies = new ArrayList<>();
 		createEnemies();
+		t = new TreasureChest(tileMap);
+		t.setPosition(200,150);
+
 
 
 	}
@@ -95,8 +96,8 @@ public class Level1State extends GameState{
 
 		for(Enemy e: enemies){
 			e.draw(g);
-
-		}
+	}
+		t.draw(g);
 	}
 
 	@Override

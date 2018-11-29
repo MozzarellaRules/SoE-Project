@@ -183,6 +183,9 @@ public class TileMap {
 	public void setTween(double i) {
 		this.tween=i;
 	}
+
+
+	public Tile[][] getTiles(){return tiles;}
 		
 }
 

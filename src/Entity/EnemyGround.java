@@ -18,7 +18,7 @@ public class EnemyGround extends Enemy{
 
     public EnemyGround(TileMap tm){
         super(tm);
-        cheight = 30 ;
+        cheight = 20 ;
         cwidth = 20;
         moveSpeed = 0.4;
         maxSpeed = 1;
