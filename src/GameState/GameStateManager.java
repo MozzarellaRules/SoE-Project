@@ -13,7 +13,7 @@ public class GameStateManager {
 	//Costruttore
 	public GameStateManager() {
 		gameStates=new ArrayList<GameState>();
-		currentState=MENUSTATE; //Dovrebbe essere MENUSTATE perché questo rappresenta la prima cos che vuoi caricare ( Lo hanno cambiato i ragazzi per non farlo vedere a Ritrovato)
+		currentState=MENUSTATE; //Dovrebbe essere MENUSTATE perché questo rappresenta la prima cos che vuoi caricare
 		gameStates.add(new MenuState(this)); //Aggiungiamo il menu
 		gameStates.add(new Level1State(this));// Aggiungiamo il primo livello
 		gameStates.add(new GameOverState(this));
