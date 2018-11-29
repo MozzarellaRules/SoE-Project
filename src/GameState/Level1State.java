@@ -56,8 +56,14 @@ public class Level1State extends GameState{
 
 		for (Enemy e : enemies){
 		    if(!e.notOnScreen()){
+				e.update();}
+		    	if(e.intersects(player)){
+		    		player.hit();
+		    		if(player.isDead()){
+		    			gsm.setState(GameStateManager.GAMEOVER);
+					}
+				}
 
-			    e.update();}
 		}
 
 		player.checkAttack(enemies);

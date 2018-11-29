@@ -2,9 +2,12 @@ package Entity;
 
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+
+
 import TileMap.TileMap;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Player extends MapObject {
 
@@ -13,7 +16,7 @@ public class Player extends MapObject {
 
     // Each element of the array refers to the number of frames (or columns) in a row of the sprite asset
     // The sprite asset now have 3 rows (to animate 3 states) so I'm defining the number of frames of each row
-    private final int[] numFrames = {6,12,4};
+    private final int[] numFrames = {6,12,12};
 
     // States
     // The integer refers to the row of the sprite asset
@@ -23,18 +26,37 @@ public class Player extends MapObject {
     private static final int FALLING = 0;
     private static final int SHOOTING = 2;
     private static int maxBullets = 10; //Ammo when you start the game
+    private boolean flinching=false;
+    private long flinchTimer;
     // Firing
     private ArrayList<Projectile> projectiles;
     private boolean firing;
     private int simultaneousProj = 1; //amount of bullets you can fire by pressing Spacebar ONCE (no spam)
     private int currentProjectile = 0;
-
-    /* not now
-    private int health;
-    private int maxHealth;
+    private BufferedImage imageHealth;
+    private BufferedImage subImageHealth;
+    // Health not now
+    public int health;
+    private int maxHealth=3;
     private boolean dead;
-    */
 
+    public int getHealth() {
+    	return health;
+    }
+    public int getMaxHealth() {
+    	return maxHealth;
+    }
+    private void setHealthImage() {
+    	if(health==3) {
+			subImageHealth=imageHealth.getSubimage(0, 0, 54, 16);
+    	}
+		if(health==2) {
+			subImageHealth=imageHealth.getSubimage(0, 0, 36, 16);
+		}
+		if(health==1) {
+			subImageHealth=imageHealth.getSubimage(0, 0, 18, 16);
+		}
+    }
     public Player(TileMap tm) {
         super(tm);
 
@@ -51,6 +73,8 @@ public class Player extends MapObject {
 
         try {
             BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/Pirates/pirate_1.png"));
+
+            imageHealth=ImageIO.read((getClass().getResourceAsStream("/Icons/life.png")));
             sprites= new ArrayList<BufferedImage[]>();
             for(int i=0; i<3; i++) { // i = number of row
                 BufferedImage[] bi= new BufferedImage[numFrames[i]];
@@ -62,7 +86,7 @@ public class Player extends MapObject {
         } catch(Exception e) {
             e.printStackTrace();
         }
-
+        health=maxHealth;
         facingRight = true;
         projectiles=new ArrayList<Projectile>();
         currentAction = IDLE;
@@ -124,7 +148,8 @@ public class Player extends MapObject {
         }
     }
 
-    public void update() {
+    public void update(){
+    	setHealthImage();
         getNextPosition(); // Update position
         checkTileMapCollision();
         setPosition(xtemp, ytemp);
@@ -190,8 +215,20 @@ public class Player extends MapObject {
         if(animation.hasPlayedOnce()) {
             firing = false;
         }
-
-
+        /*if(intersects(e)) {
+        	hit();
+        }*/
+        //se vieni colpito da un nemico per 1 sec sei immune
+        if(flinching) {
+        	long elapsed=(System.nanoTime()-flinchTimer)/1000000;
+        	if(elapsed>1000) {
+        		flinching=false;
+        	}
+        }
+        //se cadi fuori della mappa manda gameover
+        if(notOnScreen()) {
+        	dead=true;
+        }
         animation.update();
     }
 
@@ -239,24 +276,41 @@ public class Player extends MapObject {
 
     }}
 
-    public void draw(Graphics2D g) {
-
-        //if (!notOnScreen()){ // Vogliamo gestire la condizione in cui il nemico non è sullo schermo
-        //In questo caso la draw non dovrebbe essere eseguita per questioni di ottimizzazione
-        setMapPosition(); // update xmap and ymap
-
-        for(Projectile p: projectiles){
-            p.draw(g);
-        }
-
-
-        if(facingRight) {
-            g.drawImage(animation.getImage(), (int)(x+xmap-width/2), (int)(y+ymap-height/2), null);
-        }
-        else {
-            g.drawImage(animation.getImage(), (int)(x+xmap-width/2+width), (int)(y+ymap-height/2), -width, height, null);
-        }
+    public void hit() {
+    	if(flinching) return;
+    	health-=1;
+    	if(health<0)
+    		health =0;
+    	if(health==0)
+    		dead=true;
+    	flinching=true;
+    	flinchTimer=System.nanoTime();
+    	}
+    public boolean isDead() {
+    	return dead;
     }
 
 
+
+    public void draw(Graphics2D g) {
+        setMapPosition(); // update xmap and ymap
+
+
+        for (Projectile p : projectiles) {
+            p.draw(g);
+
+        }
+        g.drawImage(subImageHealth, 0, 20, null);
+
+
+        if (facingRight) {
+            g.drawImage(animation.getImage(), (int) (x + xmap - width / 2), (int) (y + ymap - height / 2), null);
+        } else {
+            g.drawImage(animation.getImage(), (int) (x + xmap - width / 2 + width), (int) (y + ymap - height / 2), -width, height, null);
+        }
+
+
+
+
+    }
 }
