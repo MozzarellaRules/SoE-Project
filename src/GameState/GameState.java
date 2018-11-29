@@ -2,6 +2,8 @@ package GameState;
 
 public abstract class GameState {
 	
+	//Classe astratta:tutti i livelli(compreso il menù) sono dei gameState e quindi avranno tutti i metodi sottostanti
+	
 	protected GameStateManager gsm;
 	public abstract void init();
 	public abstract void update();
