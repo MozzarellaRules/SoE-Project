@@ -8,30 +8,31 @@ import java.util.ArrayList;
 
 public class EnemyGround extends Enemy{
 
-    private final int[] numFrames =  {12};
+    private static final int WALK = 0; // Walk state use row 0 of the sprite asset
+    private final int[] numFrames = {12}; // Row 0 has 12 frames
     private double fallSpeed;
     private double maxFallSpeed;
-    private static final int WALK = 0;
 
     // Sprite animation
     private ArrayList<BufferedImage[]> sprites;
 
     public EnemyGround(TileMap tm){
         super(tm);
-        cheight = 20 ;
+
+        // Init parameters
+        cheight = 25 ;
         cwidth = 20;
         moveSpeed = 0.4;
         maxSpeed = 1;
-
         maxFallSpeed = 4.0;
         fallSpeed = 0.15;
         health = 2;
-        dead = false;
-
+        isDead = false;
+        currentAction = WALK;
 
         try {
             BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/Enemies/BaseEnemy.png"));
-            sprites= new ArrayList<BufferedImage[]>();
+            sprites = new ArrayList<BufferedImage[]>();
             for(int i=0; i<1; i++) { // i = number of row
                 BufferedImage[] bi= new BufferedImage[numFrames[i]];
                 for(int j=0; j<numFrames[i]; j++) { // j = number of column
@@ -43,16 +44,14 @@ public class EnemyGround extends Enemy{
             e.printStackTrace();
         }
 
-        currentAction = WALK;
+        // Animate sprite
         animation = new Animation();
         animation.setFrames(sprites.get(WALK));
         animation.setDelay(70);
-
     }
 
 
     public void getNextPosition(){
-
         if(falling){
             dx = 0;
             if(dy > maxFallSpeed){
@@ -60,26 +59,18 @@ public class EnemyGround extends Enemy{
             }
             else dy+=fallSpeed;
         }
-
-
-
         else {
             if(!facingRight) {
-                dx -= moveSpeed; // speed increases progressively
+                dx -= moveSpeed;
                 if(dx < -maxSpeed)
                     dx = -maxSpeed;
-
-                // max speed reached
             }
             else{
                 dx += moveSpeed;
                 if(dx > maxSpeed)
                     dx = maxSpeed;
-
             }
-
         }
-
     }
 
     public void update(){
@@ -87,22 +78,16 @@ public class EnemyGround extends Enemy{
 
         if (!falling){
             if (dx == 0){
-            if (facingRight == true)
-                facingRight = false;
-            else
-                facingRight = true;
-        }}
-
+                if(facingRight)
+                    facingRight = false;
+                else
+                    facingRight = true;
+            }
+        }
 
         getNextPosition();
-
         setPosition(xtemp, ytemp);
-
         animation.update();
-
-
-
     }
-
 
 }

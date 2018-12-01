@@ -67,12 +67,13 @@ public abstract class MapObject {
 	public MapObject(TileMap tm) {
 		tileMap=tm;
 		tileSize=tm.getTileSize();
-		width = 32; // width of the sprite image
-		height = 32; // height of the sprite image
-		cwidth = 20; // width of the collision box
-		cheight = 20; // height of the collision box
+		// Size of the sprite image
+		width = 32;
+		height = 32;
+		// Size of the collision box
+		cwidth = 20;
+		cheight = 20;
 	}
-	
 	
     //metodo per vedere se due oggetti Rectangle entrano in contatto
 	public boolean intersects(MapObject o){
@@ -103,13 +104,11 @@ public abstract class MapObject {
 		int bl=tileMap.getType(bottomTile, leftTile);
 		int br=tileMap.getType(bottomTile, rightTile);
 		
-		
 		//Controllo se uno di questi 4 è BLOCKED, in tal caso VEDI GIU
 		topLeft=tl==Tile.BLOCKED;
 		topRight=tr==Tile.BLOCKED;
 		bottomLeft=bl==Tile.BLOCKED;
 		bottomRight=br==Tile.BLOCKED;
-				
 	}
 	
 	
@@ -215,14 +214,8 @@ public abstract class MapObject {
 		jumping=b;
 	}
 	
-	
 	public boolean notOnScreen() {
 		return x+xmap+width<0||x+xmap-width>GamePanel.WIDTH||
 				y+ymap+height<0||y+ymap-height>GamePanel.HEIGHT;
-				
 	}
-
-
-
-	
 }

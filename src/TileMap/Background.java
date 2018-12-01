@@ -21,9 +21,8 @@ public class Background {
 	public Background(String s, double ms) {
 		
 		try {
-			image = ImageIO.read(getClass().getResourceAsStream(s)
-					);
-			moveScale=ms;
+			image = ImageIO.read(getClass().getResourceAsStream(s));
+			moveScale = ms;
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -32,8 +31,8 @@ public class Background {
 	
 	//Imposto la posizione
 	public void setPosition(double x, double y) {
-		this.x= (x*moveScale) % GamePanel.WIDTH;
-		this.y= (y*moveScale) % GamePanel.HEIGHT;
+		this.x=(x*moveScale) % GamePanel.WIDTH;
+		this.y=(y*moveScale) % GamePanel.HEIGHT;
 	}
 	
 	//Imposto gli spostamenti dx e dy

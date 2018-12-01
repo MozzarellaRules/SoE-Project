@@ -13,14 +13,17 @@ public class Level1State extends GameState{
 	
 	private TileMap tileMap;
 	private Background bg;
-	private ArrayList<Enemy> enemies ;
-	private Ammo t;
-	
+
 	private Player player;
-	private ArrayList<Projectile> projectiles = new ArrayList<>();
+	private ArrayList<Enemy> enemies;
+	private ArrayList<Projectile> projectiles;
+	private ArrayList<Ammo> ammo;
 
 	public Level1State(GameStateManager gsm) {
 		this.gsm = gsm;
+		this.enemies = new ArrayList<>();
+		this.projectiles = new ArrayList<>();
+		this.ammo = new ArrayList<>();
 		init();
 	}
 
@@ -29,78 +32,89 @@ public class Level1State extends GameState{
 		tileMap = new TileMap(32);
 		tileMap.loadTiles("/Tilesets/tileset_sarah.png");
 		tileMap.loadMap("/Maps/map_sarah.txt");
-		tileMap.setPosition(0, 0);
 		tileMap.setTween(1);
 		bg = new Background("/Background/full_background.jpeg",0.5);
-		player= new Player(tileMap);
-		player.setPosition(250,1460);
-		enemies = new ArrayList<>();
+
+		// Creating main character, enemies and ammo
+		player = new Player(tileMap);
 		createEnemies();
-		t = new Ammo(tileMap);
-		t.setPosition(32*16,32*50);
+		Ammo munition1 = new Ammo(tileMap);
+		Ammo munition2 = new Ammo(tileMap);
+		ammo.add(munition1);
+		//ammo.add(munition2);
+
+		// Default positions
+		player.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*46);
+		munition1.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*50);
+		munition2.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*54);
+
+		// The camera follows the character
+		tileMap.setPosition(GamePanel.WIDTH/2-player.getx(), GamePanel.HEIGHT/2-player.gety());
+	}
+
+	private void createEnemies(){
+		enemies = new ArrayList<>();
+
+		Enemy e1 = new EnemyGround(tileMap);
+		Enemy e2 = new EnemyGround(tileMap);
+
+		e1.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*46);
+		e2.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*54);
+
+		enemies.add(e1);
+		//enemies.add(e2);
 	}
 
 	@Override
 	public void update() {
-
+		// Update player
 		player.update();
 
+		// The camera follows the character
 		tileMap.setPosition(GamePanel.WIDTH/2-player.getx(), GamePanel.HEIGHT/2-player.gety());
 
-		//Movimento del Background in funzione del personaggio
-		bg.setPosition(GamePanel.WIDTH-player.getx(),0);
+		// The background moves with the character
+		bg.setPosition(tileMap.getx(), 0);
 
-        player.setMapPosition();
-
-		for (Enemy e : enemies){
-		    if(!e.notOnScreen()){
-				e.update();}
-		    	if(e.intersects(player)){
-		    		player.hit();
-		    		if(player.isDead()){
-		    			gsm.setState(GameStateManager.GAMEOVER);
-					}
-				}
-
+		// If the player is dead... gameover
+		player.setMapPosition();
+		if(player.isDead() || player.notOnScreen()){
+			gsm.setState(GameStateManager.GAMEOVER);
 		}
 
+		// Check if the character hit an enemy
 		player.checkAttack(enemies);
 
-		if(t == null || t.intersects(player)){
-		    t = null;
-        } else {
-            t.update();
-        }
-	}
+        // Update enemies
+		for(Enemy e : enemies){
+			// If the enemy is not on the screen, he does not move
+		    if(!e.notOnScreen()){
+				e.update();
+		    }
 
+		    // If the enemy hit player, update the health of the character
+		    if(e.intersects(player)){
+		    	player.hit(1);
+		    }
+		}
 
-	private void createEnemies(){
-		Enemy e1 = new EnemyGround(tileMap);
-		//Enemy e2 = new EnemyGround(tileMap);
-
-		e1.setPosition(150,player.gety()-64);
-		//e2.setPosition(180,player.gety()-64);
-
-
-		enemies.add(e1);
-		//enemies.add(e2);
-
-
-
+		// Update ammo
+		for(int i=0; i<ammo.size(); i++) {
+			ammo.get(i).update(); // Update position
+			if(ammo.get(i).intersects(player)) {
+				ammo.remove(ammo.get(i));
+			}
+		}
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
 		bg.draw(g);
 		tileMap.draw(g);
+
 		player.draw(g);
-
-		for(Enemy e: enemies){
-			e.draw(g);
-	    }
-
-	    if(t != null)
-		    t.draw(g);
+		for(Enemy e : enemies) { e.draw(g); }
+		for(Ammo a : ammo) { a.draw(g); }
 	}
 
 	@Override

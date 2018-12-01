@@ -7,11 +7,10 @@ import javax.imageio.ImageIO;
 import TileMap.TileMap;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Player extends MapObject {
 
-    // Sprite animation
+    // Sprite frames
     private ArrayList<BufferedImage[]> sprites;
 
     // Each element of the array refers to the number of frames (or columns) in a row of the sprite asset
@@ -25,44 +24,27 @@ public class Player extends MapObject {
     private static final int JUMPING = 1;
     private static final int FALLING = 0;
     private static final int SHOOTING = 2;
-    private static int maxBullets = 10; //Ammo when you start the game
-    private boolean flinching=false;
-    private long flinchTimer;
-    // Firing
+
+    // Shooting
     private ArrayList<Projectile> projectiles;
     private boolean firing;
-    private int simultaneousProj = 1; //amount of bullets you can fire by pressing Spacebar ONCE (no spam)
+    private int simultaneousProj = 1; // Amount of bullets you can fire by pressing Spacebar ONCE (no spam)
     private int currentProjectile = 0;
+    private static int maxBullets = 10; // Ammo when you start the game
+
+    // Health
+    public int health;
+    private int maxHealth = 3;
+    private boolean isDead;
     private BufferedImage imageHealth;
     private BufferedImage subImageHealth;
-    // Health not now
-    public int health;
-    private int maxHealth=3;
-    private boolean dead;
+    private boolean flinching = false;
+    private long flinchTimer;
 
-    public int getHealth() {
-    	return health;
-    }
-    public int getMaxHealth() {
-    	return maxHealth;
-    }
-    private void setHealthImage() {
-    	if(health==3) {
-			subImageHealth=imageHealth.getSubimage(0, 0, 54, 16);
-    	}
-		if(health==2) {
-			subImageHealth=imageHealth.getSubimage(0, 0, 36, 16);
-		}
-		if(health==1) {
-			subImageHealth=imageHealth.getSubimage(0, 0, 18, 16);
-		}
-    }
     public Player(TileMap tm) {
         super(tm);
 
-
-
-        // Movement parameters
+        // Init parameters
         moveSpeed = 0.3;
         maxSpeed = 1.6;
         stopSpeed = 0.4;
@@ -70,15 +52,20 @@ public class Player extends MapObject {
         maxFallSpeed = 4.0;
         jumpStart = -4.8;
         stopJumpSpeed = 0.3;
+        health = maxHealth;
+        facingRight = true;
+        currentAction = IDLE;
 
         try {
-            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/Pirates/pirate_1.png"));
+            // Load health image
+            imageHealth = ImageIO.read((getClass().getResourceAsStream("/Icons/life.png")));
 
-            imageHealth=ImageIO.read((getClass().getResourceAsStream("/Icons/life.png")));
+            // Load frames of the sprite
+            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/Pirates/pirate_1.png"));
             sprites= new ArrayList<BufferedImage[]>();
-            for(int i=0; i<3; i++) { // i = number of row
+            for(int i=0; i<3; i++) { // i = number of rows
                 BufferedImage[] bi= new BufferedImage[numFrames[i]];
-                for(int j=0; j<numFrames[i]; j++) { // j = number of column
+                for(int j=0; j<numFrames[i]; j++) { // j = number of columns
                         bi[j] = spritesheet.getSubimage(j*width, i*height, width, height);
                 }
                 sprites.add(bi);
@@ -86,17 +73,36 @@ public class Player extends MapObject {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        health=maxHealth;
-        facingRight = true;
-        projectiles=new ArrayList<Projectile>();
-        currentAction = IDLE;
+
+        projectiles = new ArrayList<Projectile>();
+
+        // Animate sprite
         animation = new Animation();
-        animation.setFrames(sprites.get(IDLE));
+        animation.setFrames(sprites.get(IDLE)); // Animate row IDLE of the sprite asset
         animation.setDelay(100);
     }
 
-    public void setFiring(boolean fire) {
-        firing = fire;
+    public boolean isDead() { return isDead; }
+    public int getHealth() { return health; }
+    public int getMaxHealth() {	return maxHealth; }
+    private void setHealthImage() {
+        int widthFrame = 18;
+        int heightFrame = 16;
+        if(health==3) { subImageHealth=imageHealth.getSubimage(0, 0, widthFrame*3, heightFrame); }
+        else if(health==2) { subImageHealth=imageHealth.getSubimage(0, 0, widthFrame*2, heightFrame); }
+        else if(health==1) { subImageHealth=imageHealth.getSubimage(0, 0, widthFrame, heightFrame); }
+    }
+    public void hit(int damage) {
+        if(flinching) // If the character is immune, go out
+            return;
+        health -= damage; // Decrement health
+        // Check if the character is isDead
+        if(health < 0)
+            health = 0;
+        else if(health == 0)
+            isDead = true;
+        flinching = true; // The sprite is now immune for 1 sec
+        flinchTimer = System.nanoTime();
     }
 
     private void getNextPosition() {
@@ -141,11 +147,6 @@ public class Player extends MapObject {
             if(dy > maxFallSpeed)
                 dy = maxFallSpeed;
         }
-
-        // Cannot attack while moving
-        if((currentAction== SHOOTING)&&!(jumping||falling)) {
-            dx = 0;
-        }
     }
 
     public void update(){
@@ -154,9 +155,9 @@ public class Player extends MapObject {
         checkTileMapCollision();
         setPosition(xtemp, ytemp);
 
-        if(right)
+        if(right) // If moving right update facingRight
             facingRight = true;
-        if(left)
+        if(left) // If moving left update facingRight
             facingRight = false;
 
         // Create projectile
@@ -211,106 +212,64 @@ public class Player extends MapObject {
                 animation.setDelay(100);
             }
         }
+        animation.update(); // Update frame of the sprite
+        if(animation.hasPlayedOnce()) { firing = false; }
 
-        if(animation.hasPlayedOnce()) {
-            firing = false;
-        }
-        /*if(intersects(e)) {
-        	hit();
-        }*/
-        //se vieni colpito da un nemico per 1 sec sei immune
+        // If the character was hit, he's immune for 1 sec
         if(flinching) {
-        	long elapsed=(System.nanoTime()-flinchTimer)/1000000;
-        	if(elapsed>1000) {
-        		flinching=false;
+        	long elapsed = (System.nanoTime()-flinchTimer)/1000000;
+        	if(elapsed > 1000) {
+        		flinching = false;
         	}
         }
-        //se cadi fuori della mappa manda gameover
-        if(notOnScreen()) {
-        	dead=true;
-        }
-        animation.update();
     }
 
-
+    public void setFiring(boolean fire) { firing = fire; }
 
     public void checkAttack(ArrayList<Enemy> enemies ){
-
-
-
-        Projectile projectile;
-
-        for (Enemy e :enemies){
-            int i = 0;
+        // Check if the character hit an enemy
+        for(Enemy e : enemies){
             boolean hit = false;
 
-            if(projectiles.size() > 0){
-            projectile = projectiles.get(i);
+            // If there are not projectiles -> no attack
+            if(projectiles.size() > 0) {
+                int i = 0;
 
-            do
-            {
+                do
+                {
+                    Projectile p = projectiles.get(i);
 
-                projectile = projectiles.get(i);
-                i++;
-               if (projectile.intersects(e)){
-                   hit = true;
-               }
+                    if(p.intersects(e)){
+                        hit = true; // An enemy was hit
+                        e.hit(1); // Set the enemy damage
+                        projectiles.remove(p); // Remove the projectile from map
+                    }
 
-            }while(i < projectiles.size() -1  && !hit);
-
-            if (hit){
-                e.hit(1);
-                projectiles.remove(projectile);
-
+                    i++;
+                } while(i < (projectiles.size()-1)  && !hit);
             }
 
-
-
+            // If the enemy is isDead, remove him
             if (e.isDead()){
                 enemies.remove(e);
                 break;
             }
-
-
-        }
-
     }}
-
-    public void hit() {
-    	if(flinching) return;
-    	health-=1;
-    	if(health<0)
-    		health =0;
-    	if(health==0)
-    		dead=true;
-    	flinching=true;
-    	flinchTimer=System.nanoTime();
-    	}
-    public boolean isDead() {
-    	return dead;
-    }
-
-
 
     public void draw(Graphics2D g) {
         setMapPosition(); // update xmap and ymap
 
+        // Draw projectiles
+        for (Projectile p : projectiles) { p.draw(g); }
 
-        for (Projectile p : projectiles) {
-            p.draw(g);
+        // Draw image health
+        g.drawImage(subImageHealth, 10, 10, null);
 
-        }
-        g.drawImage(subImageHealth, 0, 20, null);
-
-
+        // Draw sprite
         if (facingRight) {
             g.drawImage(animation.getImage(), (int) (x + xmap - width / 2), (int) (y + ymap - height / 2), null);
         } else {
             g.drawImage(animation.getImage(), (int) (x + xmap - width / 2 + width), (int) (y + ymap - height / 2), -width, height, null);
         }
-
-
-
-
     }
 }

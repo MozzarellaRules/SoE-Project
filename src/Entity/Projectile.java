@@ -41,7 +41,6 @@ public class Projectile extends MapObject {
         if(dx == 0.0 || notOnScreen()) // The projectile is not moving... so it hit something... remove it
             remove = true;
 
-
         x += dx;
     }
 
