@@ -33,7 +33,7 @@ public class Level1State extends GameState{
 		tileMap.loadTiles("/Tilesets/tileset_sarah.png");
 		tileMap.loadMap("/Maps/map_sarah.txt");
 		tileMap.setTween(1);
-		bg = new Background("/Background/full_background.jpeg",0.5);
+		bg = new Background("/Background/full_background2.jpeg",0.5);
 
 		// Creating main character, enemies and ammo
 		player = new Player(tileMap);

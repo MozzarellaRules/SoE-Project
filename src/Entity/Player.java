@@ -46,7 +46,7 @@ public class Player extends MapObject {
 
         // Init parameters
         moveSpeed = 0.3;
-        maxSpeed = 1.6;
+        maxSpeed = 2.6;
         stopSpeed = 0.4;
         fallSpeed = 0.15;
         maxFallSpeed = 4.0;

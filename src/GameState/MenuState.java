@@ -14,7 +14,7 @@ public class MenuState extends GameState {
 	private int currentChoice=0; //La scelta corrente tra i valori della stringa di sotto
 	private String[] options =  {
 			"Start",
-			"Help",
+			//"Help",
 			"Quit"
 	};
 	
@@ -59,7 +59,7 @@ public class MenuState extends GameState {
 		//draw title
 		g.setColor(titleColor);
 		g.setFont(titleFont);
-		g.drawString("Captain Corkleg",80,70);
+		g.drawString("Captain Corkleg",85,70);
 		
 		//draw menu options
 		g.setFont(font);
@@ -70,7 +70,7 @@ public class MenuState extends GameState {
 			else {
 				g.setColor(Color.RED);
 			}
-			g.drawString(options[i], 145, 140+i*15);
+			g.drawString(options[i], 175, 140+i*15);
 		}
 		
 	}

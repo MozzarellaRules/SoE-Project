@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import Main.GamePanel;
 import TileMap.Background;
 
 public class GameOverState extends GameState {
@@ -59,7 +60,7 @@ public class GameOverState extends GameState {
 		//draw title
 		g.setColor(titleColor);
 		g.setFont(titleFont);
-		g.drawString("Game Over :(",80,70);
+		g.drawString("Game Over :(",95,70);
 		
 		//draw menu options
 		g.setFont(font);
@@ -70,9 +71,8 @@ public class GameOverState extends GameState {
 			else {
 				g.setColor(Color.RED);
 			}
-			g.drawString(options[i], 145, 140+i*15);
+			g.drawString(options[i], 175, 140+i*15);
 		}
-		
 	}
 
 	

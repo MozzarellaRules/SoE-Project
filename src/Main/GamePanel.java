@@ -9,8 +9,8 @@ import GameState.GameStateManager;
 //Pannello dove si visualizza il gioco
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 	//Dimensions
-	public static final int WIDTH=320; // larghezza dello schermo
-	public static final int HEIGHT=240;// altezza schermo
+	public static final int WIDTH=380; // larghezza dello schermo
+	public static final int HEIGHT=250;// altezza schermo
 	public static final int SCALE=2; // fattore di scala, usato per ingrandire lo schermo ( larghezza*2)(altezza*2)
 	
 	//Game Thread
