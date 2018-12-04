@@ -7,68 +7,71 @@ import javax.swing.*;
 import GameState.GameStateManager;
 
 //Pannello dove si visualizza il gioco
-public class GamePanel extends JPanel implements Runnable, KeyListener {
-	//Dimensions
-	public static final int WIDTH=380; // larghezza dello schermo
-	public static final int HEIGHT=250;// altezza schermo
-	public static final int SCALE=2; // fattore di scala, usato per ingrandire lo schermo ( larghezza*2)(altezza*2)
+public class GamePanel extends JPanel implements Runnable {
+	public static final int WIDTH=380, HEIGHT=250;
+	public static final int SCALE=2; // (width*2),(height*2)
 	
-	//Game Thread
-	private Thread thread; //thread principale del gioco
-	private boolean running; //ci dice quando il gioco è in esecuzione
-	private int FPS=60; // vedi sotto
-	private long targetTime= 1000/ FPS;// serve per impostare ogni quanto tempo deve stare in wait il thread
-	
-	//image
+	// Game Thread
+	private Thread thread;
+	private boolean running;
+	private int FPS=60;
+	private long targetTime=1000/FPS; // Wait duration of the thread... around 16 ms (60 fps)
+
+	private GameStateManager gsm;
 	private BufferedImage image;
 	private Graphics2D g;
-	
-	//gameStateManager
-	private GameStateManager gsm; 
-	
-	//Costruttore del pannello, con requestFocus gli do il focus in modo tale che i tasti funzionino
+
 	public GamePanel() {
 		super();
 		setPreferredSize(new Dimension(WIDTH*SCALE,HEIGHT*SCALE));
 		this.setFocusable(true);
-		requestFocus();
+		requestFocusInWindow(); // To request focus
 	}
-	
-	//Crea il thread e aggiunge il listener al pannello
+
+	/**
+	 * Make and start the game thread and set an action listener on the panel
+	 */
 	public void addNotify() {
 		super.addNotify();
 		if(thread==null) {
 			thread=new Thread(this);
-			addKeyListener(this);
+			addKeyListener(new TAdapter());
 			thread.start();
 		}
 	}
-	
 
+	/**
+	 * Init the thread creating an image for drawing stuff on it and creating the GameStateManager
+	 */
 	private void init() {
 		image=new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
 		g=(Graphics2D) image.getGraphics();
 		running=true;
-		gsm= new GameStateManager();
+		gsm=new GameStateManager();
 	}
-	
-	// ciclo del gioco, in pratica quando è in esecuzione fa update,draw e drawToScreen in loop
+
+	/**
+	 * Run the game inside the thread
+	 */
 	public void run() {
 		init();
 		long start;
 		long elapsed;
 		long wait;
-		//game loop
-		int i=0;
+
 		while (running){
-			start=System.nanoTime();
+			start=System.nanoTime(); // Get the current time, in nanoseconds
+
+			// These methods can take different times at each loop cycle
 			update();
 			draw();
 			drawToScreen();
-			
+
+			// Effective time taken by the methods above
 			elapsed=System.nanoTime()-start;
-			
-			wait=targetTime - elapsed / 1000000;
+
+			// Define the wait time
+			wait=targetTime-elapsed/1000000;
 			if(wait <0) {
 				wait=5;
 			}
@@ -80,34 +83,44 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			}
 		}
 	}
-	
-	//A seconda del livello in cui si trova il gsm avrà un update diverso
+
+	/**
+	 * Update the state
+	 */
 	private void update() {
 		gsm.update();
 	}
-	
-	//A seconda del livello in cui ci troviamo la funzione draw avrà un diverso funzionamento
+
+	/**
+	 * Draw stuff on an image... related to a specific state (menu, level or gameover)
+ 	 */
 	private void draw() {
 		gsm.draw(g);
 	}
-	
-	// funzione di disegno,lascia perdere  :D
+
+	/**
+	 * Draw an image on the panel
+ 	 */
 	private void drawToScreen() {
-		Graphics g2= getGraphics();
-		g2.drawImage(image,0,0,WIDTH*SCALE,HEIGHT*SCALE,null);
-		g2.dispose();
+		Graphics gPanel=getGraphics();
+		gPanel.drawImage(image,0,0,WIDTH*SCALE,HEIGHT*SCALE,null);
+		gPanel.dispose();
 	}
-	
-	
-	//A seconda del livello in cui ci troviamo, le funzioni sotto avranno un comportamento diverso, infatti vengono chiamate su un oggetto GSM
-	public void keyTyped(KeyEvent key) {
-		
-	}
-	public void keyPressed(KeyEvent key) {
-		gsm.keyPressed(key.getKeyCode());
-	}
-	public void keyReleased(KeyEvent key) {
-		gsm.keyReleased(key.getKeyCode());
+
+	/**
+	 * Handle key events
+	 * In fact the events are related to a specific state, so the key pressed/released is passed to the gsm
+	 */
+	private class TAdapter extends KeyAdapter {
+		@Override
+		public void keyReleased(KeyEvent e) {
+			gsm.keyReleased(e.getKeyCode());
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			gsm.keyPressed(e.getKeyCode());
+		}
 	}
 	
 	
