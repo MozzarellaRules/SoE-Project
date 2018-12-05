@@ -17,8 +17,8 @@ class TileMapTest extends Game {
 
     @Test
     void testLoadMap() {
-        tm.loadTiles(Level1State.tilesetPath);
-        tm.loadMap(Level1State.mapPath);
+        tm.loadTiles(Level1State.TILESET_PATH);
+        tm.loadMap(Level1State.MAP_PATH);
 
         assertNotEquals(tm.getNumRows(), 0);
         assertNotEquals(tm.getNumCols(), 0);

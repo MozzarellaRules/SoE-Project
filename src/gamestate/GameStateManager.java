@@ -1,48 +1,48 @@
 package gamestate;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Observable;
 
-public class GameStateManager {
+public class GameStateManager implements KeyListener {
+	public static final int MENUSTATE = 0;
+	public static final int LEVEL1STATE = 1;
+	public static final int GAMEOVER = 2;
+
+	private ArrayList<GameState> states;
+	private GameState currentState;
 	
-	private ArrayList<GameState> gameStates; //Giustamente è un vettore di "gamestate" cioè di livelli
-	private int currentState; //tengo traccia del livello corrente
-	public static final int MENUSTATE=0;  //Associo al menu il valore 0
-	public static final int LEVEL1STATE=1;//Associo al livello 1 il valore 1
-	public static final int GAMEOVER=2;
-	
-	
-	//Costruttore
 	public GameStateManager() {
-		gameStates=new ArrayList<GameState>();
-		currentState=MENUSTATE; //Dovrebbe essere MENUSTATE perché questo rappresenta la prima cos che vuoi caricare
+		states = new ArrayList<>();
+		states.add(new MenuState(this));
+		states.add(new Level1State(this));
+		states.add(new GameOverState(this));
 
-		gameStates.add(new MenuState(this)); //Aggiungiamo il menu
-		gameStates.add(new Level1State(this));// Aggiungiamo il primo livello
-		gameStates.add(new GameOverState(this));
+		currentState = states.get(MENUSTATE);
 	}
 	
-	//metodo Setter per impostare il livello
 	public void setState(int state) {
-		currentState=state;
-		gameStates.get(currentState).init();
+		currentState = states.get(state);
+		currentState.init();
 	}
 	
-	//A seconda del livello in cui ci troviamo avrà un comportamento diverso
 	public void update() {
-		gameStates.get(currentState).update();
+		currentState.update();
 	}
-	 //Come sopra
+
 	public void draw(java.awt.Graphics2D g) {
-		gameStates.get(currentState).draw(g);
+		currentState.draw(g);
 	}
 
-	//Idem
-	public void keyPressed(int k) {
-		gameStates.get(currentState).keyPressed(k);
+	@Override
+	public void keyPressed(KeyEvent e) {
+		currentState.keyPressed(e);
+	}
 
+	@Override
+	public void keyReleased(KeyEvent e) {
+		currentState.keyReleased(e);
 	}
-	//Uguale
-	public void keyReleased(int k) {
-		gameStates.get(currentState).keyReleased(k);
-	}
+
+	@Override
+	public void keyTyped(KeyEvent e) { }
 }

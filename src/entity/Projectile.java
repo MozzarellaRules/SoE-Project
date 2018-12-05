@@ -45,8 +45,6 @@ public class Projectile extends DynamicSprite {
         }
     }
 
-    public boolean getRemove() { return remove; }
-
     public boolean shouldRemove() {
         return remove;
     }

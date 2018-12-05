@@ -7,21 +7,17 @@ import java.awt.*;
 import main.GamePanelController;
 
 public abstract class Sprite {
-	//tile stuff
 	protected TileMap tileMap;
 	protected int tileSize;
 	
-	//position and vector
 	protected double x;
 	protected double y;
 	protected double dx;
 	protected double dy;
 	
-	//dimensions
 	protected int width;
 	protected int height;
 	
-	//collision box
 	protected int cwidth;
 	protected int cheight;
 	
@@ -65,7 +61,9 @@ public abstract class Sprite {
 	}
 
 	public boolean notOnScreen() {
-		return x+tileMap.getX()+width<0||x+tileMap.getX()-width> GamePanelController.WIDTH||
-				y+tileMap.getY()+height<0||y+tileMap.getY()-height> GamePanelController.HEIGHT;
+		return  x + tileMap.getX() + width < 0 ||
+				x + tileMap.getX() - width > GamePanelController.WIDTH ||
+				y + tileMap.getY() + height < 0||
+				y + tileMap.getY() - height > GamePanelController.HEIGHT;
 	}
 }

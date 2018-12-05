@@ -2,6 +2,7 @@ package entity;
 
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 
 
 import tilemap.TileMap;
@@ -107,12 +108,12 @@ public class FirstLevelPlayer extends DynamicSprite {
 
     private void getNextPosition() {
         // Movement
-        if(left) {
+        if(movingLeft) {
             dx -= moveSpeed; // speed increases progressively
             if(dx < -maxSpeed)
                 dx = -maxSpeed; // max speed reached
         }
-        else if(right) {
+        else if(movingRight) {
             dx += moveSpeed;
             if(dx > maxSpeed)
                 dx = maxSpeed;
@@ -155,9 +156,9 @@ public class FirstLevelPlayer extends DynamicSprite {
         checkTileMapCollision();
         setPosition(xtemp, ytemp);
 
-        if(right) // If moving right update facingRight
+        if(movingRight) // If moving movingRight update facingRight
             facingRight = true;
-        if(left) // If moving left update facingRight
+        if(movingLeft) // If moving movingLeft update facingRight
             facingRight = false;
 
         // Create projectile
@@ -184,7 +185,7 @@ public class FirstLevelPlayer extends DynamicSprite {
         }
 
         // Set sprite animation
-        if(left || right) {
+        if(movingLeft || movingRight) {
             if(currentAction != WALKING) {
                 currentAction = WALKING;
                 animation.setFrames(sprites.get(WALKING));
@@ -259,6 +260,9 @@ public class FirstLevelPlayer extends DynamicSprite {
     public void draw(Graphics2D g) {
         // Draw projectiles
         for (Projectile p : projectiles) { p.draw(g); }
+
+        // Draw remaining number of projectiles
+        g.drawString("Munitions: "+(maxBullets-currentProjectile), 10, 50);
 
         // Draw image health
         g.drawImage(subImageHealth, 10, 10, null);

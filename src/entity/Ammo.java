@@ -10,11 +10,14 @@ import java.awt.image.BufferedImage;
 
 public class Ammo extends Sprite {
 
+    /*
     private int raw;
     private int col;
     private BufferedImage bfImage;
     private ImageIcon imageIc;
     private Tile tile;
+    */
+
     private int numberOfFrames;
     private BufferedImage[] frames;
 
@@ -44,6 +47,5 @@ public class Ammo extends Sprite {
     public void draw(Graphics2D g){
         g.drawImage(animation.getImage(), (int) (x + tileMap.getX()), (int) (y + tileMap.getY()), null);
     }
-
 
 }

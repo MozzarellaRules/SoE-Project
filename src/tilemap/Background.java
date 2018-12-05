@@ -8,18 +8,15 @@ import main.GamePanelController;
 import java.awt.*;
 
 public class Background {
-	//Oggetto di tipo background
-	private BufferedImage image; //L'immagine del background
-	
-	private double x; //Coordinata x
-	private double y; // coordinata y
-	private double dx;//Quanto deve spostarsi sull'asse x
-	private double dy;// Quanto deve spostarsi sull'asse y
-	
+
+	private BufferedImage image;
+	private double x;
+	private double y;
+	private double dx;
+	private double dy;
 	private double moveScale;
 	
 	public Background(String s, double ms) {
-		
 		try {
 			image = ImageIO.read(getClass().getResourceAsStream(s));
 			moveScale = ms;
@@ -29,33 +26,29 @@ public class Background {
 		}
 	}
 	
-	//Imposto la posizione
 	public void setPosition(double x, double y) {
 		this.x=(x*moveScale) % GamePanelController.WIDTH;
 		this.y=(y*moveScale) % GamePanelController.HEIGHT;
 	}
 	
-	//Imposto gli spostamenti dx e dy
 	public void setVector(double dx, double dy) {
 		this.dx=dx;
 		this.dy=dy;
 	}
 	
-	//quando aggiorno il background semplicemente faccio muovere l'immagine 
 	public void update() {
 		x+=dx;
 		y+=dy;
 	}
 	
-	//Disegno il background
 	public void draw(Graphics2D g) {
-		
-		g.drawImage(image, (int)x,(int)y, null); //metodo che ci dice quale immagine disegnare e in quali coordinate..dopo ci vuole sempre null
+		g.drawImage(image, (int)x,(int)y, null);
+
 		if(x < 0) {
-			g.drawImage(image,(int)x + GamePanelController.WIDTH, (int)y,null); //Se esci fuori dallo schermo a sinistra ridisegna a destra
+			g.drawImage(image,(int)x + GamePanelController.WIDTH, (int)y,null);
 		}
-		if(x > 0) {
-			g.drawImage(image,(int)x - GamePanelController.WIDTH, (int)y,null);//Se esci fuori dallo schermo a destra ridisegna a sinistra
+		else if(x > 0) {
+			g.drawImage(image,(int)x - GamePanelController.WIDTH, (int)y,null);
 			
 		}
 	}

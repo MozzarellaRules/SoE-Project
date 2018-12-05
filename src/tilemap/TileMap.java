@@ -10,65 +10,60 @@ import main.GamePanelController;
 
 
 public class TileMap {
-	//position
 	private double x;
 	private double y;
 
-	//bordi
+	// Borders
 	private int xmin;
 	private int xmax;
 	private int ymin;
 	private int ymax;
 
-	//map
-	private int[][] map;   //Matrice di interi
-	private int tileSize;  //dimensione del Tile (quello che passiamo nel costruttore)
-	private int numRows;   //numero di righe
-	private int numCols;   // numero di colonne
-	private int width;     //Larghezza
-	private int height;     //altezza
+	// Map
+	private int[][] map;
+	private int tileSize;
+	private int numRows;
+	private int numCols;
+	private int width;
+	private int height;
 	
-	//tileset
-	private BufferedImage tileset; //Il tileSet è l'immagine che spezzettiamo per creare i Tile
-	private int numTilesAcross;	   //Numero di tile lungo l'asse X
-	private int numTilesLines;		// Numero di tile lungo l'asse y
-	private Tile[][] tiles;         //Il tileset è una matrice di Tile
+	// TileSet
+	private BufferedImage tileset;
+	private int numTilesX;
+	private int numTilesY;
+	private Tile[][] tiles;
 	
-	//drawing
 	private int rowOffset; // which row to start drawing
 	private int colOffset; // which column to start drawing
-	private int numRowsToDraw; //Quante righe disegnare
-	private int numColsToDraw;  // Quante colonne disegnare
+	private int numRowsToDraw;
+	private int numColsToDraw;
 	
-	
-	//Costruttore
 	public TileMap(int tileSize) {
-		this.tileSize = tileSize; //dimensione dei tile della mappa
-		numRowsToDraw = GamePanelController.HEIGHT / tileSize + 2; //Disegno soltanto le righe che ci entrano nello schermo (+2 perché così non rischio che non si aggiornino in tempo)
-		numColsToDraw = GamePanelController.WIDTH / tileSize + 2;  //Tale e quale ma per le colonne
+		this.tileSize = tileSize;
+
+		// Numbers of rows/cols to draw dependent on the size of the panel
+		numRowsToDraw = GamePanelController.HEIGHT / tileSize + 2;
+		numColsToDraw = GamePanelController.WIDTH / tileSize + 2;
 	}
-	
-	
-	//Metodo per caricare i Tile da un'immagine
+
 	public void loadTiles(String s) {
 		try {
-			tileset=ImageIO.read(getClass().getResourceAsStream(s)); // reading image
-			numTilesAcross = tileset.getWidth()/tileSize; //  number of columns
-			numTilesLines = tileset.getHeight()/tileSize; // number of rows
-			tiles = new Tile[numTilesLines][numTilesAcross]; // tiles matrix
+			tileset = ImageIO.read(getClass().getResourceAsStream(s));
+			numTilesX = tileset.getWidth()/tileSize;
+			numTilesY = tileset.getHeight()/tileSize;
+			tiles = new Tile[numTilesY][numTilesX];
 
-			// Caricamento immagini delle tiles
 			BufferedImage subimage;
-			for(int col = 0; col < numTilesAcross; col++) {
-				for(int row = 0; row < numTilesLines; row++) {
+			for(int col = 0; col < numTilesX; col++) {
+				for(int row = 0; row < numTilesY; row++) {
 					if(row < 2) { // The first two lines of the tileset are normal, the others are blocking instead
-						subimage=tileset.getSubimage(col*tileSize, row*tileSize, tileSize, tileSize); // Extract a subimage from tileset
-						tiles[row][col]=new Tile(subimage,Tile.NORMAL);
-						System.out.println("Normal:" + row);
+						subimage = tileset.getSubimage(col*tileSize, row*tileSize, tileSize, tileSize); // Extract a subimage from tileset
+						tiles[row][col] = new Tile(subimage,Tile.NORMAL);
+						//System.out.println("Normal:" + row);
 					} else {
 						subimage=tileset.getSubimage(col*tileSize, row*tileSize, tileSize, tileSize);
-						tiles[row][col]=new Tile(subimage,Tile.BLOCKED);
-						System.out.println("Blocked:" + row);
+						tiles[row][col] = new Tile(subimage,Tile.BLOCKED);
+						//System.out.println("Blocked:" + row);
 					}
 				}
 			}
@@ -77,28 +72,27 @@ public class TileMap {
 		}
 	}
 	
-	//Metodo per caricare la mappa
 	public void loadMap(String s) {
 		try {
-			InputStream in= getClass().getResourceAsStream(s);
+			InputStream in = getClass().getResourceAsStream(s);
 			BufferedReader br= new BufferedReader(new InputStreamReader(in));
 			numCols = Integer.parseInt(br.readLine()); // Read from file the number of columns
 			System.out.println("numCols:"+numCols);
 			numRows = Integer.parseInt(br.readLine()); // Read from file the number of rows
-			System.out.println("NumRows:" +numRows);
-			map = new int[numRows][numCols]; // map matrix
+			System.out.println("NumRows:"+numRows);
+			map = new int[numRows][numCols];
 			width = numCols*tileSize;
 			height = numRows*tileSize;
-			xmin = GamePanelController.WIDTH -width;
+			xmin = GamePanelController.WIDTH-width;
 			xmax = 0;
 			ymin = GamePanelController.HEIGHT-height;
 			ymax = 0;
-			String delims = ","; //Segnalo il carattere " ," come delimitatore per tutti i numeri del file della mappa
+			String delims = ","; // Set the character" ," as a delimiter
 			for(int row=0; row < numRows; row++) {
 				String line = br.readLine();
 				String[] tokens = line.split(delims);
 				for(int col=0; col<numCols; col++) {
-					map[row][col] = Integer.parseInt(tokens[col]); //Leggo il numero sul file della mappa e lo salvo
+					map[row][col] = Integer.parseInt(tokens[col]);
 				}
 			}
 		} catch(Exception e) {
@@ -128,12 +122,11 @@ public class TileMap {
 		return numCols; 
 	}
 	
-	
 	//A partira da una riga e una colonna identifico il tile e scopro se è NORMAL o BLOCKED
 	public int getType(int row,int col) {
 		int rc = map[row][col];
-		int r = rc / numTilesAcross;
-		int c = rc % numTilesAcross;
+		int r = rc / numTilesX;
+		int c = rc % numTilesX;
 		return tiles[r][c].getType();
 	}
 	
@@ -169,8 +162,8 @@ public class TileMap {
 				if(map[row][col]==0) //ZERO sarebbe il numero che identifica lo spazio vuoto nel file della mappa
 					continue;
 				int rc=map[row][col]; //Prendo il numero della mappa
-				int r=rc/numTilesAcross; //Identifico una riga
-				int c=rc%numTilesAcross; //Identifico una colonna
+				int r=rc/ numTilesX; //Identifico una riga
+				int c=rc% numTilesX; //Identifico una colonna
 				g.drawImage(tiles[r][c].getImage(),(int)x+col*tileSize,(int)y+row*tileSize,null);
 				//Cerco nella matrice dei tile l'immagine associata a quella riga e a quella colonna e la disegno in quelle coordinate
 			}

@@ -9,125 +9,85 @@ import tilemap.Background;
 
 public class GameOverState extends GameState {
 
-	//La schermata del menù
-	
-	private Background bg; //Un oggetto background
-	private int currentChoice=0; //La scelta corrente tra i valori della stringa di sotto
-	private String[] options =  {
-			"Retry",
-			"Quit"
-	};
-	
+	private GameStateManager gsm;
+	private Background bg;
+	private int currentChoice = 0;
+	private String[] options =  {"Retry", "Quit"};
+
 	private Color titleColor;
 	private Font titleFont;
-	private Font font;
-	
-	
+	private Font optionsFont;
 	
 	public GameOverState(GameStateManager gsm) {
-		
-		this.gsm=gsm;
-		
-		try {
-			
-			bg = new Background("/Background/Immagine.png",1); //Carico il background
-			bg.setVector(-0.1,0); // imposto come si deve muovere, in questo caso va all'indietro sull'asse x
-			
-			titleColor= new Color(128,0,0);
-			titleFont= new Font("Century Gothic",Font.PLAIN,28);
-			
-			font= new Font("Arial",Font.PLAIN,12);
-			
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+		this.gsm = gsm;
+		init();
 	}
-	
-	
-	
 
+	@Override
+	public void init() {
+		bg = new Background("/Background/Immagine.png",1);
+		bg.setVector(-0.1,0);
 
+		titleColor = new Color(128,0,0);
+		titleFont = new Font("Century Gothic",Font.PLAIN,28);
+		optionsFont = new Font("Arial",Font.PLAIN,12);
+	}
 
-
-	//funzione per mettere a video il menu
 	@Override
 	public void draw(Graphics2D g) {
-		//draw background
-		bg.draw(g); //richiamo la draw dell'oggetto background
-		
-		//draw title
+		bg.draw(g);
+
+		// Draw title
 		g.setColor(titleColor);
 		g.setFont(titleFont);
-		g.drawString("Game Over :(",95,70);
-		
-		//draw menu options
-		g.setFont(font);
-		for(int i= 0; i< options.length;i++) {
-			if(i == currentChoice) {
+		g.drawString("Captain Corkleg",80,70);
+
+		// Draw menu options
+		g.setFont(optionsFont);
+		for(int i= 0; i<options.length; i++) {
+			if(currentChoice == i) {
 				g.setColor(Color.GREEN);
-			}
-			else {
+			} else {
 				g.setColor(Color.RED);
 			}
 			g.drawString(options[i], 175, 140+i*15);
 		}
+
 	}
 
-	
-	//Cosa succede se premi invio (Vedi keyPressed)
-	private void select() {
-		if (currentChoice == 0) {
-			gsm.setState(GameStateManager.LEVEL1STATE); //Carico il livello 1
-		}
-		if (currentChoice == 1) {
-			System.exit(0);//Esci dal gioco
-		}
-	}
-	
-	
-	//Cosa succede quando premi e rilasci i tasti
 	@Override
-	public void keyPressed(int k) {
-		if(k == KeyEvent.VK_ENTER) {
-			select();
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			submitOption();
 		}
-		if(k == KeyEvent.VK_UP) {
+		if(e.getKeyCode() == KeyEvent.VK_UP) {
 			currentChoice--;
 			if(currentChoice == -1) {
-				currentChoice = options.length -1;
+				currentChoice = options.length-1;
 			}
 		}
-		
-		if(k == KeyEvent.VK_DOWN) {
+
+		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
 			currentChoice++;
 			if(currentChoice == options.length) {
 				currentChoice = 0;
 			}
 		}
-		
 	}
 
-
 	@Override
-	public void keyReleased(int k) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyReleased(KeyEvent e) { }
 
-
-
-
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
+	private void submitOption() {
+		if(currentChoice == 0)
+			gsm.setState(GameStateManager.LEVEL1STATE);
+		else if(currentChoice == 1)
+			System.exit(0);
 	}
 	
-	//Come si aggiorna l'immagine ogni volta che il thread esce dal wait
 	@Override
 	public void update() {
-		bg.update(); //richiamo l'update del background ( Vedi Background)
+		bg.update();
 	}
 	
 }

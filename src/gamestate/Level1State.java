@@ -9,89 +9,90 @@ import main.GamePanelController;
 import tilemap.*;
 
 
-public class Level1State extends GameState{
-	public static String tilesetPath = "/Tilesets/tileset_sarah.png";
-	public static String mapPath = "/Maps/map_sarah.txt";
+public class Level1State extends GameState {
+	public static String BG_PATH = "/Background/full_background2.jpeg";
+	public static String TILESET_PATH = "/Tilesets/tileset_sarah.png";
+	public static String MAP_PATH = "/Maps/map_sarah.txt";
+
+	private GameStateManager gsm;
 	
 	private TileMap tileMap;
 	private Background bg;
 
-	private FirstLevelPlayer firstLevelPlayer;
+	private FirstLevelPlayer player;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Projectile> projectiles;
 	private ArrayList<Ammo> ammo;
 
 	public Level1State(GameStateManager gsm) {
 		this.gsm = gsm;
-		this.enemies = new ArrayList<>();
-		this.projectiles = new ArrayList<>();
-		this.ammo = new ArrayList<>();
 		init();
 	}
 
 	@Override
 	public void init() {
+		this.enemies = new ArrayList<>();
+		this.projectiles = new ArrayList<>();
+		this.ammo = new ArrayList<>();
+
 		tileMap = new TileMap(32);
-		tileMap.loadTiles(tilesetPath);
-		tileMap.loadMap(mapPath);
-		bg = new Background("/Background/full_background2.jpeg",0.5);
+		tileMap.loadTiles(TILESET_PATH);
+		tileMap.loadMap(MAP_PATH);
 
-		// Creating main character, enemies and ammo
-		firstLevelPlayer = new FirstLevelPlayer(tileMap);
+		bg = new Background(BG_PATH,0.5);
+
+		createPlayer();
 		createEnemies();
-		Ammo ammo1 = new Ammo(tileMap);
-		Ammo ammo2 = new Ammo(tileMap);
-		ammo.add(ammo1);
-		//ammo.add(munition2);
+		createStaticAmmo();
 
-		// Default positions
-		firstLevelPlayer.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*46);
-		ammo1.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*50+6);
-		ammo2.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*54+6);
+		// The camera is centered on the player
+		tileMap.setPosition(GamePanelController.WIDTH/2-player.getX(), GamePanelController.HEIGHT/2-player.getY());
+	}
 
-		// The camera follows the character
-		tileMap.setPosition(GamePanelController.WIDTH/2- firstLevelPlayer.getX(), GamePanelController.HEIGHT/2- firstLevelPlayer.getY());
+	private void createPlayer() {
+		player = new FirstLevelPlayer(tileMap);
+		player.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*45);
 	}
 
 	private void createEnemies(){
-		enemies = new ArrayList<>();
-
 		Enemy e1 = new EnemyGround(tileMap);
 		Enemy e2 = new EnemyGround(tileMap);
 
-		e1.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*46);
+		e1.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*50);
 		e2.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*54);
 
 		enemies.add(e1);
 		//enemies.add(e2);
 	}
 
+	private void createStaticAmmo() {
+		Ammo ammo1 = new Ammo(tileMap);
+		Ammo ammo2 = new Ammo(tileMap);
+
+		ammo1.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*48+6);
+		ammo2.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*51+6);
+
+		ammo.add(ammo1);
+		ammo.add(ammo2);
+	}
+
 	@Override
 	public void update() {
-		// Update firstLevelPlayer
-		firstLevelPlayer.update();
+		player.update();
 
 		// The camera follows the character
-		tileMap.setPosition(GamePanelController.WIDTH/2- firstLevelPlayer.getX(), GamePanelController.HEIGHT/2- firstLevelPlayer.getY());
+		tileMap.setPosition(GamePanelController.WIDTH/2- player.getX(), GamePanelController.HEIGHT/2- player.getY());
 
 		// The background moves with the character
 		bg.setPosition(tileMap.getX(), 0);
 
-		// If the firstLevelPlayer is dead... gameover
-		if(firstLevelPlayer.isDead() || firstLevelPlayer.notOnScreen()){
+		// If the player is dead... set state GameOver
+		if(player.isDead() || player.notOnScreen()){
 			gsm.setState(GameStateManager.GAMEOVER);
 		}
 
-		// Update ammo
-		for(int i=0; i<ammo.size(); i++) {
-			ammo.get(i).update(); // Update animation
-			if(firstLevelPlayer.intersects(ammo.get(i))) {
-				ammo.remove(ammo.get(i));
-			}
-		}
-
 		// Check if the character hit an enemy
-		firstLevelPlayer.checkAttack(enemies);
+		player.checkAttack(enemies);
 
         // Update enemies
 		for(Enemy e : enemies){
@@ -100,10 +101,18 @@ public class Level1State extends GameState{
 				e.update();
 		    }
 
-		    // If the enemy hit firstLevelPlayer, update the health of the character
-		    if(e.intersects(firstLevelPlayer)){
-		    	firstLevelPlayer.hit(1);
+		    // If the enemy hit player, update the health of the character
+		    if(e.intersects(player)){
+		    	player.hit(1);
 		    }
+		}
+
+		// Update and remove ammo if the player intersects them
+		for(int i=0; i<ammo.size(); i++) {
+			ammo.get(i).update(); // Update animation
+			if(player.intersects(ammo.get(i))) {
+				ammo.remove(ammo.get(i));
+			}
 		}
 	}
 
@@ -112,37 +121,41 @@ public class Level1State extends GameState{
 		bg.draw(g);
 		tileMap.draw(g);
 
-		firstLevelPlayer.draw(g);
-		for(Enemy e : enemies) { e.draw(g); }
-		for(Ammo a : ammo) { a.draw(g); }
-	}
-
-	@Override
-	public void keyPressed(int k) {
-		if(k==KeyEvent.VK_LEFT) 
-			firstLevelPlayer.setLeft(true);
-		if(k==KeyEvent.VK_RIGHT)
-			firstLevelPlayer.setRight(true);
-		if(k==KeyEvent.VK_UP)
-			firstLevelPlayer.setJumping(true);
-		if(k==KeyEvent.VK_DOWN)
-			firstLevelPlayer.setDown(true);
-		if(k==KeyEvent.VK_SPACE) {
-			firstLevelPlayer.setFiring(true);
+		player.draw(g);
+		for(Enemy e : enemies) {
+			e.draw(g);
+		}
+		for(Ammo a : ammo) {
+			a.draw(g);
 		}
 	}
 
 	@Override
-	public void keyReleased(int k) {
-		if(k==KeyEvent.VK_LEFT)
-			firstLevelPlayer.setLeft(false);
-		if(k==KeyEvent.VK_RIGHT)
-			firstLevelPlayer.setRight(false);
-		if(k==KeyEvent.VK_UP)
-		    firstLevelPlayer.setJumping(false);
-		if(k==KeyEvent.VK_DOWN)
-			firstLevelPlayer.setDown(false);
-		if(k==KeyEvent.VK_SPACE)
-			firstLevelPlayer.setFiring(false);
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode()==KeyEvent.VK_LEFT)
+			player.setMovingLeft(true);
+		else if(e.getKeyCode()==KeyEvent.VK_RIGHT)
+			player.setMovingRight(true);
+		else if(e.getKeyCode()==KeyEvent.VK_UP)
+			player.setJumping(true);
+		else if(e.getKeyCode()==KeyEvent.VK_DOWN)
+			player.setMovingDown(true);
+		else if(e.getKeyCode()==KeyEvent.VK_SPACE) {
+			player.setFiring(true);
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		if(e.getKeyCode()==KeyEvent.VK_LEFT)
+			player.setMovingLeft(false);
+		else if(e.getKeyCode()==KeyEvent.VK_RIGHT)
+			player.setMovingRight(false);
+		else if(e.getKeyCode()==KeyEvent.VK_UP)
+		    player.setJumping(false);
+		else if(e.getKeyCode()==KeyEvent.VK_DOWN)
+			player.setMovingDown(false);
+		else if(e.getKeyCode()==KeyEvent.VK_SPACE)
+			player.setFiring(false);
 	}
 }

@@ -6,9 +6,9 @@ import tilemap.TileMap;
 import java.awt.*;
 
 public class DynamicSprite extends Sprite {
-    protected boolean left;
-    protected boolean right;
-    protected boolean down;
+    protected boolean movingLeft;
+    protected boolean movingRight;
+    protected boolean movingDown;
     protected boolean jumping;
     protected boolean falling;
 
@@ -39,14 +39,14 @@ public class DynamicSprite extends Sprite {
         super(tm);
     }
 
-    public void setLeft(boolean b) {
-        left=b;
+    public void setMovingLeft(boolean b) {
+        movingLeft =b;
     }
-    public void setRight(boolean b) {
-        right=b;
+    public void setMovingRight(boolean b) {
+        movingRight =b;
     }
-    public void setDown(boolean b) {
-        down=b;
+    public void setMovingDown(boolean b) {
+        movingDown =b;
     }
     public void setJumping(boolean b) {
         jumping=b;

@@ -122,12 +122,12 @@ public class GamePanelController implements Runnable {
 	private class TAdapter extends KeyAdapter {
 		@Override
 		public void keyReleased(KeyEvent e) {
-			gsm.keyReleased(e.getKeyCode());
+			gsm.keyReleased(e);
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			gsm.keyPressed(e.getKeyCode());
+			gsm.keyPressed(e);
 		}
 	}
 	
