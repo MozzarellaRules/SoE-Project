@@ -1,10 +1,10 @@
-package Entity;
+package entity;
 
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 
-import TileMap.TileMap;
+import tilemap.TileMap;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -258,6 +258,8 @@ public class Player extends MapObject {
 
     public void draw(Graphics2D g) {
         setMapPosition(); // update xmap and ymap
+
+        g.drawRect((int) xmap, (int)ymap, 10, 10);
 
         // Draw projectiles
         for (Projectile p : projectiles) { p.draw(g); }

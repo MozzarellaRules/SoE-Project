@@ -1,6 +1,6 @@
-package Entity;
+package entity;
 
-import TileMap.TileMap;
+import tilemap.TileMap;
 
 import java.awt.*;
 

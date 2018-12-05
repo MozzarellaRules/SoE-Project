@@ -1,11 +1,11 @@
-package TileMap;
+package tilemap;
 
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-import Main.GamePanel;
+import main.GamePanel;
 
 
 
@@ -19,7 +19,6 @@ public class TileMap {
 	private int xmax;
 	private int ymin;
 	private int ymax;
-	private double tween;
 
 	//map
 	private int[][] map;   //Matrice di interi
@@ -47,7 +46,6 @@ public class TileMap {
 		this.tileSize = tileSize; //dimensione dei tile della mappa
 		numRowsToDraw = GamePanel.HEIGHT / tileSize + 2; //Disegno soltanto le righe che ci entrano nello schermo (+2 perché così non rischio che non si aggiornino in tempo)
 		numColsToDraw = GamePanel.WIDTH / tileSize + 2;  //Tale e quale ma per le colonne
-		tween = 0.07; 
 	}
 	
 	
@@ -141,8 +139,8 @@ public class TileMap {
 	
 	//Imposto la posizione della mappa
 	public void setPosition(double x,double y) {
-		this.x += (x-this.x) * tween;
-		this.y += (y-this.y) * tween;
+		this.x += (x-this.x);
+		this.y += (y-this.y);
 		fixBounds();
 		
 		colOffset=(int)-this.x /tileSize;
@@ -179,11 +177,6 @@ public class TileMap {
 			
 		}
 	}
-
-	public void setTween(double i) {
-		this.tween=i;
-	}
-
 
 	public Tile[][] getTiles(){return tiles;}
 		

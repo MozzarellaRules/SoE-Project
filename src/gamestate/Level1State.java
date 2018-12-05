@@ -1,15 +1,17 @@
-package GameState;
+package gamestate;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import Entity.*;
-import Main.GamePanel;
-import TileMap.*;
+import entity.*;
+import main.GamePanel;
+import tilemap.*;
 
 
 public class Level1State extends GameState{
+	public static String tilesetPath = "/Tilesets/tileset_sarah.png";
+	public static String mapPath = "/Maps/map_sarah.txt";
 	
 	private TileMap tileMap;
 	private Background bg;
@@ -30,23 +32,22 @@ public class Level1State extends GameState{
 	@Override
 	public void init() {
 		tileMap = new TileMap(32);
-		tileMap.loadTiles("/Tilesets/tileset_sarah.png");
-		tileMap.loadMap("/Maps/map_sarah.txt");
-		tileMap.setTween(1);
+		tileMap.loadTiles(tilesetPath);
+		tileMap.loadMap(mapPath);
 		bg = new Background("/Background/full_background2.jpeg",0.5);
 
 		// Creating main character, enemies and ammo
 		player = new Player(tileMap);
 		createEnemies();
-		Ammo munition1 = new Ammo(tileMap);
-		Ammo munition2 = new Ammo(tileMap);
-		ammo.add(munition1);
+		Ammo ammo1 = new Ammo(tileMap);
+		Ammo ammo2 = new Ammo(tileMap);
+		ammo.add(ammo1);
 		//ammo.add(munition2);
 
 		// Default positions
 		player.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*46);
-		munition1.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*50);
-		munition2.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*54);
+		ammo1.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*50+6);
+		ammo2.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*54+6);
 
 		// The camera follows the character
 		tileMap.setPosition(GamePanel.WIDTH/2-player.getx(), GamePanel.HEIGHT/2-player.gety());
@@ -61,7 +62,7 @@ public class Level1State extends GameState{
 		e1.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*46);
 		e2.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*54);
 
-		enemies.add(e1);
+		//enemies.add(e1);
 		//enemies.add(e2);
 	}
 
@@ -82,6 +83,14 @@ public class Level1State extends GameState{
 			gsm.setState(GameStateManager.GAMEOVER);
 		}
 
+		// Update ammo
+		for(int i=0; i<ammo.size(); i++) {
+			ammo.get(i).update(); // Update animation
+			if(player.intersects(ammo.get(i))) {
+				ammo.remove(ammo.get(i));
+			}
+		}
+
 		// Check if the character hit an enemy
 		player.checkAttack(enemies);
 
@@ -96,14 +105,6 @@ public class Level1State extends GameState{
 		    if(e.intersects(player)){
 		    	player.hit(1);
 		    }
-		}
-
-		// Update ammo
-		for(int i=0; i<ammo.size(); i++) {
-			ammo.get(i).update(); // Update position
-			if(ammo.get(i).intersects(player)) {
-				ammo.remove(ammo.get(i));
-			}
 		}
 	}
 

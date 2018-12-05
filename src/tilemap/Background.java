@@ -1,9 +1,9 @@
-package TileMap;
+package tilemap;
 
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-import Main.GamePanel;
+import main.GamePanel;
 
 import java.awt.*;
 

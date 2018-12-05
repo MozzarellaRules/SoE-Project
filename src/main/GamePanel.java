@@ -1,10 +1,10 @@
-package Main;
+package main;
 import java.awt.*;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
 import javax.swing.*;
-import GameState.GameStateManager;
+import gamestate.GameStateManager;
 
 //Pannello dove si visualizza il gioco
 public class GamePanel extends JPanel implements Runnable {

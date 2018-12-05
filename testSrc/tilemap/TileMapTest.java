@@ -1,7 +1,7 @@
-package TileMap;
+package tilemap;
 
-import Main.Game;
-import jdk.nashorn.internal.runtime.ECMAErrors;
+import gamestate.Level1State;
+import main.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,25 +16,16 @@ class TileMapTest extends Game {
     }
 
     @Test
-    void testLoadTiles() {
-        tm.loadTiles("path_not_existing");
+    void testLoadMap() {
+        tm.loadTiles(Level1State.tilesetPath);
+        tm.loadMap(Level1State.mapPath);
 
-        assertEquals(tm.getNumRows(), 0);
-        assertEquals(tm.getNumCols(), 0);
+        assertNotEquals(tm.getNumRows(), 0);
+        assertNotEquals(tm.getNumCols(), 0);
 
         /*
         assertThrows(Exception.class, () -> {
             tm.loadTiles("path_not_existing");
-        });
-        */
-    }
-
-    @Test
-    void testLoadMap() {
-
-        /*
-        assertThrows(Exception.class, () -> {
-            tm.loadMap("path_not_existing");
         });
         */
     }

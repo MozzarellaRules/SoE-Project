@@ -1,11 +1,11 @@
-package Entity;
+package entity;
 
-import TileMap.TileMap;
+import tilemap.TileMap;
 
 import java.awt.*;
 
-import Main.GamePanel;
-import TileMap.Tile;
+import main.GamePanel;
+import tilemap.Tile;
 public abstract class MapObject {
 	//tile stuff
 	protected TileMap tileMap;
@@ -89,8 +89,10 @@ public abstract class MapObject {
 	public void calculateCorners(double x, double y) {
 		int leftTile=(int)(x-cwidth/2)/tileSize; //Prendo il tile alla mia sinistra
 		int rightTile=(int)(x+cwidth/2-1)/tileSize;//Tile alla mia destra
+
 		int topTile=(int)(y-cheight/2)/tileSize;//Tile sopra di me
 		int bottomTile=(int)(y+cheight/2-1)/tileSize;//Tile sotto di me
+
 		//going outside of the map give an out of bounds exception(here the fix)
 		if(topTile < 0 || bottomTile >= tileMap.getNumRows() ||
                 leftTile < 0 || rightTile >= tileMap.getNumCols()) {

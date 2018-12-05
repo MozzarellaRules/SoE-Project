@@ -1,9 +1,9 @@
-package GameState;
+package gamestate;
 import java.util.ArrayList;
 public class GameStateManager {
 	
 	//Classe che gestisce lo scorrere dei livelli. Permette di passare da un livello ad un altro
-	private ArrayList<GameState> gameStates; //Giustamente è un vettore di "GameState" cioè di livelli
+	private ArrayList<GameState> gameStates; //Giustamente è un vettore di "gamestate" cioè di livelli
 	private int currentState; //tengo traccia del livello corrente
 	public static final int MENUSTATE=0;  //Associo al menu il valore 0
 	public static final int LEVEL1STATE=1;//Associo al livello 1 il valore 1

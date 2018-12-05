@@ -1,10 +1,10 @@
-package GameState;
+package gamestate;
 
 import java.awt.*;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import TileMap.Background;
+import tilemap.Background;
 
 public class MenuState extends GameState {
 
