@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Ammo extends MapObject {
+public class Ammo extends Sprite {
 
     private int raw;
     private int col;
@@ -20,8 +20,6 @@ public class Ammo extends MapObject {
 
     public Ammo(TileMap tm){
         super(tm);
-        cwidth = 20;
-        cheight = 20;
         numberOfFrames = 6;
 
         try {
@@ -44,10 +42,7 @@ public class Ammo extends MapObject {
     }
 
     public void draw(Graphics2D g){
-        setMapPosition(); // Update xmap and ymap
-
-        // Draw ammo
-        g.drawImage(animation.getImage(), (int) (x + xmap), (int) (y + ymap), null);
+        g.drawImage(animation.getImage(), (int) (x + tileMap.getX()), (int) (y + tileMap.getY()), null);
     }
 
 

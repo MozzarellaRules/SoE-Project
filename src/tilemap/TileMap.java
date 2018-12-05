@@ -5,7 +5,7 @@ import java.awt.image.*;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-import main.GamePanel;
+import main.GamePanelController;
 
 
 
@@ -44,8 +44,8 @@ public class TileMap {
 	//Costruttore
 	public TileMap(int tileSize) {
 		this.tileSize = tileSize; //dimensione dei tile della mappa
-		numRowsToDraw = GamePanel.HEIGHT / tileSize + 2; //Disegno soltanto le righe che ci entrano nello schermo (+2 perché così non rischio che non si aggiornino in tempo)
-		numColsToDraw = GamePanel.WIDTH / tileSize + 2;  //Tale e quale ma per le colonne
+		numRowsToDraw = GamePanelController.HEIGHT / tileSize + 2; //Disegno soltanto le righe che ci entrano nello schermo (+2 perché così non rischio che non si aggiornino in tempo)
+		numColsToDraw = GamePanelController.WIDTH / tileSize + 2;  //Tale e quale ma per le colonne
 	}
 	
 	
@@ -89,9 +89,9 @@ public class TileMap {
 			map = new int[numRows][numCols]; // map matrix
 			width = numCols*tileSize;
 			height = numRows*tileSize;
-			xmin = GamePanel.WIDTH -width;
+			xmin = GamePanelController.WIDTH -width;
 			xmax = 0;
-			ymin = GamePanel.HEIGHT-height;
+			ymin = GamePanelController.HEIGHT-height;
 			ymax = 0;
 			String delims = ","; //Segnalo il carattere " ," come delimitatore per tutti i numeri del file della mappa
 			for(int row=0; row < numRows; row++) {
@@ -109,10 +109,10 @@ public class TileMap {
 	public int getTileSize() {
 		return tileSize;
 	}
-	public int getx() {
+	public int getX() {
 		return (int) x;
 	}
-	public int gety() {
+	public int getY() {
 		return (int) y;
 	}
 	public int getWidth() {

@@ -8,7 +8,7 @@ public class Tile {
 	
 	//tile types
 	public static final int NORMAL=0;//Si può attraversare
-	public static final int BLOCKED=1; // non si può attraversare (Vedi MapObject)
+	public static final int BLOCKED=1; // non si può attraversare (Vedi Sprite)
 	
 	
 	public Tile(BufferedImage image,int type) {

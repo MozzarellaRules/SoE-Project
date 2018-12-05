@@ -5,7 +5,7 @@ import tilemap.TileMap;
 import javax.swing.*;
 import java.awt.*;
 
-public class Projectile extends MapObject {
+public class Projectile extends DynamicSprite {
 
     private int speed;
     private ImageIcon image;
@@ -17,15 +17,8 @@ public class Projectile extends MapObject {
         super(tm);
         this.facingRight = facingRight;
 
-        width = 32; // width of the sprite image
-        height = 32; // height of the sprite image
-        cwidth = 20; // width of the collision box
-        cheight = 20; // height of the collision box
-
         speed = 2;
-
         image = new ImageIcon("resources/Objects/Bullet.png");
-
 
         if(facingRight)
             dx = speed;
@@ -34,7 +27,6 @@ public class Projectile extends MapObject {
     }
 
     public void update() {
-        setMapPosition();
         checkTileMapCollision();
         setPosition(xtemp, ytemp);
 
@@ -44,16 +36,12 @@ public class Projectile extends MapObject {
         x += dx;
     }
 
-
     public void draw(Graphics2D g) {
-        setMapPosition(); // update xmap and ymap
-
-        // draw player
         if(facingRight) {
-            g.drawImage(image.getImage(), (int)(x+xmap-width/2), (int)(y+ymap-height/2), null);
+            g.drawImage(image.getImage(), (int)(x+tileMap.getX()-width/2), (int)(y+tileMap.getY()-height/2), null);
         }
         else {
-            g.drawImage(image.getImage(), (int)(x+xmap-width/2+width), (int)(y+ymap-height/2), -width, height, null);
+            g.drawImage(image.getImage(), (int)(x+tileMap.getX()-width/2+width), (int)(y+tileMap.getY()-height/2), -width, height, null);
         }
     }
 

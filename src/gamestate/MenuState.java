@@ -3,6 +3,8 @@ package gamestate;
 import java.awt.*;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 import tilemap.Background;
 
@@ -25,7 +27,6 @@ public class MenuState extends GameState {
 	
 	
 	public MenuState(GameStateManager gsm) {
-		
 		this.gsm=gsm;
 		
 		try {
@@ -43,12 +44,6 @@ public class MenuState extends GameState {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-
-
-
 
 	//funzione per mettere a video il menu
 	@Override
@@ -134,5 +129,4 @@ public class MenuState extends GameState {
 	public void update() {
 		bg.update(); //richiamo l'update del background ( Vedi Background)
 	}
-	
 }

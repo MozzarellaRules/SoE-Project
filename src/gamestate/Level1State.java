@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import entity.*;
-import main.GamePanel;
+import main.GamePanelController;
 import tilemap.*;
 
 
@@ -16,7 +16,7 @@ public class Level1State extends GameState{
 	private TileMap tileMap;
 	private Background bg;
 
-	private Player player;
+	private FirstLevelPlayer firstLevelPlayer;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Projectile> projectiles;
 	private ArrayList<Ammo> ammo;
@@ -37,7 +37,7 @@ public class Level1State extends GameState{
 		bg = new Background("/Background/full_background2.jpeg",0.5);
 
 		// Creating main character, enemies and ammo
-		player = new Player(tileMap);
+		firstLevelPlayer = new FirstLevelPlayer(tileMap);
 		createEnemies();
 		Ammo ammo1 = new Ammo(tileMap);
 		Ammo ammo2 = new Ammo(tileMap);
@@ -45,12 +45,12 @@ public class Level1State extends GameState{
 		//ammo.add(munition2);
 
 		// Default positions
-		player.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*46);
+		firstLevelPlayer.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*46);
 		ammo1.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*50+6);
 		ammo2.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*54+6);
 
 		// The camera follows the character
-		tileMap.setPosition(GamePanel.WIDTH/2-player.getx(), GamePanel.HEIGHT/2-player.gety());
+		tileMap.setPosition(GamePanelController.WIDTH/2- firstLevelPlayer.getX(), GamePanelController.HEIGHT/2- firstLevelPlayer.getY());
 	}
 
 	private void createEnemies(){
@@ -62,37 +62,36 @@ public class Level1State extends GameState{
 		e1.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*46);
 		e2.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*54);
 
-		//enemies.add(e1);
+		enemies.add(e1);
 		//enemies.add(e2);
 	}
 
 	@Override
 	public void update() {
-		// Update player
-		player.update();
+		// Update firstLevelPlayer
+		firstLevelPlayer.update();
 
 		// The camera follows the character
-		tileMap.setPosition(GamePanel.WIDTH/2-player.getx(), GamePanel.HEIGHT/2-player.gety());
+		tileMap.setPosition(GamePanelController.WIDTH/2- firstLevelPlayer.getX(), GamePanelController.HEIGHT/2- firstLevelPlayer.getY());
 
 		// The background moves with the character
-		bg.setPosition(tileMap.getx(), 0);
+		bg.setPosition(tileMap.getX(), 0);
 
-		// If the player is dead... gameover
-		player.setMapPosition();
-		if(player.isDead() || player.notOnScreen()){
+		// If the firstLevelPlayer is dead... gameover
+		if(firstLevelPlayer.isDead() || firstLevelPlayer.notOnScreen()){
 			gsm.setState(GameStateManager.GAMEOVER);
 		}
 
 		// Update ammo
 		for(int i=0; i<ammo.size(); i++) {
 			ammo.get(i).update(); // Update animation
-			if(player.intersects(ammo.get(i))) {
+			if(firstLevelPlayer.intersects(ammo.get(i))) {
 				ammo.remove(ammo.get(i));
 			}
 		}
 
 		// Check if the character hit an enemy
-		player.checkAttack(enemies);
+		firstLevelPlayer.checkAttack(enemies);
 
         // Update enemies
 		for(Enemy e : enemies){
@@ -101,9 +100,9 @@ public class Level1State extends GameState{
 				e.update();
 		    }
 
-		    // If the enemy hit player, update the health of the character
-		    if(e.intersects(player)){
-		    	player.hit(1);
+		    // If the enemy hit firstLevelPlayer, update the health of the character
+		    if(e.intersects(firstLevelPlayer)){
+		    	firstLevelPlayer.hit(1);
 		    }
 		}
 	}
@@ -113,7 +112,7 @@ public class Level1State extends GameState{
 		bg.draw(g);
 		tileMap.draw(g);
 
-		player.draw(g);
+		firstLevelPlayer.draw(g);
 		for(Enemy e : enemies) { e.draw(g); }
 		for(Ammo a : ammo) { a.draw(g); }
 	}
@@ -121,29 +120,29 @@ public class Level1State extends GameState{
 	@Override
 	public void keyPressed(int k) {
 		if(k==KeyEvent.VK_LEFT) 
-			player.setLeft(true);
+			firstLevelPlayer.setLeft(true);
 		if(k==KeyEvent.VK_RIGHT)
-			player.setRight(true);
+			firstLevelPlayer.setRight(true);
 		if(k==KeyEvent.VK_UP)
-			player.setJumping(true);
+			firstLevelPlayer.setJumping(true);
 		if(k==KeyEvent.VK_DOWN)
-			player.setDown(true);
+			firstLevelPlayer.setDown(true);
 		if(k==KeyEvent.VK_SPACE) {
-			player.setFiring(true);
+			firstLevelPlayer.setFiring(true);
 		}
 	}
 
 	@Override
 	public void keyReleased(int k) {
 		if(k==KeyEvent.VK_LEFT)
-			player.setLeft(false);
+			firstLevelPlayer.setLeft(false);
 		if(k==KeyEvent.VK_RIGHT)
-			player.setRight(false);
+			firstLevelPlayer.setRight(false);
 		if(k==KeyEvent.VK_UP)
-		    player.setJumping(false);
+		    firstLevelPlayer.setJumping(false);
 		if(k==KeyEvent.VK_DOWN)
-			player.setDown(false);
+			firstLevelPlayer.setDown(false);
 		if(k==KeyEvent.VK_SPACE)
-			player.setFiring(false);
+			firstLevelPlayer.setFiring(false);
 	}
 }

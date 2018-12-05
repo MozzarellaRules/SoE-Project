@@ -4,7 +4,7 @@ import tilemap.TileMap;
 
 import java.awt.*;
 
-public abstract class Enemy extends MapObject {
+public abstract class Enemy extends DynamicSprite {
 
     protected boolean isDead;
     protected int health;
@@ -23,15 +23,12 @@ public abstract class Enemy extends MapObject {
         if (health == 0){ isDead = true; }
     }
 
-
     public void draw(Graphics2D g) {
-        setMapPosition(); // update xmap and ymap
-
         if(facingRight) {
-            g.drawImage(animation.getImage(), (int)(x+xmap-width/2), (int)(y+ymap-height/2), null);
+            g.drawImage(animation.getImage(), (int)(x+tileMap.getX()-width/2), (int)(y+tileMap.getY()-height/2), null);
         }
         else {
-            g.drawImage(animation.getImage(), (int)(x+xmap-width/2+width), (int)(y+ymap-height/2), -width, height, null);
+            g.drawImage(animation.getImage(), (int)(x+tileMap.getX()-width/2+width), (int)(y+tileMap.getY()-height/2), -width, height, null);
         }
     }
 

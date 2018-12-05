@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class EnemyGround extends Enemy{
+public class EnemyGround extends Enemy {
 
     private static final int WALK = 0; // Walk state use row 0 of the sprite asset
     private final int[] numFrames = {12}; // Row 0 has 12 frames

@@ -8,7 +8,7 @@ import tilemap.TileMap;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Player extends MapObject {
+public class FirstLevelPlayer extends DynamicSprite {
 
     // Sprite frames
     private ArrayList<BufferedImage[]> sprites;
@@ -41,7 +41,7 @@ public class Player extends MapObject {
     private boolean flinching = false;
     private long flinchTimer;
 
-    public Player(TileMap tm) {
+    public FirstLevelPlayer(TileMap tm) {
         super(tm);
 
         // Init parameters
@@ -257,10 +257,6 @@ public class Player extends MapObject {
     }}
 
     public void draw(Graphics2D g) {
-        setMapPosition(); // update xmap and ymap
-
-        g.drawRect((int) xmap, (int)ymap, 10, 10);
-
         // Draw projectiles
         for (Projectile p : projectiles) { p.draw(g); }
 
@@ -269,9 +265,9 @@ public class Player extends MapObject {
 
         // Draw sprite
         if (facingRight) {
-            g.drawImage(animation.getImage(), (int) (x + xmap - width / 2), (int) (y + ymap - height / 2), null);
+            g.drawImage(animation.getImage(), (int) (x + tileMap.getX() - width / 2), (int) (y + tileMap.getY() - height / 2), null);
         } else {
-            g.drawImage(animation.getImage(), (int) (x + xmap - width / 2 + width), (int) (y + ymap - height / 2), -width, height, null);
+            g.drawImage(animation.getImage(), (int) (x + tileMap.getX() - width / 2 + width), (int) (y + tileMap.getY() - height / 2), -width, height, null);
         }
     }
 }

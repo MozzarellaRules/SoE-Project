@@ -3,7 +3,7 @@ package tilemap;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-import main.GamePanel;
+import main.GamePanelController;
 
 import java.awt.*;
 
@@ -31,8 +31,8 @@ public class Background {
 	
 	//Imposto la posizione
 	public void setPosition(double x, double y) {
-		this.x=(x*moveScale) % GamePanel.WIDTH;
-		this.y=(y*moveScale) % GamePanel.HEIGHT;
+		this.x=(x*moveScale) % GamePanelController.WIDTH;
+		this.y=(y*moveScale) % GamePanelController.HEIGHT;
 	}
 	
 	//Imposto gli spostamenti dx e dy
@@ -52,10 +52,10 @@ public class Background {
 		
 		g.drawImage(image, (int)x,(int)y, null); //metodo che ci dice quale immagine disegnare e in quali coordinate..dopo ci vuole sempre null
 		if(x < 0) {
-			g.drawImage(image,(int)x + GamePanel.WIDTH, (int)y,null); //Se esci fuori dallo schermo a sinistra ridisegna a destra
+			g.drawImage(image,(int)x + GamePanelController.WIDTH, (int)y,null); //Se esci fuori dallo schermo a sinistra ridisegna a destra
 		}
 		if(x > 0) {
-			g.drawImage(image,(int)x - GamePanel.WIDTH, (int)y,null);//Se esci fuori dallo schermo a destra ridisegna a sinistra
+			g.drawImage(image,(int)x - GamePanelController.WIDTH, (int)y,null);//Se esci fuori dallo schermo a destra ridisegna a sinistra
 			
 		}
 	}

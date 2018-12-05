@@ -3,11 +3,12 @@ import java.awt.*;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.*;
 import gamestate.GameStateManager;
 
-//Pannello dove si visualizza il gioco
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanelController implements Runnable {
 	public static final int WIDTH=380, HEIGHT=250;
 	public static final int SCALE=2; // (width*2),(height*2)
 	
@@ -17,25 +18,32 @@ public class GamePanel extends JPanel implements Runnable {
 	private int FPS=60;
 	private long targetTime=1000/FPS; // Wait duration of the thread... around 16 ms (60 fps)
 
+	private JPanel panel;
+
 	private GameStateManager gsm;
 	private BufferedImage image;
 	private Graphics2D g;
 
-	public GamePanel() {
+	public GamePanelController() {
 		super();
-		setPreferredSize(new Dimension(WIDTH*SCALE,HEIGHT*SCALE));
-		this.setFocusable(true);
-		requestFocusInWindow(); // To request focus
+		panel = new JPanel();
+		panel.setPreferredSize(new Dimension(WIDTH*SCALE,HEIGHT*SCALE));
+		panel.setFocusable(true);
+		panel.requestFocusInWindow(); // To request focus
+		initThread();
+	}
+
+	public JPanel getPanel() {
+		return panel;
 	}
 
 	/**
 	 * Make and start the game thread and set an action listener on the panel
 	 */
-	public void addNotify() {
-		super.addNotify();
+	public void initThread() {
 		if(thread==null) {
 			thread=new Thread(this);
-			addKeyListener(new TAdapter());
+			panel.addKeyListener(new TAdapter());
 			thread.start();
 		}
 	}
@@ -102,7 +110,7 @@ public class GamePanel extends JPanel implements Runnable {
 	 * Draw an image on the panel
  	 */
 	private void drawToScreen() {
-		Graphics gPanel=getGraphics();
+		Graphics gPanel=panel.getGraphics();
 		gPanel.drawImage(image,0,0,WIDTH*SCALE,HEIGHT*SCALE,null);
 		gPanel.dispose();
 	}
