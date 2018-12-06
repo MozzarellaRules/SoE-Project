@@ -112,6 +112,7 @@ public class Level1State extends GameState {
 			ammo.get(i).update(); // Update animation
 			if(player.intersects(ammo.get(i))) {
 				ammo.remove(ammo.get(i));
+				player.gatherAmmo();
 			}
 		}
 	}

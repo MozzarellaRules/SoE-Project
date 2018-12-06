@@ -30,8 +30,8 @@ public class FirstLevelPlayer extends DynamicSprite {
     private ArrayList<Projectile> projectiles;
     private boolean firing;
     private int simultaneousProj = 1; // Amount of bullets you can fire by pressing Spacebar ONCE (no spam)
-    private int currentProjectile = 0;
-    private static int maxBullets = 10; // Ammo when you start the game
+    private int currentProjectile = 0; // Amount of bullets you actually fire by pressing Spacebar ONCE - limited by simultaneousProj
+    private int remainingBullets = 10; // Ammo when you start the game
 
     // Health
     public int health;
@@ -164,13 +164,13 @@ public class FirstLevelPlayer extends DynamicSprite {
         // Create projectile
         if(firing){
             if(currentProjectile < simultaneousProj) { // Check if max number of (simultaneous) projectiles has been reached
-                if (maxBullets > 0){
-                Projectile pj = new Projectile(tileMap, facingRight); // Create new projectile
-                pj.setPosition(x-3, y); // Put it near the pirate
-                projectiles.add(pj); // Add it
-                currentProjectile++; // Increases max number of projectiles created
-                maxBullets--;
-            }
+                if (remainingBullets > 0){
+                    Projectile pj = new Projectile(tileMap, facingRight); // Create new projectile
+                    pj.setPosition(x-3, y); // Put it near the pirate
+                    projectiles.add(pj); // Add it
+                    currentProjectile++; // Increases max number of projectiles created
+                    remainingBullets--;
+                }
             }
         } else
             currentProjectile = 0; // I'm not firing anymore... reset the number of projectiles created
@@ -257,12 +257,19 @@ public class FirstLevelPlayer extends DynamicSprite {
             }
     }}
 
+    public void gatherAmmo() {
+        this.remainingBullets += 3;
+    }
+
     public void draw(Graphics2D g) {
         // Draw projectiles
         for (Projectile p : projectiles) { p.draw(g); }
 
         // Draw remaining number of projectiles
-        g.drawString("Munitions: "+(maxBullets-currentProjectile), 10, 50);
+        g.drawImage(new ImageIcon("resources/Objects/BulletIcon.png").getImage(), 0, 25, null);
+        g.drawString("x"+(remainingBullets), 25, 50);
+        g.setFont(new Font("Arial",Font.BOLD,12));
+        g.setColor(new Color(249,0, 34));
 
         // Draw image health
         g.drawImage(subImageHealth, 10, 10, null);

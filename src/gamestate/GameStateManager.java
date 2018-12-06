@@ -17,7 +17,7 @@ public class GameStateManager implements KeyListener {
 		states.add(new Level1State(this));
 		states.add(new GameOverState(this));
 
-		currentState = states.get(MENUSTATE);
+		currentState = states.get(LEVEL1STATE);
 	}
 	
 	public void setState(int state) {
