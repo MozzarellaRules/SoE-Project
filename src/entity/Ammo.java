@@ -45,7 +45,7 @@ public class Ammo extends Sprite {
     }
 
     public void draw(Graphics2D g){
-        g.drawImage(animation.getImage(), (int) (x + tileMap.getX()), (int) (y + tileMap.getY()), null);
+        g.drawImage(animation.getImage(), (int) (getX() + tileMap.getX()), (int) (getY() + tileMap.getY()), null);
     }
 
 }

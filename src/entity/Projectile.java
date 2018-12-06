@@ -21,27 +21,28 @@ public class Projectile extends DynamicSprite {
         image = new ImageIcon("resources/Objects/Bullet.png");
 
         if(facingRight)
-            dx = speed;
+            setDx(speed);
         else
-            dx = -speed;
+            setDx(-speed);
     }
 
     public void update() {
         checkTileMapCollision();
         setPosition(xtemp, ytemp);
 
-        if(dx == 0.0 || notOnScreen()) // The projectile is not moving... so it hit something... remove it
+        if(getDx() == 0.0 || notOnScreen()) // The projectile is not moving... so it hit something... remove it
             remove = true;
 
-        x += dx;
+        setX(getX()+(int)getDx());
+
     }
 
     public void draw(Graphics2D g) {
         if(facingRight) {
-            g.drawImage(image.getImage(), (int)(x+tileMap.getX()-width/2), (int)(y+tileMap.getY()-height/2), null);
+            g.drawImage(image.getImage(), (int)(getX()+tileMap.getX()-width/2), (int)(getY()+tileMap.getY()-height/2), null);
         }
         else {
-            g.drawImage(image.getImage(), (int)(x+tileMap.getX()-width/2+width), (int)(y+tileMap.getY()-height/2), -width, height, null);
+            g.drawImage(image.getImage(), (int)(getX()+tileMap.getX()-width/2+width), (int)(getY()+tileMap.getY()-height/2), -width, height, null);
         }
     }
 

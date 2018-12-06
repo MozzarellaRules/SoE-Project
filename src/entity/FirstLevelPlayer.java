@@ -109,44 +109,45 @@ public class FirstLevelPlayer extends DynamicSprite {
     private void getNextPosition() {
         // Movement
         if(movingLeft) {
-            dx -= moveSpeed; // speed increases progressively
-            if(dx < -maxSpeed)
-                dx = -maxSpeed; // max speed reached
+            setDx(getDx()-moveSpeed); // speed increases progressively
+            if(getDx() < maxSpeed)
+                setDx(-maxSpeed); // max speed reached
         }
         else if(movingRight) {
-            dx += moveSpeed;
-            if(dx > maxSpeed)
-                dx = maxSpeed;
+            setDx(getDx()+moveSpeed);
+            if(getDx() > maxSpeed)
+                setDx(maxSpeed);
         }
         else { // I'm not moving
-            if(dx > 0) {
-                dx -= stopSpeed;
-                if(dx < 0)
-                    dx = 0;
+            if(getDx() > 0) {
+                setDx(getDx()-stopSpeed);
+                if(getDx() < 0)
+                    setDx(0);
             }
-            else if(dx < 0) {
-                dx += stopSpeed;
-                if(dx > 0)
-                    dx = 0;
+            else if(getDx() < 0) {
+                setDx(getDx()+stopSpeed);
+                if(getDx() > 0)
+                    setDx(0);
             }
         }
 
         // Jumping
         if(jumping &&!falling) {
-            dy = jumpStart;
+            setDy(jumpStart);
             falling = false;
         }
 
         // Falling
         if(falling) {
-            dy += fallSpeed;
+            setDy(getDy()+fallSpeed);
 
-            if(dy > 0)
+            /*if(getDy()> 0)
                 jumping = false;
-            if(dy < 0 && !jumping)
-                dy += stopJumpSpeed;
-            if(dy > maxFallSpeed)
-                dy = maxFallSpeed;
+           */
+            if(getDy() < 0 && !jumping)
+                setDy(getDy()+stopJumpSpeed);
+            if(getDy() > maxFallSpeed)
+                setDy(maxFallSpeed);
         }
     }
 
@@ -166,7 +167,7 @@ public class FirstLevelPlayer extends DynamicSprite {
             if(currentProjectile < simultaneousProj) { // Check if max number of (simultaneous) projectiles has been reached
                 if (remainingBullets > 0){
                     Projectile pj = new Projectile(tileMap, facingRight); // Create new projectile
-                    pj.setPosition(x-3, y); // Put it near the pirate
+                    pj.setPosition(getX()-3, getY()); // Put it near the pirate
                     projectiles.add(pj); // Add it
                     currentProjectile++; // Increases max number of projectiles created
                     remainingBullets--;
@@ -276,9 +277,9 @@ public class FirstLevelPlayer extends DynamicSprite {
 
         // Draw sprite
         if (facingRight) {
-            g.drawImage(animation.getImage(), (int) (x + tileMap.getX() - width / 2), (int) (y + tileMap.getY() - height / 2), null);
+            g.drawImage(animation.getImage(), (int) (getX() + tileMap.getX() - width / 2), (int) (getY() + tileMap.getY() - height / 2), null);
         } else {
-            g.drawImage(animation.getImage(), (int) (x + tileMap.getX() - width / 2 + width), (int) (y + tileMap.getY() - height / 2), -width, height, null);
+            g.drawImage(animation.getImage(), (int) (getX() + tileMap.getX() - width / 2 + width), (int) (getY() + tileMap.getY() - height / 2), -width, height, null);
         }
     }
 }
