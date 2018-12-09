@@ -10,10 +10,13 @@ public abstract class Sprite {
 	protected TileMap tileMap;
 	protected int tileSize;
 	
-	protected double x;
-	protected double y;
-	protected double dx;
-	protected double dy;
+	private int x;
+	private int y;
+
+
+
+	private double dx;
+	private double dy;
 	
 	protected int width;
 	protected int height;
@@ -37,10 +40,10 @@ public abstract class Sprite {
 		return new Rectangle((int)x-cwidth,(int)y-cheight,cwidth,cheight);
 	}
 	public int getX() {
-		return (int)x;
+		return x;
 	}
 	public int getY() {
-		return (int)y;
+		return y;
 	}
 	public int getWidth() {
 		return width;
@@ -56,8 +59,8 @@ public abstract class Sprite {
 	}
 	
 	public void setPosition(double x, double y) {
-		this.x=x;
-		this.y=y;
+		this.x=(int)x;
+		this.y=(int)y;
 	}
 
 	public boolean notOnScreen() {
@@ -66,4 +69,26 @@ public abstract class Sprite {
 				y + tileMap.getY() + height < 0||
 				y + tileMap.getY() - height > GamePanelController.HEIGHT;
 	}
+
+
+
+	public double getDy() {
+		return dy;
+	}
+
+	public void setDy(double dy) {
+		this.dy = dy;
+	}
+
+	public double getDx() {
+		return dx;
+	}
+
+	public void setDx(double dx) {
+		this.dx = dx;
+	}
+
+	public void setX(int x){this.x = x;}
+
+	public void setY(int y){this.y = y;}
 }

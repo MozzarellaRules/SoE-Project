@@ -53,22 +53,24 @@ public class EnemyGround extends Enemy {
 
     public void getNextPosition(){
         if(falling){
-            dx = 0;
-            if(dy > maxFallSpeed){
-                dy= maxFallSpeed;
+            setDx(0);
+            if(getDy() > maxFallSpeed){
+                setDy(maxFallSpeed);
             }
-            else dy+=fallSpeed;
+            else setDy(getDy()+fallSpeed);
         }
         else {
             if(!facingRight) {
-                dx -= moveSpeed;
-                if(dx < -maxSpeed)
-                    dx = -maxSpeed;
+                setDx(getDx()-moveSpeed);
+
+                if(getDx() < -maxSpeed)
+                    setDx(-maxSpeed);
             }
             else{
-                dx += moveSpeed;
-                if(dx > maxSpeed)
-                    dx = maxSpeed;
+                setDx(getDx()+moveSpeed);
+
+                if(getDx() > maxSpeed)
+                    setDx(maxSpeed);
             }
         }
     }
@@ -77,7 +79,7 @@ public class EnemyGround extends Enemy {
         checkTileMapCollision();
 
         if (!falling){
-            if (dx == 0){
+            if (getDx() == 0){
                 if(facingRight)
                     facingRight = false;
                 else
