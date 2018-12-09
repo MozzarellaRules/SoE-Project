@@ -25,10 +25,20 @@ public abstract class Enemy extends DynamicSprite {
 
     public void draw(Graphics2D g) {
         if(facingRight) {
-            g.drawImage(animation.getImage(), (int)(getX()+tileMap.getX()-width/2), (int)(getY()+tileMap.getY()-height/2), null);
+            g.drawImage(
+                    animation.getImage(),
+                    (int)(getX()+tileMap.getX()-width/2),
+                    (int)(getY()+tileMap.getY()-height/2),
+                    null);
         }
         else {
-            g.drawImage(animation.getImage(), (int)(getX()+tileMap.getX()-width/2+width), (int)(getY()+tileMap.getY()-height/2), -width, height, null);
+            g.drawImage(
+                    animation.getImage(),
+                    (int)(getX()+tileMap.getX()-width/2+width),
+                    (int)(getY()+tileMap.getY()-height/2),
+                    -width,
+                    height,
+                    null);
         }
     }
 

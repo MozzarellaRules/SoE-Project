@@ -14,8 +14,6 @@ public class GamePanelController {
 	private GameStateManager gsm;
 
 	private Thread thread;
-	private int FPS = 60;
-	private long targetTime = 1000/FPS; // Wait duration of the thread... around 16 ms (60 fps)
 
 	private BufferedImage image;
 	private Graphics2D graphicsImage;
@@ -26,10 +24,23 @@ public class GamePanelController {
 		panel.setPreferredSize(new Dimension(WIDTH*SCALE,HEIGHT*SCALE));
 		panel.setFocusable(true);
 		panel.requestFocusInWindow(); // To request focus
+		initPanel();
 		initThread();
 	}
 
 	public JPanel getPanel() { return panel; }
+
+	/**
+	 * Init the panel creating an image for drawing things on it and creating the GameStateManager
+	 */
+	private void initPanel() {
+		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		graphicsImage = (Graphics2D) image.getGraphics();
+
+		gsm = new GameStateManager();
+
+		panel.addKeyListener(new TAdapter());
+	}
 
 	/**
 	 * Make and start the game thread
@@ -39,18 +50,6 @@ public class GamePanelController {
 			thread = new GameThread();
 			thread.start();
 		}
-	}
-
-	/**
-	 * Init the game creating an image for drawing things on it and creating the GameStateManager
-	 */
-	private void initGame() {
-		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-		graphicsImage = (Graphics2D) image.getGraphics();
-
-		gsm = new GameStateManager();
-
-		panel.addKeyListener(new TAdapter());
 	}
 
 	/**
@@ -80,6 +79,8 @@ public class GamePanelController {
 	 */
 	private class GameThread extends Thread {
 		private boolean gameRunning;
+		private int FPS = 60;
+		private long targetTime = 1000/FPS; // Wait duration of the thread... around 16 ms (60 fps)
 
 		public GameThread() {
 			gameRunning = true;
@@ -87,7 +88,6 @@ public class GamePanelController {
 
 		@Override
 		public void run() {
-			initGame();
 			long start;
 			long elapsed;
 			long wait;
