@@ -22,22 +22,19 @@ public class LevelOnePlayer extends DynamicSprite implements IObservable {
     // The integer refers to the row of the sprite asset
     private int IDLE_ROW = 0;
     private int WALKING_ROW = 1;
-    private int JUMPING_ROW = 1;
     private int SHOOTING_ROW = 2;
-
-    private int remainingBullets = 10;
-
-    private boolean firing;
-    private IObserver healthObserver;
 
     // Health
     private int health;
     private int maxHealth = 3;
     private boolean isDead;
-    private BufferedImage imageHealth;
-    private BufferedImage subImageHealth;
     private boolean flinching = false;
     private long flinchTimer;
+    private IObserver healthObserver;
+
+    // Firing
+    private int remainingBullets = 10;
+    private boolean firing;
 
     private ArrayList<IStrategy> strategies;
     private final static int
@@ -145,13 +142,6 @@ public class LevelOnePlayer extends DynamicSprite implements IObservable {
                 current_row = WALKING_ROW;
                 imageAnimator.setFrames(sprites.get(WALKING_ROW));
                 imageAnimator.setDelay(100);
-            }
-        }
-        else if(isJumping()) {
-            if (current_row != JUMPING_ROW) {
-                current_row = JUMPING_ROW;
-                imageAnimator.setFrames(sprites.get(JUMPING_ROW));
-                imageAnimator.setDelay(50);
             }
         }
         else if(firing) {
