@@ -36,7 +36,7 @@ public class Health extends Sprite implements IObserver {
 
     @Override
     public void updateObserver(IObservable obj, Object arg) {
-        LevelOnePlayer player = (LevelOnePlayer) obj;
+        Player player = (Player) obj;
         health = (int) arg;
     }
 

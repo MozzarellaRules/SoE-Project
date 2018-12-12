@@ -18,22 +18,23 @@ public class LevelOneSpriteFactory implements ISpriteFactory {
     }
 
     @Override
-    public LevelOnePlayer createPlayer(TileMap tileMap) {
-        LevelOnePlayer player = new LevelOnePlayer(tileMap);
-        player.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*45);
+    public Player createPlayer(TileMap tileMap) {
+        Player player = null;
+        //player.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*45);
         return player;
     }
 
     @Override
-    public ArrayList<Enemy> createEnemies(TileMap tileMap) {
-        ArrayList<Enemy> enemies = new ArrayList<>();
+    public ArrayList<DynamicSprite> createEnemies(TileMap tileMap) {
+        ArrayList<DynamicSprite> enemies = new ArrayList<>();
 
-        Enemy e1 = new EnemyGround(tileMap);
-        Enemy e2 = new EnemyGround(tileMap);
+        EnemyGround e1 = new EnemyGround(tileMap);
+        EnemyGround e2 = new EnemyGround(tileMap);
+
 
         e1.setFacingRight(true);
 
-        e1.setPosition(tileMap.getTileSize()*15,tileMap.getTileSize()*47);
+        e1.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*47);
         e2.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*54);
 
         enemies.add(e1);
@@ -58,7 +59,7 @@ public class LevelOneSpriteFactory implements ISpriteFactory {
     }
 
     @Override
-    public Projectile createProjectile(TileMap tileMap, LevelOnePlayer p) {
+    public Projectile createProjectile(TileMap tileMap, Player p) {
         Projectile projectile = new Projectile(tileMap, p.isFacingRight());
         projectile.setPosition(p.getX()-3, p.getY());
         return projectile;

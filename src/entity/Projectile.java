@@ -1,5 +1,6 @@
 package entity;
 
+import entity.strategy.StrategyFactory;
 import tilemap.TileMap;
 
 import javax.swing.*;
@@ -16,6 +17,14 @@ public class Projectile extends DynamicSprite {
         super(tm);
         this.facingRight = facingRight;
 
+        if(facingRight) {
+            setStrategyX(StrategyFactory.getInstance().getMoveRightStrategy());
+        } else {
+            setStrategyX(StrategyFactory.getInstance().getMoveLeftStrategy());
+        }
+
+        setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
+
         image = new ImageIcon("resources/Objects/Bullet.png");
     }
 
@@ -26,10 +35,11 @@ public class Projectile extends DynamicSprite {
 
     @Override
     public void update() {
-        setDx(facingRight ? 2 : -2);
-        setX(getX() + (int)getDx());
-
+        getNextDelta();
         checkTileMapCollision();
+        setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
+
+        setX(getX() + (int)getDx());
 
         // The projectile is not moving... so it hit something... remove it
         if(getDx() == 0.0 || notOnScreen())

@@ -1,6 +1,6 @@
 package entity.strategy;
 
-public class MoveLeftStrategy implements IStrategy {
+public class MoveLeftStrategy implements StrategyX {
     private double moveSpeed;
     private double maxSpeed;
 
@@ -15,11 +15,6 @@ public class MoveLeftStrategy implements IStrategy {
         if(dx < -maxSpeed)
             dx = -maxSpeed; // max speed reached
         return dx;
-    }
-
-    @Override
-    public double recalcDy(double currentValue) {
-        return 0;
     }
 
 }

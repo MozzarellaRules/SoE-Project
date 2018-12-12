@@ -1,6 +1,6 @@
 package entity.strategy;
 
-public class FallStrategy implements IStrategy {
+public class FallStrategy implements StrategyY {
     private double fallSpeed;
     private double maxFallSpeed;
     private double stopJumpSpeed;
@@ -9,13 +9,6 @@ public class FallStrategy implements IStrategy {
         fallSpeed = 0.15;
         maxFallSpeed = 4.0;
         stopJumpSpeed = 0.3;
-    }
-
-    @Override
-    public double recalcDx(double currentValue) {
-        System.out.println(currentValue);
-
-        return currentValue;
     }
 
     @Override

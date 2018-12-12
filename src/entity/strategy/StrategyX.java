@@ -1,8 +1,7 @@
 package entity.strategy;
 
-public interface IStrategy {
+public interface StrategyX {
 
     double recalcDx(double currentValue);
-    double recalcDy(double currentValue);
 
 }

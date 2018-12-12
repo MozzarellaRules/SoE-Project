@@ -70,6 +70,7 @@ public class GamePanelController {
 	 * Draw an image on the panel
  	 */
 	private void drawToScreen() {
+		panel.addNotify();
 		panel.getGraphics().drawImage(image,0,0,WIDTH*SCALE,HEIGHT*SCALE,null);
 		panel.getGraphics().dispose();
 	}

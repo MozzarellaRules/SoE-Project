@@ -6,10 +6,11 @@ import java.util.ArrayList;
 
 public interface ISpriteFactory {
 
-    LevelOnePlayer createPlayer(TileMap tileMap);
-    ArrayList<Enemy> createEnemies(TileMap tileMap);
+    Player createPlayer(TileMap tileMap);
+    ArrayList<DynamicSprite> createEnemies(TileMap tileMap);
+
     ArrayList<Ammo> createAmmo(TileMap tileMap);
-    Projectile createProjectile(TileMap tileMap, LevelOnePlayer p);
+    Projectile createProjectile(TileMap tileMap, Player p);
     Health createHealth(TileMap tileMap);
 
 }
