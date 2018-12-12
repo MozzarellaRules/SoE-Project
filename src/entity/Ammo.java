@@ -4,7 +4,6 @@ package entity;
 import tilemap.*;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -35,17 +34,17 @@ public class Ammo extends Sprite {
             e.printStackTrace();
         }
 
-        animation = new Animation();
-        animation.setFrames(frames);
-        animation.setDelay(100);
+        imageAnimator = new ImageAnimator();
+        imageAnimator.setFrames(frames);
+        imageAnimator.setDelay(100);
     }
 
     public void update() {
-        animation.update();
+        imageAnimator.update();
     }
 
     public void draw(Graphics2D g){
-        g.drawImage(animation.getImage(), getX()+tileMap.getX(), getY()+tileMap.getY(), null);
+        g.drawImage(imageAnimator.getImage(), getX()+tileMap.getX(), getY()+tileMap.getY(), null);
     }
 
 }

@@ -1,5 +1,6 @@
 package entity;
 
+import entity.strategy.*;
 import tilemap.TileMap;
 
 import javax.imageio.ImageIO;
@@ -8,27 +9,32 @@ import java.util.ArrayList;
 
 public class EnemyGround extends Enemy {
 
-    private static final int WALK = 0; // Walk state use row 0 of the sprite asset
+    private int WALK_ROW = 0; // Walk state use row 0 of the sprite asset
     private final int[] numFrames = {12}; // Row 0 has 12 frames
-    private double fallSpeed;
-    private double maxFallSpeed;
 
-    // Sprite animation
+    private ArrayList<IStrategy> strategies;
+    private final static int
+            moveLeftStrategy = 0,
+            moveRightStrategy = 1,
+            fallStrategy = 2;
+
+    // Sprite imageAnimator
     private ArrayList<BufferedImage[]> sprites;
 
     public EnemyGround(TileMap tm){
         super(tm);
 
+        strategies = new ArrayList<>();
+        strategies.add(new MoveLeftStrategy());
+        strategies.add(new MoveRightStrategy());
+        strategies.add(new FallStrategy());
+
         // Init parameters
-        cheight = 25 ;
-        cwidth = 20;
-        moveSpeed = 0.4;
-        maxSpeed = 1;
-        maxFallSpeed = 4.0;
-        fallSpeed = 0.15;
+        collisionBoxHeight = 25 ;
+        collisionBoxWidth = 20;
         health = 2;
         isDead = false;
-        currentAction = WALK;
+        current_row = WALK_ROW;
 
         try {
             BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/Enemies/BaseEnemy.png"));
@@ -45,51 +51,43 @@ public class EnemyGround extends Enemy {
         }
 
         // Animate sprite
-        animation = new Animation();
-        animation.setFrames(sprites.get(WALK));
-        animation.setDelay(70);
+        imageAnimator = new ImageAnimator();
+        imageAnimator.setFrames(sprites.get(WALK_ROW));
+        imageAnimator.setDelay(70);
     }
 
+    private void getNextDelta() {
+        double dx = 0, dy = 0;
 
-    public void getNextPosition(){
-        if(falling){
-            setDx(0);
-            if(getDy() > maxFallSpeed){
-                setDy(maxFallSpeed);
+        if(isFalling()) {
+            dy = strategies.get(EnemyGround.fallStrategy).recalcDy(getDy());
+        } else {
+            if(!isFacingRight()) {
+                dx = strategies.get(EnemyGround.moveLeftStrategy).recalcDx(getDx());
             }
-            else setDy(getDy()+fallSpeed);
-        }
-        else {
-            if(!facingRight) {
-                setDx(getDx()-moveSpeed);
-
-                if(getDx() < -maxSpeed)
-                    setDx(-maxSpeed);
-            }
-            else{
-                setDx(getDx()+moveSpeed);
-
-                if(getDx() > maxSpeed)
-                    setDx(maxSpeed);
+            else {
+                dx = strategies.get(EnemyGround.moveRightStrategy).recalcDx(getDx());
             }
         }
+
+        setDx(dx);
+        setDy(dy);
     }
 
     public void update(){
+        getNextDelta();
         checkTileMapCollision();
 
-        if (!falling){
+        if (!isFalling()){
             if (getDx() == 0){
-                if(facingRight)
-                    facingRight = false;
+                if(isFacingRight())
+                    setFacingRight(false);
                 else
-                    facingRight = true;
+                    setFacingRight(true);
             }
         }
 
-        getNextPosition();
-        setPosition(xtemp, ytemp);
-        animation.update();
+        imageAnimator.update();
     }
 
 }

@@ -11,7 +11,7 @@ public abstract class Enemy extends DynamicSprite {
 
     public Enemy(TileMap tm) {
         super(tm);
-        facingRight = false;
+        setFacingRight(false);
     }
 
     public boolean isDead(){ return isDead; }
@@ -19,21 +19,26 @@ public abstract class Enemy extends DynamicSprite {
     public void hit(int damage){
         health -= damage;
 
-        if (health < 0){ health = 0; }
-        if (health == 0){ isDead = true; }
+        if (health < 0) {
+            health = 0;
+        }
+        if (health == 0) {
+            isDead = true;
+        }
     }
 
+    @Override
     public void draw(Graphics2D g) {
-        if(facingRight) {
+        if(isFacingRight()) {
             g.drawImage(
-                    animation.getImage(),
+                    imageAnimator.getImage(),
                     (int)(getX()+tileMap.getX()-width/2),
                     (int)(getY()+tileMap.getY()-height/2),
                     null);
         }
         else {
             g.drawImage(
-                    animation.getImage(),
+                    imageAnimator.getImage(),
                     (int)(getX()+tileMap.getX()-width/2+width),
                     (int)(getY()+tileMap.getY()-height/2),
                     -width,

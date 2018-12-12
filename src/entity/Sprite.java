@@ -12,55 +12,37 @@ public abstract class Sprite {
 	
 	private int x;
 	private int y;
-
-
-
 	private double dx;
 	private double dy;
 	
 	protected int width;
 	protected int height;
+	protected int collisionBoxWidth;
+	protected int collisionBoxHeight;
 	
-	protected int cwidth;
-	protected int cheight;
-	
-	protected Animation animation;
-	protected int currentAction;
+	protected ImageAnimator imageAnimator;
+	protected int current_row;
 	
 	public Sprite(TileMap tm) {
-		tileMap=tm;
-		tileSize=tm.getTileSize();
+		tileMap = tm;
+		tileSize = tm.getTileSize();
 		width = 32;
 		height = 32;
-		cwidth = 20;
-		cheight = 20;
+		collisionBoxWidth = 20;
+		collisionBoxHeight = 20;
 	}
 
 	public Rectangle getRectangle() {
-		return new Rectangle((int)x-cwidth,(int)y-cheight,cwidth,cheight);
+		return new Rectangle(
+				(int)x- collisionBoxWidth,
+				(int)y- collisionBoxHeight,
+				collisionBoxWidth,
+				collisionBoxHeight);
 	}
-	public int getX() {
-		return x;
-	}
-	public int getY() {
-		return y;
-	}
-	public int getWidth() {
-		return width;
-	}
-	public int getHeight() {
-		return height;
-	}
-	public int getCWidth() {
-		return cwidth;
-	}
-	public int getCHeight() {
-		return cheight;
-	}
-	
+
 	public void setPosition(double x, double y) {
-		this.x=(int)x;
-		this.y=(int)y;
+		this.x = (int)x;
+		this.y = (int)y;
 	}
 
 	public boolean notOnScreen() {
@@ -70,25 +52,34 @@ public abstract class Sprite {
 				y + tileMap.getY() - height > GamePanelController.HEIGHT;
 	}
 
-
-
-	public double getDy() {
-		return dy;
+	public int getX() {
+		return x;
 	}
-
-	public void setDy(double dy) {
-		this.dy = dy;
+	public int getY() {
+		return y;
 	}
-
 	public double getDx() {
 		return dx;
 	}
-
-	public void setDx(double dx) {
-		this.dx = dx;
+	public double getDy() {
+		return dy;
 	}
+	public int getWidth() {	return width; }
+	public int getHeight() { return height; }
+	public int getCWidth() { return collisionBoxWidth; }
+	public int getCHeight() { return collisionBoxHeight; }
 
-	public void setX(int x){this.x = x;}
+	public void setDx(double dx) { this.dx = dx; }
+	public void setDy(double dy) {
+		this.dy = dy;
+	}
+	public void setX(int x){ this.x = x; }
+	public void setY(int y){ this.y = y; }
+	public void setWidth(int width) { this.width = width; }
+	public void setHeight(int height) {	this.height = height; }
+	public void setCollisionBoxWidth(int collisionBoxWidth) {	this.collisionBoxWidth = collisionBoxWidth; }
+	public void setCollisionBoxHeight(int collisionBoxHeight) { this.collisionBoxHeight = collisionBoxHeight; }
 
-	public void setY(int y){this.y = y;}
+	public abstract void update();
+	public abstract void draw(Graphics2D g);
 }

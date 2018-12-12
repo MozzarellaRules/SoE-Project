@@ -7,7 +7,6 @@ import java.awt.*;
 
 public class Projectile extends DynamicSprite {
 
-    private int speed;
     private ImageIcon image;
     private boolean facingRight;
     private boolean hit = false;
@@ -17,26 +16,27 @@ public class Projectile extends DynamicSprite {
         super(tm);
         this.facingRight = facingRight;
 
-        speed = 2;
         image = new ImageIcon("resources/Objects/Bullet.png");
-
-        if(facingRight)
-            setDx(speed);
-        else
-            setDx(-speed);
     }
 
+    public void setRemove(boolean remove) { this.remove = remove; }
+    public boolean shouldRemove() {
+        return remove;
+    }
+
+    @Override
     public void update() {
+        setDx(facingRight ? 2 : -2);
+        setX(getX() + (int)getDx());
+
         checkTileMapCollision();
-        setPosition(xtemp, ytemp);
 
-        if(getDx() == 0.0 || notOnScreen()) // The projectile is not moving... so it hit something... remove it
+        // The projectile is not moving... so it hit something... remove it
+        if(getDx() == 0.0 || notOnScreen())
             remove = true;
-
-        setX(getX()+(int)getDx());
-
     }
 
+    @Override
     public void draw(Graphics2D g) {
         if(facingRight) {
             g.drawImage(image.getImage(), (int)(getX()+tileMap.getX()-width/2), (int)(getY()+tileMap.getY()-height/2), null);
@@ -46,7 +46,4 @@ public class Projectile extends DynamicSprite {
         }
     }
 
-    public boolean shouldRemove() {
-        return remove;
-    }
 }

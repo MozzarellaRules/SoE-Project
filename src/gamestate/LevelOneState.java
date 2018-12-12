@@ -9,7 +9,7 @@ import main.GamePanelController;
 import tilemap.*;
 
 
-public class Level1State extends GameState {
+public class LevelOneState extends GameState {
 	public static String BG_PATH = "/Background/full_background2.jpeg";
 	public static String TILESET_PATH = "/Tilesets/tileset_sarah.png";
 	public static String MAP_PATH = "/Maps/map_sarah.txt";
@@ -19,61 +19,35 @@ public class Level1State extends GameState {
 	private TileMap tileMap;
 	private Background bg;
 
-	private FirstLevelPlayer player;
+	private LevelOnePlayer player;
 	private ArrayList<Enemy> enemies;
-	private ArrayList<Projectile> projectiles;
 	private ArrayList<Ammo> ammo;
+	private ArrayList<Projectile> projectiles;
+	private Health health;
 
-	public Level1State(GameStateManager gsm) {
+	public LevelOneState(GameStateManager gsm) {
 		this.gsm = gsm;
 		init();
 	}
 
 	@Override
 	public void init() {
-		this.enemies = new ArrayList<>();
-		this.projectiles = new ArrayList<>();
-		this.ammo = new ArrayList<>();
-
 		tileMap = new TileMap(32);
 		tileMap.loadTiles(TILESET_PATH);
 		tileMap.loadMap(MAP_PATH);
 
-		bg = new Background(BG_PATH,0.5);
+		this.player = LevelOneSpriteFactory.getInstance().createPlayer(tileMap);
+		this.enemies = LevelOneSpriteFactory.getInstance().createEnemies(tileMap);
+		this.ammo = LevelOneSpriteFactory.getInstance().createAmmo(tileMap);
+		this.health = LevelOneSpriteFactory.getInstance().createHealth(tileMap);
+		this.projectiles = new ArrayList<>();
 
-		createPlayer();
-		createEnemies();
-		createStaticAmmo();
+		player.addObserver(health);
+
+		bg = new Background(BG_PATH,0.5);
 
 		// The camera is centered on the player
 		tileMap.setPosition(GamePanelController.WIDTH/2-player.getX(), GamePanelController.HEIGHT/2-player.getY());
-	}
-
-	private void createPlayer() {
-		player = new FirstLevelPlayer(tileMap);
-		player.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*45);
-	}
-
-	private void createEnemies(){
-		Enemy e1 = new EnemyGround(tileMap);
-		Enemy e2 = new EnemyGround(tileMap);
-
-		e1.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*50);
-		e2.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*54);
-
-		enemies.add(e1);
-		//enemies.add(e2);
-	}
-
-	private void createStaticAmmo() {
-		Ammo ammo1 = new Ammo(tileMap);
-		Ammo ammo2 = new Ammo(tileMap);
-
-		ammo1.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*48+6);
-		ammo2.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*51+6);
-
-		ammo.add(ammo1);
-		ammo.add(ammo2);
 	}
 
 	@Override
@@ -91,9 +65,6 @@ public class Level1State extends GameState {
 			gsm.setState(GameStateManager.GAMEOVER);
 		}
 
-		// Check if the character hit an enemy
-		player.checkAttack(enemies);
-
         // Update enemies
 		for(Enemy e : enemies){
 			// If the enemy is not on the screen, he does not move
@@ -107,13 +78,39 @@ public class Level1State extends GameState {
 		    }
 		}
 
-		// Update and remove ammo if the player intersects them
-		for(int i=0; i<ammo.size(); i++) {
-			ammo.get(i).update(); // Update animation
-			if(player.intersects(ammo.get(i))) {
-				ammo.remove(ammo.get(i));
+		for(Ammo a : ammo) {
+			a.update();
+			if(player.intersects(a)) {
+				ammo.remove(a);
 				player.gatherAmmo();
+				break;
 			}
+		}
+
+		for(Projectile p : projectiles) {
+			p.update();
+			checkEnemyHit(p);
+			if(p.shouldRemove()) {
+				projectiles.remove(p);
+				break;
+			}
+		}
+
+		health.update();
+	}
+
+	private void checkEnemyHit(Projectile p){
+		for(Enemy e : enemies){
+			if(e.intersects(p)) {
+				e.hit(1);
+				p.setRemove(true);
+			}
+
+			if (e.isDead()){
+				enemies.remove(e);
+			}
+
+			break;
 		}
 	}
 
@@ -123,11 +120,16 @@ public class Level1State extends GameState {
 		tileMap.draw(g);
 
 		player.draw(g);
+		health.draw(g);
+
 		for(Enemy e : enemies) {
 			e.draw(g);
 		}
 		for(Ammo a : ammo) {
 			a.draw(g);
+		}
+		for(Projectile p : projectiles) {
+			p.draw(g);
 		}
 	}
 
@@ -142,7 +144,12 @@ public class Level1State extends GameState {
 		else if(e.getKeyCode()==KeyEvent.VK_DOWN)
 			player.setMovingDown(true);
 		else if(e.getKeyCode()==KeyEvent.VK_SPACE) {
-			player.setFiring(true);
+			if(player.getRemainingBullets() > 0) {
+				Projectile p = LevelOneSpriteFactory.getInstance().createProjectile(tileMap, player);
+				projectiles.add(p);
+				player.setFiring(true);
+				player.setRemainingBullets(player.getRemainingBullets()-1);
+			}
 		}
 	}
 

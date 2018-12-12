@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 //Classe che si occupa di animare il personaggio
 // In pratica abbiamo un'immagine dove sono rappresentate sulle righe tutti i disegni relativi a un certo movimento
 //E sulle colonne ci sono tutte le animazioni per quel movimento
-public class Animation {
+public class ImageAnimator {
 	
 	private BufferedImage[] frames; //Questo è il vettore di immagini per le animazioni
 	private int currentFrame;//In quale momento dell'animazione ci troviamo
