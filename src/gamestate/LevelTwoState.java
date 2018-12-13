@@ -14,14 +14,14 @@ import java.util.ArrayList;
 public class LevelTwoState extends GameState {
     public static String BG_PATH = "/Background/full_background2.jpeg";
     public static String TILESET_PATH = "/Tilesets/tileset_sarah.png";
-    public static String MAP_PATH = "/Maps/new_map.txt";
+    public static String MAP_PATH = "/Maps/mappa_livello2.txt";
 
     private GameStateManager gsm;
 
     private TileMap tileMap;
     private Background bg;
 
-    private PlayerGround player;
+    private PlayerWater player;
     private ArrayList<EnemyWaterOctopus> octopus;
 
     public LevelTwoState(GameStateManager gsm) {
@@ -46,14 +46,14 @@ public class LevelTwoState extends GameState {
     }
 
     public void createPlayer() {
-        this.player = new PlayerGround(tileMap);
-        this.player.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*45);
+        this.player = new PlayerWater(tileMap);
+        this.player.setPosition(tileMap.getTileSize()*3,tileMap.getTileSize()*3);
     }
 
     public void createEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
         int pos[][] = {
-                {48,16}
+                {5,5}
         };
 
         try {
