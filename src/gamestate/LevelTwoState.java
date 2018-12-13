@@ -101,7 +101,7 @@ public class LevelTwoState extends GameState {
         }
 
         g.setFont(new Font("Arial",Font.BOLD,12));
-        g.setColor(new Color(0, 109, 225));
+        g.setColor(new Color(35, 26, 225));
         g.drawString("Level Two", 25, 50);
     }
 
