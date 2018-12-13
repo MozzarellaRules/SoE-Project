@@ -75,8 +75,8 @@ public abstract class Sprite {
 		return new Rectangle(
 				(int)x,
 				(int)y,
-				width,
-				height);
+				collisionBoxWidth,
+				collisionBoxHeight);
 	}
 
 	public boolean notOnScreen() {

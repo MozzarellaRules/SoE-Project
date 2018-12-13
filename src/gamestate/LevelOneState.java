@@ -187,16 +187,14 @@ public class LevelOneState extends GameState {
 	private void checkEnemyHit(Projectile p){
 		for(EnemyGround e : enemies){
 			if(p.intersects(e)) {
-				System.out.println("SHOT");
 				e.hit(1);
 				p.setRemove(true);
 			}
 
 			if (e.isDead()){
 				enemies.remove(e);
+				break;
 			}
-
-			break;
 		}
 	}
 
@@ -217,12 +215,14 @@ public class LevelOneState extends GameState {
 		treasureMap.draw(g);
 
 		for(EnemyGround e : enemies) {
+			g.fillRect((int)e.getRectangle().getX()+tileMap.getX(),(int)e.getRectangle().getY()+tileMap.getY(), (int)e.getRectangle().getWidth(), (int)e.getRectangle().getHeight());
 			e.draw(g);
 		}
 		for(Ammo a : ammo) {
 			a.draw(g);
 		}
 		for(Projectile p : projectiles) {
+			g.fillRect((int)p.getRectangle().getX()+tileMap.getX(),(int)p.getRectangle().getY()+tileMap.getY(), (int)p.getRectangle().getWidth(), (int)p.getRectangle().getHeight());
 			p.draw(g);
 		}
 	}

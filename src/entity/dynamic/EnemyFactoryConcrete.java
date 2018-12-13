@@ -9,15 +9,12 @@ public class EnemyFactoryConcrete implements EnemyFactory {
 
     private static EnemyFactory instace;
 
-    private EnemyFactoryConcrete(){
-
-    }
+    private EnemyFactoryConcrete() { }
 
     public static EnemyFactory getInstace(){
         if (instace==null)
             instace = new EnemyFactoryConcrete();
         return instace;
-
     }
 
     public DynamicSprite createEnemy(EnemyType type, TileMap tm,int row, int col) throws InvalidParameterException {
@@ -44,8 +41,8 @@ public class EnemyFactoryConcrete implements EnemyFactory {
                 //shark.setPosition(tm.getTileSize()*col,tm.getTileSize()*row);
                 //return shark;
 
-                default:
-                    throw new InvalidParameterException();
+            default:
+                throw new InvalidParameterException();
 
         }
 
