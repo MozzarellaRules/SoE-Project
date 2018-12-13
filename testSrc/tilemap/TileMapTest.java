@@ -1,12 +1,11 @@
 package tilemap;
 
-import gamestate.Level1State;
+import gamestate.LevelOneState;
 import main.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotEquals;
-
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class TileMapTest extends Game {
     private TileMap tm;
@@ -18,8 +17,8 @@ class TileMapTest extends Game {
 
     @Test
     void testLoadMap() {
-        tm.loadTiles(Level1State.TILESET_PATH);
-        tm.loadMap(Level1State.MAP_PATH);
+        tm.loadTiles(LevelOneState.TILESET_PATH);
+        tm.loadMap(LevelOneState.MAP_PATH);
 
         assertNotEquals(tm.getNumRows(), 0);
         assertNotEquals(tm.getNumCols(), 0);

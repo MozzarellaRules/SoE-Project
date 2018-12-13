@@ -34,9 +34,9 @@ public class RemainingBullets extends Sprite implements IObserver {
     public void draw(Graphics2D g) {
         g.drawImage(image, 0, 25, null);
         g.setFont(new Font("Arial",Font.BOLD,12));
-        g.setColor(new Color(210, 225, 94));
+        g.setColor(new Color(212, 154, 60));
         g.drawString("x"+(remainingBullets), 25, 50);
-        g.setColor(new Color(1, 1, 78));
+        g.setColor(new Color(0, 0, 0));
         g.drawString("x"+(remainingBullets), 26, 51);
     }
 
