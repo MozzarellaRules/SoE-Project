@@ -79,7 +79,7 @@ public class MenuState extends GameState {
 
 	private void submitOption() {
 		if(currentChoice == 0)
-			gsm.setState(GameStateManager.LEVEL1STATE);
+			gsm.setState(GameStateManager.State.LEVEL1STATE);
 		else if(currentChoice == 1)
 			System.exit(0);
 	}

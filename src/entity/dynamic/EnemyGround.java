@@ -1,5 +1,7 @@
-package entity;
+package entity.dynamic;
 
+import entity.DynamicSprite;
+import entity.ImageAnimator;
 import entity.strategy.*;
 import tilemap.TileMap;
 
@@ -10,13 +12,13 @@ import java.util.ArrayList;
 
 public class EnemyGround extends DynamicSprite {
 
-    private int WALK_ROW = 0; // Walk state use row 0 of the sprite asset
-    private final int[] numFrames = {12}; // Row 0 has 12 frames
+    private int DEFAULT_ROW = 0;
+    private final int[] numFrames = {12};
 
     private boolean facingRight;
 
-    // Sprite imageAnimator
-    private ArrayList<BufferedImage[]> sprites;
+    private boolean isDead;
+    private int health;
 
     public EnemyGround(TileMap tm){
         super(tm);
@@ -24,41 +26,36 @@ public class EnemyGround extends DynamicSprite {
         setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
         setStrategyY(StrategyFactory.getInstance().getFallStrategy());
 
-        // Init parameters
-        collisionBoxHeight = 25 ;
-        collisionBoxWidth = 20;
+        setCollisionBoxWidth(20);
+        setCollisionBoxHeight(25);
+
         health = 2;
         isDead = false;
-        current_row = WALK_ROW;
+        facingRight = true;
 
-        try {
-            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/Enemies/BaseEnemy.png"));
-            sprites = new ArrayList<BufferedImage[]>();
-            for(int i=0; i<1; i++) { // i = number of row
-                BufferedImage[] bi= new BufferedImage[numFrames[i]];
-                for(int j=0; j<numFrames[i]; j++) { // j = number of column
-                    bi[j] = spritesheet.getSubimage(j*width, i*height, width, height);
-                }
-                sprites.add(bi);
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+        loadSpriteAsset(numFrames, "/Enemies/BaseEnemy.png");
 
         // Animate sprite
         imageAnimator = new ImageAnimator();
-        imageAnimator.setFrames(sprites.get(WALK_ROW));
+        imageAnimator.setFrames(getSprites().get(DEFAULT_ROW));
         imageAnimator.setDelay(70);
     }
 
+    /**
+     * GETTERS
+     */
+    public boolean isDead(){ return isDead; }
     public boolean isFacingRight() { return facingRight; }
+
+    /**
+     * SETTERS
+     */
     public void setFacingRight(boolean facingRight) { this.facingRight = facingRight; }
 
-    private boolean isDead;
-    private int health;
-
-    public boolean isDead(){ return isDead; }
-
+    /**
+     * The player hit the enemy. Set a damage.
+     * @param damage
+     */
     public void hit(int damage){
         health -= damage;
 
@@ -75,8 +72,10 @@ public class EnemyGround extends DynamicSprite {
         getNextDelta();
         checkTileMapCollision();
 
-        if (getDy() == 0){
-            if (getDx() == 0){
+        if (getDy() == 0) { // Not falling
+            // Force no-movement on the Y-axis
+            if (getDx() == 0) { // Not moving -> collision detected
+                // Revert facing and moving strategy
                 if(isFacingRight()) {
                     setFacingRight(false);
                     setStrategyX(StrategyFactory.getInstance().getMoveLeftStrategy());
@@ -86,7 +85,7 @@ public class EnemyGround extends DynamicSprite {
                     setStrategyX(StrategyFactory.getInstance().getMoveRightStrategy());
                 }
             }
-        } else {
+        } else if(getDy() > 1) { // If falling -> no movement on the X-axis
             setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
         }
 

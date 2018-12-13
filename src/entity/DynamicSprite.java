@@ -6,7 +6,10 @@ import entity.strategy.StrategyY;
 import tilemap.Tile;
 import tilemap.TileMap;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public abstract class DynamicSprite extends Sprite {
     private boolean falling;
@@ -31,20 +34,22 @@ public abstract class DynamicSprite extends Sprite {
         super(tm);
     }
 
+    /**
+     * GETTERS
+     */
     public boolean isFalling() { return falling; }
-
     public StrategyX getStrategyX() { return strategyX; }
     public StrategyY getStrategyY() { return strategyY; }
 
-    public void setStrategyX(StrategyX strategyX) {
-        this.strategyX = strategyX;
-    }
-    public void setStrategyY(StrategyY strategyY) {
-        this.strategyY = strategyY;
-    }
+    /**
+     * SETTERS
+     */
+    public void setStrategyX(StrategyX strategyX) { this.strategyX = strategyX; }
+    public void setStrategyY(StrategyY strategyY) { this.strategyY = strategyY; }
 
     /**
      * Set dx/dy to zero if the character collide with a blocked tile
+     * Set current position
      */
     public void checkTileMapCollision() {
         currCol = (int)getX()/tileSize;
@@ -63,7 +68,7 @@ public abstract class DynamicSprite extends Sprite {
         }
         if(getDy()<0) { // Jumping
             if(isTopLeftBlocked|| isTopRightBlocked) { // Tile above is blocked
-                setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
+                setDy(0);
                 yCurrent = currRow*tileSize+collisionBoxHeight/2;
                 falling = true;
             }
@@ -73,7 +78,7 @@ public abstract class DynamicSprite extends Sprite {
         }
         else if(getDy()>0) { // Falling
             if(isBottomLeftBlocked || isBottomRightBlocked) { // Tile below is blocked
-                setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
+                setDy(0);
                 yCurrent = (currRow+1)*tileSize-collisionBoxHeight/2;
                 falling = false;
             }
@@ -81,23 +86,24 @@ public abstract class DynamicSprite extends Sprite {
                 yCurrent += getDy();
             }
         }
+
         /**
          * Movement on the X-axis
          */
         calculateCorners(xNew,getY());
         if(getDx() < 0) { // Left movement
             if(isTopLeftBlocked|| isTopRightBlocked) { // The block on the left is blocked
-                setStrategyX(StrategyFactory.getInstance().getStopStrategyX()); // Stop
-                xCurrent = (currCol)*tileSize+ collisionBoxWidth /2;
+                setDx(0);
+                xCurrent = (currCol)*tileSize+collisionBoxWidth/2;
             }
             else {
                 xCurrent += getDx();
             }
         }
-        else if(getDx()>0) { // Right movement
+        else if(getDx() > 0) { // Right movement
             if(isTopRightBlocked || isBottomRightBlocked) { // The block on the right is blocked
-                setStrategyX(StrategyFactory.getInstance().getStopStrategyX()); // Stop
-                xCurrent = (currCol+1)*tileSize- collisionBoxWidth /2;
+                setDx(0);
+                xCurrent = (currCol+1)*tileSize-collisionBoxWidth/2;
             }
             else {
                 xCurrent += getDx();
@@ -157,6 +163,9 @@ public abstract class DynamicSprite extends Sprite {
         isBottomRightBlocked = tileMap.getType(bottomTileRow, rightTileColumn) == Tile.BLOCKED;
     }
 
+    /**
+     * Update dx/dy according to the current strategy
+     */
     public void getNextDelta() {
         double dx = getStrategyX().recalcDx(getDx());
         double dy = getStrategyY().recalcDy(getDy());

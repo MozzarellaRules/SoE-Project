@@ -1,5 +1,9 @@
-package entity;
+package entity.visual;
 
+import entity.IObservable;
+import entity.IObserver;
+import entity.Sprite;
+import entity.dynamic.PlayerGround;
 import tilemap.TileMap;
 
 import javax.imageio.ImageIO;
@@ -35,16 +39,20 @@ public class Health extends Sprite implements IObserver {
     }
 
     @Override
-    public void updateObserver(IObservable obj, Object arg) {
-        Player player = (Player) obj;
-        health = (int) arg;
-    }
-
     public void update() {
         setHealthImage();
     }
 
+    @Override
     public void draw(Graphics2D g) {
         g.drawImage(subImageHealth, 10, 10, null);
+    }
+
+    @Override
+    public void updateObserver(IObservable context, IObservable.PlayerEvent event) {
+        if(event == IObservable.PlayerEvent.HEALTH_MODIFIED) {
+            PlayerGround player = (PlayerGround) context;
+            setHealth(player.getHealth());
+        }
     }
 }

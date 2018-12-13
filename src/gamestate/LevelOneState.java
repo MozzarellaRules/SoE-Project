@@ -4,8 +4,14 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import entity.*;
+import entity.dynamic.EnemyGround;
+import entity.dynamic.PlayerGround;
+import entity.dynamic.Projectile;
+import entity.objects.Ammo;
+import entity.objects.TreasureMap;
 import entity.strategy.*;
+import entity.visual.Health;
+import entity.visual.RemainingBullets;
 import main.GamePanelController;
 import tilemap.*;
 
@@ -13,7 +19,7 @@ import tilemap.*;
 public class LevelOneState extends GameState {
 	public static String BG_PATH = "/Background/full_background2.jpeg";
 	public static String TILESET_PATH = "/Tilesets/tileset_sarah.png";
-	public static String MAP_PATH = "/Maps/map_sarah.txt";
+	public static String MAP_PATH = "/Maps/new_map.txt";
 
 	private GameStateManager gsm;
 	
@@ -25,6 +31,8 @@ public class LevelOneState extends GameState {
 	private ArrayList<Ammo> ammo;
 	private ArrayList<Projectile> projectiles;
 	private Health health;
+	private RemainingBullets remainingBullets;
+	private TreasureMap treasureMap;
 
 	public LevelOneState(GameStateManager gsm) {
 		this.gsm = gsm;
@@ -42,9 +50,11 @@ public class LevelOneState extends GameState {
 		this.ammo = new ArrayList<>();
 
 		createPlayer();
+		createRemainingBullets();
 		createHealth();
 		createEnemies();
 		createAmmo();
+		createTreasureMap();
 
 		bg = new Background(BG_PATH,0.5);
 
@@ -57,6 +67,12 @@ public class LevelOneState extends GameState {
 		this.player.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*45);
 	}
 
+	private void createRemainingBullets() {
+		this.remainingBullets = new RemainingBullets(tileMap);
+		this.remainingBullets.setRemainingBullets(player.getRemainingBullets());
+		this.player.addObserver(remainingBullets);
+	}
+
 	public void createHealth() {
 		this.health = new Health(tileMap);
 		this.health.setHealth(player.getMaxHealth());
@@ -67,12 +83,11 @@ public class LevelOneState extends GameState {
 		EnemyGround e1 = new EnemyGround(tileMap);
 		EnemyGround e2 = new EnemyGround(tileMap);
 
-		e1.setFacingRight(true);
-
 		e1.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*47);
-		e2.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*54);
+		e2.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*50);
 
 		enemies.add(e1);
+		enemies.add(e2);
 	}
 
 	public void createAmmo() {
@@ -84,6 +99,11 @@ public class LevelOneState extends GameState {
 
 		ammo.add(ammo1);
 		ammo.add(ammo2);
+	}
+
+	public void createTreasureMap() {
+		treasureMap = new TreasureMap(tileMap);
+		treasureMap.setPosition(tileMap.getTileSize()*12,tileMap.getTileSize()*48);
 	}
 
 	public void createProjectile() {
@@ -104,7 +124,7 @@ public class LevelOneState extends GameState {
 
 		// If the player is dead... set state GameOver
 		if(player.isDead() || player.notOnScreen()){
-			gsm.setState(GameStateManager.GAMEOVER);
+			gsm.setState(GameStateManager.State.GAMEOVER);
 		}
 
         // Update enemies
@@ -139,6 +159,10 @@ public class LevelOneState extends GameState {
 		}
 
 		health.update();
+		remainingBullets.update();
+		treasureMap.update();
+
+		checkWin();
 	}
 
 	private void checkEnemyHit(Projectile p){
@@ -156,6 +180,12 @@ public class LevelOneState extends GameState {
 		}
 	}
 
+	private void checkWin() {
+		if(player.intersects(treasureMap)) {
+			gsm.setState(GameStateManager.State.LEVEL2STATE);
+		}
+	}
+
 	@Override
 	public void draw(Graphics2D g) {
 		bg.draw(g);
@@ -163,6 +193,8 @@ public class LevelOneState extends GameState {
 
 		player.draw(g);
 		health.draw(g);
+		remainingBullets.draw(g);
+		treasureMap.draw(g);
 
 		for(EnemyGround e : enemies) {
 			e.draw(g);
@@ -177,32 +209,48 @@ public class LevelOneState extends GameState {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode()==KeyEvent.VK_LEFT)
-			player.setStrategyX(StrategyFactory.getInstance().getMoveLeftStrategy());
-		else if(e.getKeyCode()==KeyEvent.VK_RIGHT)
-			player.setStrategyX(StrategyFactory.getInstance().getMoveRightStrategy());
-		else if(e.getKeyCode()==KeyEvent.VK_UP) {
-			if(!player.isFalling()) // No jump in mid-air
-				player.setStrategyY(StrategyFactory.getInstance().getJumpStrategy());
-		}
-		else if(e.getKeyCode()==KeyEvent.VK_SPACE) {
-			if(player.getRemainingBullets() > 0) {
-				createProjectile();
-				player.setFiring(true);
-				player.setRemainingBullets(player.getRemainingBullets()-1);
-			}
+		switch(e.getKeyCode()) {
+			case KeyEvent.VK_LEFT:
+				player.setStrategyX(StrategyFactory.getInstance().getMoveLeftStrategy());
+				player.setMovingLeft(true);
+				break;
+			case KeyEvent.VK_RIGHT:
+				player.setStrategyX(StrategyFactory.getInstance().getMoveRightStrategy());
+				player.setMovingRight(true);
+				break;
+			case KeyEvent.VK_UP:
+				if(!player.isFalling()) // No jump in mid-air
+					player.setStrategyY(StrategyFactory.getInstance().getJumpStrategy());
+				break;
+			case KeyEvent.VK_SPACE:
+				if(player.getRemainingBullets() > 0) {
+					createProjectile();
+					player.setFiring(true);
+					player.setRemainingBullets(player.getRemainingBullets()-1);
+				}
+				break;
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(e.getKeyCode()==KeyEvent.VK_LEFT)
-			player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-		else if(e.getKeyCode()==KeyEvent.VK_RIGHT)
-			player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-		else if(e.getKeyCode()==KeyEvent.VK_UP)
-		    player.setStrategyY(StrategyFactory.getInstance().getFallStrategy());
-		else if(e.getKeyCode()==KeyEvent.VK_SPACE)
-			player.setFiring(false);
+		switch(e.getKeyCode()) {
+			case KeyEvent.VK_LEFT:
+				if(!player.isMovingRight())
+					player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
+				player.setMovingLeft(false);
+				break;
+			case KeyEvent.VK_RIGHT:
+				if(!player.isMovingLeft())
+					player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
+				player.setMovingRight(false);
+				break;
+			case KeyEvent.VK_UP:
+				player.setStrategyY(StrategyFactory.getInstance().getFallStrategy());
+				break;
+			case KeyEvent.VK_SPACE:
+				player.setFiring(false);
+				break;
+		}
 	}
 }

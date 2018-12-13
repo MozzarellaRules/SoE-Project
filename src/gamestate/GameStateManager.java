@@ -4,24 +4,35 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class GameStateManager implements KeyListener {
-	public static final int MENUSTATE = 0;
-	public static final int LEVEL1STATE = 1;
-	public static final int GAMEOVER = 2;
+	public static enum State {
+		MENUSTATE,
+		LEVEL1STATE,
+		LEVEL2STATE,
+		GAMEOVER
+	}
 
-	private ArrayList<GameState> states;
-	private GameState currentState;
+	private ArrayList<gamestate.GameState> states;
+	private gamestate.GameState currentState;
 	
 	public GameStateManager() {
-		states = new ArrayList<>();
-		states.add(new MenuState(this));
-		states.add(new LevelOneState(this));
-		states.add(new GameOverState(this));
-
-		currentState = states.get(LEVEL1STATE);
+		currentState = new LevelOneState(this);
 	}
 	
-	public void setState(int state) {
-		currentState = states.get(state);
+	public void setState(State state) {
+		switch(state) {
+			case MENUSTATE:
+				currentState = new MenuState(this);
+				break;
+			case LEVEL1STATE:
+				currentState = new LevelOneState(this);
+				break;
+			case LEVEL2STATE:
+				currentState = new LevelTwoState(this);
+				break;
+			case GAMEOVER:
+				currentState = new GameOverState(this);
+				break;
+		}
 		currentState.init();
 	}
 	

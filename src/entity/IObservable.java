@@ -4,8 +4,13 @@ import java.util.Observer;
 
 public interface IObservable {
 
-    void addObserver(IObserver o);
-    void deleteObserver(IObserver o);
-    void notifyObserver();
+    enum PlayerEvent {
+        HEALTH_MODIFIED,
+        BULLETS_MODIFIED
+    }
+
+    void addObserver(IObserver obj);
+    void deleteObserver(IObserver obj);
+    void notifyObserver(PlayerEvent event);
 
 }

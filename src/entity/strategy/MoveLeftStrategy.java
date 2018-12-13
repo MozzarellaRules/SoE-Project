@@ -11,6 +11,8 @@ public class MoveLeftStrategy implements StrategyX {
 
     @Override
     public double recalcDx(double currentValue) {
+        //System.out.println(currentValue);
+
         double dx = currentValue-moveSpeed; // speed increases progressively
         if(dx < -maxSpeed)
             dx = -maxSpeed; // max speed reached
