@@ -1,6 +1,6 @@
 package gamestate;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -32,6 +32,8 @@ public class LevelOneState extends GameState {
 	private Health health;
 	private RemainingBullets remainingBullets;
 	private TreasureMap treasureMap;
+
+	private EnemyWaterOctopus octopus;
 
 	public LevelOneState(GameStateManager gsm) {
 		this.gsm = gsm;
@@ -80,43 +82,40 @@ public class LevelOneState extends GameState {
 
 	public void createEnemies() {
 		EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
+		int pos[][] = {
+				//{48,14},
+				{51,15},
+				{51,121},
+				{51,52},
+				{51,68},
+				{48,95},
+				{48,118},
+		};
 
-		try{
-		EnemyGround e1 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,48,14);
-		EnemyGround e2 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,51,15);
-		EnemyGround e3 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,51,121);
-		EnemyGround e4 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,51,52);
-		EnemyGround e5 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,51,68);
-		EnemyGround e6 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,48,95);
-		EnemyGround e7 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,48,118);
-
-
-
-
-
-		enemies.add(e1);
-		enemies.add(e2);
-		enemies.add(e3);
-		enemies.add(e4);
-		enemies.add(e5);
-		enemies.add(e6);
-		enemies.add(e7);
+		try {
+			for(int i=0; i<pos.length; i++) {
+				enemies.add((EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,pos[i][0],pos[i][1]));
+			}
 		}
-
 		catch (InvalidParameterException e){
 			System.err.println("Invalid Enemy Creation Type");
 		}
+
+		octopus = new EnemyWaterOctopus(tileMap);
+		octopus.setPosition(18*tileMap.getTileSize(), 48*tileMap.getTileSize());
 	}
 
 	public void createAmmo() {
-		Ammo ammo1 = new Ammo(tileMap);
-		Ammo ammo2 = new Ammo(tileMap);
+		int pos[][] = {
+				{48,16},
+				{51,16}
+		};
 
-		ammo1.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*48+6);
-		ammo2.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*51+6);
-
-		ammo.add(ammo1);
-		ammo.add(ammo2);
+		for(int i=0; i<pos.length; i++) {
+			Ammo a = new Ammo(tileMap);
+			a.setPosition(tileMap.getTileSize()*pos[i][1],tileMap.getTileSize()*pos[i][0]+6);
+			ammo.add(a);
+		}
 	}
 
 	public void createTreasureMap() {
@@ -125,18 +124,18 @@ public class LevelOneState extends GameState {
 	}
 
 	public void createProjectile() {
-		Projectile projectile = new Projectile(tileMap, player.isFacingRight());
-		System.out.println(player.getX());
-		projectile.setPosition(player.getX(), player.getY());
-		projectiles.add(projectile);
+		Projectile p = new Projectile(tileMap, player.isFacingRight());
+		p.setPosition(player.getX(), player.getY());
+		projectiles.add(p);
 	}
 
 	@Override
 	public void update() {
 		player.update();
+		octopus.update();
 
 		// The camera follows the character
-		tileMap.setPosition(GamePanelController.WIDTH/2- player.getX(), GamePanelController.HEIGHT/2- player.getY());
+		tileMap.setPosition(GamePanelController.WIDTH/2-player.getX(), GamePanelController.HEIGHT/2-player.getY());
 
 		// The background moves with the character
 		bg.setPosition(tileMap.getX(), 0);
@@ -209,21 +208,23 @@ public class LevelOneState extends GameState {
 		bg.draw(g);
 		tileMap.draw(g);
 
+		octopus.draw(g);
+
 		player.draw(g);
 		health.draw(g);
 		remainingBullets.draw(g);
 		treasureMap.draw(g);
 
-		for(EnemyGround e : enemies) {
-			g.fillRect((int)e.getRectangle().getX()+tileMap.getX(),(int)e.getRectangle().getY()+tileMap.getY(), (int)e.getRectangle().getWidth(), (int)e.getRectangle().getHeight());
-			e.draw(g);
-		}
 		for(Ammo a : ammo) {
 			a.draw(g);
 		}
 		for(Projectile p : projectiles) {
-			g.fillRect((int)p.getRectangle().getX()+tileMap.getX(),(int)p.getRectangle().getY()+tileMap.getY(), (int)p.getRectangle().getWidth(), (int)p.getRectangle().getHeight());
 			p.draw(g);
+		}
+		for(EnemyGround e : enemies) {
+			//Rectangle r = e.getRectangle();
+			//g.fillRect((int)r.getX()+tileMap.getX(),(int)r.getY()+tileMap.getY(), (int)r.getWidth(), (int)r.getHeight());
+			e.draw(g);
 		}
 	}
 

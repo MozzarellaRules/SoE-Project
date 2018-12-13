@@ -21,31 +21,24 @@ public class EnemyFactoryConcrete implements EnemyFactory {
 
         switch(type){
             case PIRATE:
-                EnemyGround enemy = new EnemyGround(tm);
-                enemy.setPosition(tm.getTileSize()*col,tm.getTileSize()*row);
-                return enemy;
+                EnemyGround enemyGround = new EnemyGround(tm);
+                enemyGround.setPosition(tm.getTileSize()*col,tm.getTileSize()*row);
+                return enemyGround;
 
             case OKTOPUS:
-                EnemyGround enemy1 = new EnemyGround(tm);
-                enemy1.setPosition(row,col);
-                return enemy1;
-               // EnemyOktopus oktopus = new EnemyOktopus(tm);
-                //oktopus.setPosition(tm.getTileSize()*col,tm.getTileSize()*row);
-                //return oktopus;
+                EnemyWaterOctopus enemyOctopus = new EnemyWaterOctopus(tm);
+                enemyOctopus.setPosition(tm.getTileSize()*col,tm.getTileSize()*row);
+                return enemyOctopus;
 
             case SHARK:
-                EnemyGround enemy2 = new EnemyGround(tm);
-                enemy2.setPosition(row,col);
-                return enemy2;
-                // EnemyShark shark = new EnemyOktopus(tm);
-                //shark.setPosition(tm.getTileSize()*col,tm.getTileSize()*row);
-                //return shark;
+                EnemyGround enemyShark = new EnemyGround(tm);
+                enemyShark.setPosition(tm.getTileSize()*col,tm.getTileSize()*row);
+                return enemyShark;
 
             default:
                 throw new InvalidParameterException();
 
         }
-
 
     }
 }

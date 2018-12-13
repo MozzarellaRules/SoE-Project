@@ -6,18 +6,15 @@ import entity.strategy.StrategyY;
 import tilemap.Tile;
 import tilemap.TileMap;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public abstract class DynamicSprite extends Sprite {
     private boolean falling;
 
-    private boolean isTopLeftBlocked;
-    private boolean isTopRightBlocked;
-    private boolean isBottomLeftBlocked;
-    private boolean isBottomRightBlocked;
+    protected boolean topLeftBlocked;
+    protected boolean topRightBlocked;
+    private boolean bottomLeftBlocked;
+    private boolean bottomRightBlocked;
 
     private int currRow;
     private int currCol;
@@ -63,13 +60,8 @@ public abstract class DynamicSprite extends Sprite {
          * Movement on the Y-axis
          */
         calculateCorners(getX(), yNew);
-
-        if(isFalling()) {
-
-            setStrategyY(StrategyFactory.getInstance().getFallStrategy());
-        }
-        if(getDy()<0) { // Jumping
-            if(isTopLeftBlocked|| isTopRightBlocked) { // Tile above is blocked
+        if(getDy() < 0) { // Jumping
+            if(topLeftBlocked || topRightBlocked) { // Tile above is blocked
                 setDy(0);
                 yCurrent = currRow*tileSize+collisionBoxHeight/2;
                 falling = true;
@@ -78,8 +70,8 @@ public abstract class DynamicSprite extends Sprite {
                 yCurrent += getDy();
             }
         }
-        else if(getDy()>0) { // Falling
-            if(isBottomLeftBlocked || isBottomRightBlocked) { // Tile below is blocked
+        else if(getDy() > 0) { // Falling
+            if(bottomLeftBlocked || bottomRightBlocked) { // Tile below is blocked
                 setDy(0);
                 yCurrent = (currRow+1)*tileSize-collisionBoxHeight/2;
                 falling = false;
@@ -94,7 +86,7 @@ public abstract class DynamicSprite extends Sprite {
          */
         calculateCorners(xNew,getY());
         if(getDx() < 0) { // Left movement
-            if(isTopLeftBlocked|| isTopRightBlocked) { // The block on the left is blocked
+            if(topLeftBlocked || topRightBlocked) { // The block on the left is blocked
                 setDx(0);
                 xCurrent = (currCol)*tileSize+collisionBoxWidth/2;
             }
@@ -103,7 +95,7 @@ public abstract class DynamicSprite extends Sprite {
             }
         }
         else if(getDx() > 0) { // Right movement
-            if(isTopRightBlocked || isBottomRightBlocked) { // The block on the right is blocked
+            if(topRightBlocked || bottomRightBlocked) { // The block on the right is blocked
                 setDx(0);
                 xCurrent = (currCol+1)*tileSize-collisionBoxWidth/2;
             }
@@ -115,7 +107,7 @@ public abstract class DynamicSprite extends Sprite {
         // Set falling True if the block below the character are normal
         if(!falling) {
             calculateCorners(getX(), yNew +1);
-            if(!isBottomLeftBlocked && !isBottomRightBlocked) {
+            if(!bottomLeftBlocked && !bottomRightBlocked) {
                 setStrategyY(StrategyFactory.getInstance().getFallStrategy());
                 falling = true;
             }
@@ -140,7 +132,7 @@ public abstract class DynamicSprite extends Sprite {
 
     /**
      * Determine if the tiles around the player are blocked
-     * Set the variables isTopLeftBlocked, isTopRightBlocked, isBottomLeftBlocked, isBottomRightBlocked
+     * Set the variables topLeftBlocked, topRightBlocked, bottomLeftBlocked, bottomRightBlocked
      * @param x
      * @param y
      */
@@ -156,15 +148,15 @@ public abstract class DynamicSprite extends Sprite {
         // Reached the bounds of the map
         if(topTileRow < 0 || bottomTileRow >= tileMap.getNumRows() ||
                 leftTileColumn < 0 || rightTileColumn >= tileMap.getNumCols()) {
-            isTopLeftBlocked = isTopRightBlocked = isBottomLeftBlocked = isBottomRightBlocked = false;
+            topLeftBlocked = topRightBlocked = bottomLeftBlocked = bottomRightBlocked = false;
             return;
         }
 
         // Determine the type of the tile around the character
-        isTopLeftBlocked = tileMap.getType(topTileRow, leftTileColumn) == Tile.BLOCKED;
-        isTopRightBlocked = tileMap.getType(topTileRow, rightTileColumn) == Tile.BLOCKED;
-        isBottomLeftBlocked = tileMap.getType(bottomTileRow, leftTileColumn) == Tile.BLOCKED;
-        isBottomRightBlocked = tileMap.getType(bottomTileRow, rightTileColumn) == Tile.BLOCKED;
+        topLeftBlocked = tileMap.getType(topTileRow, leftTileColumn) == Tile.BLOCKED;
+        topRightBlocked = tileMap.getType(topTileRow, rightTileColumn) == Tile.BLOCKED;
+        bottomLeftBlocked = tileMap.getType(bottomTileRow, leftTileColumn) == Tile.BLOCKED;
+        bottomRightBlocked = tileMap.getType(bottomTileRow, rightTileColumn) == Tile.BLOCKED;
     }
 
     /**

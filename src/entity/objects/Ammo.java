@@ -18,7 +18,6 @@ public class Ammo extends Sprite {
         super(tm);
 
         loadSpriteAsset(numFrames, "/Objects/AmmoDrop.png");
-
         imageAnimator = new ImageAnimator();
         imageAnimator.setFrames(getSprites().get(DEFAULT_ROW));
         imageAnimator.setDelay(100);

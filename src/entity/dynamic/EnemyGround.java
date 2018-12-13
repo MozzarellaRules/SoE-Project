@@ -67,15 +67,12 @@ public class EnemyGround extends DynamicSprite {
         }
     }
 
-
-
     @Override
     public void update(){
         getNextDelta();
         checkTileMapCollision();
 
-        if (getDy() == 0) { // Not falling
-            // Force no-movement on the Y-axis
+        if(!isFalling()) { // Not falling
             if (getDx() == 0) { // Not moving -> collision detected
                 // Revert facing and moving strategy
                 if(isFacingRight()) {
@@ -87,7 +84,7 @@ public class EnemyGround extends DynamicSprite {
                     setStrategyX(StrategyFactory.getInstance().getMoveRightStrategy());
                 }
             }
-        } else if(getDy() > 1) { // If falling -> no movement on the X-axis
+        } else { // If falling -> no movement on the X-axis
             setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
         }
 
