@@ -13,9 +13,14 @@ public class Projectile extends DynamicSprite {
     private boolean facingRight;
     private boolean remove;
 
+
     public Projectile(TileMap tm, boolean facingRight) {
         super(tm);
         this.facingRight = facingRight;
+
+
+
+
 
         if(facingRight) { // Set the direction of the projectile
             setStrategyX(StrategyFactory.getInstance().getMoveRightStrategy());
@@ -36,9 +41,11 @@ public class Projectile extends DynamicSprite {
 
     @Override
     public void update() {
+        System.out.println(getX()+": Before Update");
         getNextDelta();
         setDx(getDx()*2);
         checkTileMapCollision();
+
 
         // Force no-movement on the Y-axis
         setStrategyY(StrategyFactory.getInstance().getStopStrategyY());

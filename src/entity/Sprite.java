@@ -73,10 +73,10 @@ public abstract class Sprite {
 
 	public Rectangle getRectangle() {
 		return new Rectangle(
-				(int)x-collisionBoxWidth,
-				(int)y-collisionBoxHeight,
-				collisionBoxWidth,
-				collisionBoxHeight);
+				(int)x,
+				(int)y,
+				width,
+				height);
 	}
 
 	public boolean notOnScreen() {

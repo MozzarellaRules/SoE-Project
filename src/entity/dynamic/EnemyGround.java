@@ -27,7 +27,7 @@ public class EnemyGround extends DynamicSprite {
         setStrategyY(StrategyFactory.getInstance().getFallStrategy());
 
         setCollisionBoxWidth(20);
-        setCollisionBoxHeight(25);
+        setCollisionBoxHeight(30);
 
         health = 2;
         isDead = false;
@@ -66,6 +66,8 @@ public class EnemyGround extends DynamicSprite {
             isDead = true;
         }
     }
+
+
 
     @Override
     public void update(){

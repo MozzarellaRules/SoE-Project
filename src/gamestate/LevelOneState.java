@@ -2,11 +2,10 @@ package gamestate;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-import entity.dynamic.EnemyGround;
-import entity.dynamic.PlayerGround;
-import entity.dynamic.Projectile;
+import entity.dynamic.*;
 import entity.objects.Ammo;
 import entity.objects.TreasureMap;
 import entity.strategy.*;
@@ -80,14 +79,33 @@ public class LevelOneState extends GameState {
 	}
 
 	public void createEnemies() {
-		EnemyGround e1 = new EnemyGround(tileMap);
-		EnemyGround e2 = new EnemyGround(tileMap);
+		EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
 
-		e1.setPosition(tileMap.getTileSize()*16,tileMap.getTileSize()*47);
-		e2.setPosition(tileMap.getTileSize()*14,tileMap.getTileSize()*50);
+		try{
+		EnemyGround e1 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,48,14);
+		EnemyGround e2 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,51,15);
+		EnemyGround e3 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,51,121);
+		EnemyGround e4 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,51,52);
+		EnemyGround e5 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,51,68);
+		EnemyGround e6 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,48,95);
+		EnemyGround e7 = (EnemyGround) enemyFactory.createEnemy(EnemyFactory.EnemyType.PIRATE,tileMap,48,118);
+
+
+
+
 
 		enemies.add(e1);
 		enemies.add(e2);
+		enemies.add(e3);
+		enemies.add(e4);
+		enemies.add(e5);
+		enemies.add(e6);
+		enemies.add(e7);
+		}
+
+		catch (InvalidParameterException e){
+			System.err.println("Invalid Enemy Creation Type");
+		}
 	}
 
 	public void createAmmo() {
@@ -103,12 +121,13 @@ public class LevelOneState extends GameState {
 
 	public void createTreasureMap() {
 		treasureMap = new TreasureMap(tileMap);
-		treasureMap.setPosition(tileMap.getTileSize()*12,tileMap.getTileSize()*48);
+		treasureMap.setPosition(tileMap.getTileSize()*121,tileMap.getTileSize()*51);
 	}
 
 	public void createProjectile() {
 		Projectile projectile = new Projectile(tileMap, player.isFacingRight());
-		projectile.setPosition(player.getX()-3, player.getY());
+		System.out.println(player.getX());
+		projectile.setPosition(player.getX(), player.getY());
 		projectiles.add(projectile);
 	}
 
@@ -167,7 +186,8 @@ public class LevelOneState extends GameState {
 
 	private void checkEnemyHit(Projectile p){
 		for(EnemyGround e : enemies){
-			if(e.intersects(p)) {
+			if(p.intersects(e)) {
+				System.out.println("SHOT");
 				e.hit(1);
 				p.setRemove(true);
 			}

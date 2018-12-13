@@ -63,7 +63,9 @@ public abstract class DynamicSprite extends Sprite {
          * Movement on the Y-axis
          */
         calculateCorners(getX(), yNew);
+
         if(isFalling()) {
+
             setStrategyY(StrategyFactory.getInstance().getFallStrategy());
         }
         if(getDy()<0) { // Jumping
@@ -133,6 +135,8 @@ public abstract class DynamicSprite extends Sprite {
         Rectangle r2 = s.getRectangle();
         return r1.intersects(r2);
     }
+
+
 
     /**
      * Determine if the tiles around the player are blocked
