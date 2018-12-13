@@ -7,6 +7,8 @@ public class StrategyFactory {
     private MoveRightStrategy moveRightStrategy;
     private JumpStrategy jumpStrategy;
     private FallStrategy fallStrategy;
+    private SwimDownStrategyY swimDownStrategyY;
+    private SwimUpStrategyY swimUpStrategyY;
 
     private static StrategyFactory instance;
 
@@ -17,6 +19,8 @@ public class StrategyFactory {
         moveRightStrategy = new MoveRightStrategy();
         jumpStrategy = new JumpStrategy();
         fallStrategy = new FallStrategy();
+        swimDownStrategyY = new SwimDownStrategyY();
+        swimUpStrategyY = new SwimUpStrategyY();
     }
 
     public static StrategyFactory getInstance() {
@@ -31,4 +35,7 @@ public class StrategyFactory {
     public MoveRightStrategy getMoveRightStrategy() { return moveRightStrategy; }
     public JumpStrategy getJumpStrategy() { return jumpStrategy; }
     public FallStrategy getFallStrategy() { return fallStrategy; }
+    public SwimUpStrategyY getSwimUpStrategyY(){ return swimUpStrategyY;}
+    public SwimDownStrategyY getSwimDownStrategyY(){ return swimDownStrategyY;}
+
 }

@@ -7,17 +7,21 @@ import tilemap.TileMap;
 
 import java.awt.*;
 
-public class EnemyWaterOctopus extends DynamicSprite {
+public class EnemyWaterOktopus extends DynamicSprite {
     private int DEFAULT_ROW = 0;
     private final int[] numFrames = {6};
+    private boolean up ;
 
-    public EnemyWaterOctopus(TileMap tm) {
+    public EnemyWaterOktopus(TileMap tm) {
         super(tm);
 
         setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-        setStrategyY(StrategyFactory.getInstance().getFallStrategy());
+        setStrategyY(StrategyFactory.getInstance().getSwimDownStrategyY()); // Initially the oktopus is moving down
 
-        loadSpriteAsset(numFrames, "/Enemies/Octopus.png");
+        up = false ; // This boolean value shows if the oktopus is moving up or down
+
+
+        loadSpriteAsset(numFrames, "/Enemies/Oktopus.png");
 
         // Animate sprite
         imageAnimator = new ImageAnimator();
@@ -27,8 +31,19 @@ public class EnemyWaterOctopus extends DynamicSprite {
 
     @Override
     public void update() {
+
         getNextDelta();
         checkTileMapCollision();
+
+        if(getDy()==0){ // collision detected
+            if(up){
+                up = false;
+                this.setStrategyY(StrategyFactory.getInstance().getSwimDownStrategyY());
+            }else {
+                up = true;
+                this.setStrategyY(StrategyFactory.getInstance().getSwimUpStrategyY());
+            }
+        }
 
         imageAnimator.update();
     }
