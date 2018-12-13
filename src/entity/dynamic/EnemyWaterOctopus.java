@@ -7,12 +7,12 @@ import tilemap.TileMap;
 
 import java.awt.*;
 
-public class EnemyWaterOktopus extends DynamicSprite {
+public class EnemyWaterOctopus extends DynamicSprite {
     private int DEFAULT_ROW = 0;
     private final int[] numFrames = {6};
     private boolean up ;
 
-    public EnemyWaterOktopus(TileMap tm) {
+    public EnemyWaterOctopus(TileMap tm) {
         super(tm);
 
         setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
