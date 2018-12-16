@@ -33,7 +33,7 @@ public class LevelOneState extends GameState {
 	private RemainingBullets remainingBullets;
 	private TreasureMap treasureMap;
 
-	private EnemyWaterOktopus octopus;
+	private EnemyWaterOctopus octopus;
 
 	public LevelOneState(GameStateManager gsm) {
 		this.gsm = gsm;
@@ -101,7 +101,7 @@ public class LevelOneState extends GameState {
 			System.err.println("Invalid Enemy Creation Type");
 		}
 
-		octopus = new EnemyWaterOktopus(tileMap);
+		octopus = new EnemyWaterOctopus(tileMap);
 		octopus.setPosition(18*tileMap.getTileSize(), 48*tileMap.getTileSize());
 	}
 
