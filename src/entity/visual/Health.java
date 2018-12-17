@@ -3,6 +3,7 @@ package entity.visual;
 import entity.IObservable;
 import entity.IObserver;
 import entity.Sprite;
+import entity.dynamic.Player;
 import entity.dynamic.PlayerGround;
 import tilemap.TileMap;
 
@@ -51,7 +52,7 @@ public class Health extends Sprite implements IObserver {
     @Override
     public void updateObserver(IObservable context, IObservable.PlayerEvent event) {
         if(event == IObservable.PlayerEvent.HEALTH_MODIFIED) {
-            PlayerGround player = (PlayerGround) context;
+            Player player = (Player) context;
             setHealth(player.getHealth());
         }
     }

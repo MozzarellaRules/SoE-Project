@@ -3,6 +3,7 @@ package gamestate;
 import entity.dynamic.*;
 import entity.objects.Item;
 import entity.strategy.StrategyFactory;
+import entity.visual.OxygenLevel;
 import main.GamePanelController;
 import tilemap.Background;
 import tilemap.TileMap;
@@ -27,6 +28,8 @@ public class LevelTwoState extends GameState {
     private ArrayList<EnemyWaterShark> sharks;
     private ArrayList<Item> oxygenBubbles;
 
+    private OxygenLevel oxygenLevel;
+
     public LevelTwoState(GameStateManager gsm) {
         this.gsm = gsm;
         init();
@@ -45,6 +48,9 @@ public class LevelTwoState extends GameState {
         createOctopusEnemies();
         createSharkEnemies();
         createOxygenBubbles();
+        this.oxygenLevel = new OxygenLevel(tileMap);
+        this.oxygenLevel.setOxygen(player.getOxygen());
+        player.addObserver(oxygenLevel);
 
         bg = new Background(BG_PATH,0.5);
 
@@ -133,6 +139,8 @@ public class LevelTwoState extends GameState {
         for(Item o : oxygenBubbles) {
             o.update();
         }
+
+        oxygenLevel.update();
     }
 
     @Override
@@ -153,6 +161,8 @@ public class LevelTwoState extends GameState {
         for(Item o : oxygenBubbles) {
             o.draw(g);
         }
+
+        oxygenLevel.draw(g);
     }
 
     @Override

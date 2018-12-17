@@ -59,6 +59,10 @@ public abstract class Player extends DynamicSprite implements IObservable {
      */
     public void setFactorY(double factorY){this.factorY = factorY;}
     public void setFactorX(double factorX){this.factorX = factorX;}
+    public void setHealth(int health){this.health = health;}
+    public void setMaxHealth(int maxHealth){this.maxHealth = maxHealth;}
+
+    public void setDead(boolean dead) { isDead = dead; }
 
     /**
      * An enemy hit the player. Decreases the health only if the flinching is set to false.
@@ -85,7 +89,7 @@ public abstract class Player extends DynamicSprite implements IObservable {
      * This method must be implemented by a concrete class.
      * It deals with the animation of the sprite.
      */
-    public abstract void hookAnimation();
+    public abstract void hookUpdate();
 
     @Override
     public void update(){
@@ -95,7 +99,7 @@ public abstract class Player extends DynamicSprite implements IObservable {
         if(!isFalling())
             setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
 
-        hookAnimation();
+        hookUpdate();
         getImageAnimator().update();
 
         // If the character was hit, he's immune for 1 sec

@@ -47,7 +47,7 @@ public class PlayerGround extends Player {
     }
 
     @Override
-    public void hookAnimation() {
+    public void hookUpdate() {
         if(getDx() > 0)
             setFacingRight(true);
         else if(getDx() < 0)
