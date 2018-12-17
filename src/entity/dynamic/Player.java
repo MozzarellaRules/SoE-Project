@@ -90,8 +90,6 @@ public abstract class Player extends DynamicSprite implements IObservable {
         setNextDelta(factorX,factorY);
         checkTileMapCollision();
 
-        System.out.println(getStrategyX().getClass().getName());
-
         if(!isFalling())
             setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
 
