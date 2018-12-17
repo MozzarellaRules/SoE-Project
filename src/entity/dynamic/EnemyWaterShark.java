@@ -1,6 +1,5 @@
 package entity.dynamic;
 
-import entity.DynamicSprite;
 import entity.ImageAnimator;
 import entity.strategy.StrategyFactory;
 import tilemap.TileMap;
@@ -10,15 +9,20 @@ import java.awt.*;
 public class EnemyWaterShark extends DynamicSprite {
     private int DEFAULT_ROW = 0;
     private final int[] numFrames = {8};
-    private boolean up ;
+
+    private double factorX;
+    private double factorY;
+
+
 
     public EnemyWaterShark(TileMap tm) {
         super(tm);
 
-        setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-        setStrategyY(StrategyFactory.getInstance().getSwimDownStrategyY()); // Initially the shark is moving left
+        setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
+        setStrategyY(StrategyFactory.getInstance().getStopStrategyY()); // Initially the shark is moving left
 
-        up = false ; // This boolean value shows if the shark is moving left or right
+        factorX = 2.0;
+        factorY= 0;
 
 
         loadSpriteAsset(numFrames, "/Enemies/Shark.png");
@@ -32,18 +36,9 @@ public class EnemyWaterShark extends DynamicSprite {
     @Override
     public void update() {
 
-        getNextDelta();
+        setNextDelta(factorX,factorY);
         checkTileMapCollision();
 
-        if(getDy()==0){ // collision detected
-            if(up){
-                up = false;
-                this.setStrategyY(StrategyFactory.getInstance().getSwimDownStrategyY());
-            }else {
-                up = true;
-                this.setStrategyY(StrategyFactory.getInstance().getSwimUpStrategyY());
-            }
-        }
 
         imageAnimator.update();
     }

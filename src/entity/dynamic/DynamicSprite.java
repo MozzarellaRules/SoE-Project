@@ -1,5 +1,6 @@
-package entity;
+package entity.dynamic;
 
+import entity.Sprite;
 import entity.strategy.StrategyFactory;
 import entity.strategy.StrategyX;
 import entity.strategy.StrategyY;
@@ -27,6 +28,13 @@ public abstract class DynamicSprite extends Sprite {
     private StrategyX strategyX;
     private StrategyY strategyY;
 
+    private boolean facingRight;
+
+
+    private boolean movingLeft;
+    private boolean movingRight;
+
+
     public DynamicSprite(TileMap tm) {
         super(tm);
     }
@@ -35,14 +43,24 @@ public abstract class DynamicSprite extends Sprite {
      * GETTERS
      */
     public boolean isFalling() { return falling; }
+    public boolean isFacingRight(){return facingRight;}
+
     public StrategyX getStrategyX() { return strategyX; }
     public StrategyY getStrategyY() { return strategyY; }
+
+    public boolean isMovingLeft() { return movingLeft; }
+    public boolean isMovingRight() { return movingRight; }
 
     /**
      * SETTERS
      */
     public void setStrategyX(StrategyX strategyX) { this.strategyX = strategyX; }
     public void setStrategyY(StrategyY strategyY) { this.strategyY = strategyY; }
+    public void setFalling(boolean falling){ this.falling = falling;}
+    public void setFacingRight(boolean facingRight){this.facingRight=facingRight;}
+
+    public void setMovingLeft(boolean movingLeft) { this.movingLeft = movingLeft; }
+    public void setMovingRight(boolean movingRight) { this.movingRight = movingRight; }
 
     /**
      * Set dx/dy to zero if the character collide with a blocked tile
@@ -65,6 +83,7 @@ public abstract class DynamicSprite extends Sprite {
                 setDy(0);
                 yCurrent = currRow*tileSize+collisionBoxHeight/2;
                 falling = true;
+
             }
             else {
                 yCurrent += getDy();
@@ -108,8 +127,9 @@ public abstract class DynamicSprite extends Sprite {
         if(!falling) {
             calculateCorners(getX(), yNew +1);
             if(!bottomLeftBlocked && !bottomRightBlocked) {
-                setStrategyY(StrategyFactory.getInstance().getFallStrategy());
                 falling = true;
+                setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
+
             }
         }
 
@@ -162,9 +182,9 @@ public abstract class DynamicSprite extends Sprite {
     /**
      * Update dx/dy according to the current strategy
      */
-    public void getNextDelta() {
-        double dx = getStrategyX().recalcDx(getDx());
-        double dy = getStrategyY().recalcDy(getDy());
+    public void setNextDelta(double factorX,double factorY) {
+        double dx = getStrategyX().recalcDx(getDx(),movingRight,factorX);
+        double dy = getStrategyY().recalcDy(getDy(),falling,factorY);
 
         setDx(dx);
         setDy(dy);
