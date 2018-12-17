@@ -108,7 +108,7 @@ public abstract class DynamicSprite extends Sprite {
         if(!falling) {
             calculateCorners(getX(), yNew +1);
             if(!bottomLeftBlocked && !bottomRightBlocked) {
-                setStrategyY(StrategyFactory.getInstance().getFallStrategy());
+                //setStrategyY(StrategyFactory.getInstance().getFallStrategy());
                 falling = true;
             }
         }

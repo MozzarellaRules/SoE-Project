@@ -8,7 +8,8 @@ public class GameStateManager implements KeyListener {
 		MENUSTATE,
 		LEVEL1STATE,
 		LEVEL2STATE,
-		GAMEOVER
+		GAMEOVER,
+		DEMO
 	}
 
 	private ArrayList<gamestate.GameState> states;
@@ -32,6 +33,8 @@ public class GameStateManager implements KeyListener {
 			case GAMEOVER:
 				currentState = new GameOverState(this);
 				break;
+			case DEMO:
+				currentState = new DemoState(this);
 		}
 		currentState.init();
 	}

@@ -31,7 +31,7 @@ public class EnemyFactoryConcrete implements EnemyFactory {
                 return enemyOctopus;
 
             case SHARK:
-                EnemyGround enemyShark = new EnemyGround(tm);
+                EnemyWaterShark enemyShark = new EnemyWaterShark(tm);
                 enemyShark.setPosition(tm.getTileSize()*col,tm.getTileSize()*row);
                 return enemyShark;
 

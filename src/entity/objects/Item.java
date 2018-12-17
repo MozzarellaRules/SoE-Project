@@ -6,23 +6,18 @@ import tilemap.TileMap;
 
 import java.awt.*;
 
-public class TreasureMap extends Sprite {
+public class Item extends Sprite {
 
     private int DEFAULT_ROW = 0;
-    private final int[] numFrames = {12};
 
-    public TreasureMap(TileMap tm) {
+    public Item(TileMap tm, String pathImage, int numFrames) {
         super(tm);
 
-        loadSpriteAsset(numFrames, "/Objects/Map.png");
+        loadSpriteAsset(new int[] {numFrames}, pathImage);
 
-        setCollisionBoxWidth(25);
-        setCollisionBoxHeight(25);
-
-        // Animate sprite
         imageAnimator = new ImageAnimator();
         imageAnimator.setFrames(getSprites().get(DEFAULT_ROW));
-        imageAnimator.setDelay(70);
+        imageAnimator.setDelay(100);
     }
 
     @Override

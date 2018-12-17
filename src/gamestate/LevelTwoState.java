@@ -1,6 +1,7 @@
 package gamestate;
 
 import entity.dynamic.*;
+import entity.objects.Item;
 import entity.strategy.StrategyFactory;
 import main.GamePanelController;
 import tilemap.Background;
@@ -12,7 +13,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class LevelTwoState extends GameState {
-    public static String BG_PATH = "/Background/full_background2.jpeg";
+    public static String BG_PATH = "/Background/bg_level_one.jpeg";
     public static String TILESET_PATH = "/Tilesets/tileset_sarah.png";
     public static String MAP_PATH = "/Maps/mappa_livello2.txt";
 
@@ -23,6 +24,8 @@ public class LevelTwoState extends GameState {
 
     private PlayerWater player;
     private ArrayList<EnemyWaterOctopus> octopus;
+    private ArrayList<EnemyWaterShark> sharks;
+    private ArrayList<Item> oxygenBubbles;
 
     public LevelTwoState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -36,8 +39,12 @@ public class LevelTwoState extends GameState {
         tileMap.loadMap(MAP_PATH);
 
         this.octopus = new ArrayList<>();
+        this.sharks = new ArrayList<>();
+        this.oxygenBubbles = new ArrayList<>();
         createPlayer();
-        createEnemies();
+        createOctopusEnemies();
+        createSharkEnemies();
+        createOxygenBubbles();
 
         bg = new Background(BG_PATH,0.5);
 
@@ -50,7 +57,7 @@ public class LevelTwoState extends GameState {
         this.player.setPosition(tileMap.getTileSize()*3,tileMap.getTileSize()*3);
     }
 
-    public void createEnemies() {
+    public void createOctopusEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
         int pos[][] = {
                 {5,5}
@@ -63,6 +70,34 @@ public class LevelTwoState extends GameState {
         }
         catch (InvalidParameterException e){
             System.err.println("Invalid Enemy Creation Type");
+        }
+    }
+
+    public void createSharkEnemies() {
+        EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
+        int pos[][] = {
+                {5,8}
+        };
+
+        try {
+            for(int i=0; i<pos.length; i++) {
+                sharks.add((EnemyWaterShark) enemyFactory.createEnemy(EnemyFactory.EnemyType.SHARK,tileMap,pos[i][0],pos[i][1]));
+            }
+        }
+        catch (InvalidParameterException e){
+            System.err.println("Invalid Enemy Creation Type");
+        }
+    }
+
+    public void createOxygenBubbles() {
+        int pos[][] = {
+                {3,3}
+        };
+
+        for(int i=0; i<pos.length; i++) {
+            Item o = new Item(tileMap, "/Objects/Bubbles.png", 5);
+            o.setPosition(tileMap.getTileSize()*pos[i][1],tileMap.getTileSize()*pos[i][0]+6);
+            oxygenBubbles.add(o);
         }
     }
 
@@ -87,6 +122,17 @@ public class LevelTwoState extends GameState {
                 o.update();
             }
         }
+
+        for(EnemyWaterShark s : sharks){
+            // If the enemy is not on the screen, he does not move
+            if(!s.notOnScreen()){
+                s.update();
+            }
+        }
+
+        for(Item o : oxygenBubbles) {
+            o.update();
+        }
     }
 
     @Override
@@ -100,9 +146,13 @@ public class LevelTwoState extends GameState {
             o.draw(g);
         }
 
-        g.setFont(new Font("Arial",Font.BOLD,12));
-        g.setColor(new Color(35, 26, 225));
-        g.drawString("Level Two", 25, 50);
+        for(EnemyWaterShark s : sharks){
+            s.draw(g);
+        }
+
+        for(Item o : oxygenBubbles) {
+            o.draw(g);
+        }
     }
 
     @Override

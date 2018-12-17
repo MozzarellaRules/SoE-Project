@@ -54,8 +54,8 @@ public class EnemyWaterOctopus extends DynamicSprite {
                 imageAnimator.getImage(),
                 (int)(getX()+tileMap.getX()-width/2),
                 (int)(getY()+tileMap.getY()-height/2),
-                width,
-                height,
+                (int)(width*1.5),
+                (int)(height*1.5),
                 null);
     }
 

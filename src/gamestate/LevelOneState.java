@@ -6,8 +6,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 import entity.dynamic.*;
-import entity.objects.Ammo;
-import entity.objects.TreasureMap;
+import entity.objects.Item;
 import entity.strategy.*;
 import entity.visual.Health;
 import entity.visual.RemainingBullets;
@@ -27,18 +26,21 @@ public class LevelOneState extends GameState {
 
 	private PlayerGround player;
 	private ArrayList<EnemyGround> enemies;
-	private ArrayList<Ammo> ammo;
 	private ArrayList<Projectile> projectiles;
+
 	private Health health;
 	private RemainingBullets remainingBullets;
-	private TreasureMap treasureMap;
 
-	private EnemyWaterOctopus octopus;
+	private ArrayList<Item> ammo;
+	private Item treasureMap;
 
 	public LevelOneState(GameStateManager gsm) {
 		this.gsm = gsm;
 		init();
 	}
+
+	public PlayerGround getPlayer() { return player; }
+	public TileMap getTileMap() { return tileMap; }
 
 	@Override
 	public void init() {
@@ -63,7 +65,7 @@ public class LevelOneState extends GameState {
 		tileMap.setPosition(GamePanelController.WIDTH/2-player.getX(), GamePanelController.HEIGHT/2-player.getY());
 	}
 
-	public void createPlayer() {
+	private void createPlayer() {
 		this.player = new PlayerGround(tileMap);
 		this.player.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*45);
 	}
@@ -74,16 +76,16 @@ public class LevelOneState extends GameState {
 		this.player.addObserver(remainingBullets);
 	}
 
-	public void createHealth() {
+	private void createHealth() {
 		this.health = new Health(tileMap);
 		this.health.setHealth(player.getMaxHealth());
 		this.player.addObserver(health);
 	}
 
-	public void createEnemies() {
+	private void createEnemies() {
 		EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
 		int pos[][] = {
-				//{48,14},
+				{48,14},
 				{51,15},
 				{51,121},
 				{51,52},
@@ -100,30 +102,27 @@ public class LevelOneState extends GameState {
 		catch (InvalidParameterException e){
 			System.err.println("Invalid Enemy Creation Type");
 		}
-
-		octopus = new EnemyWaterOctopus(tileMap);
-		octopus.setPosition(18*tileMap.getTileSize(), 48*tileMap.getTileSize());
 	}
 
-	public void createAmmo() {
+	private void createAmmo() {
 		int pos[][] = {
-				{48,16},
+				{48,14},
 				{51,16}
 		};
 
 		for(int i=0; i<pos.length; i++) {
-			Ammo a = new Ammo(tileMap);
+			Item a = new Item(tileMap, "/Objects/AmmoDrop.png", 6);
 			a.setPosition(tileMap.getTileSize()*pos[i][1],tileMap.getTileSize()*pos[i][0]+6);
 			ammo.add(a);
 		}
 	}
 
-	public void createTreasureMap() {
-		treasureMap = new TreasureMap(tileMap);
+	private void createTreasureMap() {
+		treasureMap = new Item(tileMap, "/Objects/Map.png", 12);
 		treasureMap.setPosition(tileMap.getTileSize()*121,tileMap.getTileSize()*51);
 	}
 
-	public void createProjectile() {
+	private void createProjectile() {
 		Projectile p = new Projectile(tileMap, player.isFacingRight());
 		p.setPosition(player.getX(), player.getY());
 		projectiles.add(p);
@@ -132,7 +131,6 @@ public class LevelOneState extends GameState {
 	@Override
 	public void update() {
 		player.update();
-		octopus.update();
 
 		// The camera follows the character
 		tileMap.setPosition(GamePanelController.WIDTH/2-player.getX(), GamePanelController.HEIGHT/2-player.getY());
@@ -158,7 +156,7 @@ public class LevelOneState extends GameState {
 		    }
 		}
 
-		for(Ammo a : ammo) {
+		for(Item a : ammo) {
 			a.update();
 			if(player.intersects(a)) {
 				ammo.remove(a);
@@ -208,14 +206,12 @@ public class LevelOneState extends GameState {
 		bg.draw(g);
 		tileMap.draw(g);
 
-		octopus.draw(g);
-
 		player.draw(g);
 		health.draw(g);
 		remainingBullets.draw(g);
 		treasureMap.draw(g);
 
-		for(Ammo a : ammo) {
+		for(Item a : ammo) {
 			a.draw(g);
 		}
 		for(Projectile p : projectiles) {
