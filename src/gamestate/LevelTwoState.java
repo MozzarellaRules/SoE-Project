@@ -159,16 +159,16 @@ public class LevelTwoState extends GameState {
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
-                player.setStrategyX(StrategyFactory.getInstance().getMoveLeftStrategy());
-                player.setMovingLeft(true);
+                //player.setStrategyX(StrategyFactory.getInstance().getMoveLeftStrategy());
+                player.setMovingRight(false);
                 break;
             case KeyEvent.VK_RIGHT:
-                player.setStrategyX(StrategyFactory.getInstance().getMoveRightStrategy());
+                //player.setStrategyX(StrategyFactory.getInstance().getMoveRightStrategy());
                 player.setMovingRight(true);
                 break;
             case KeyEvent.VK_UP:
                 if(!player.isFalling()) // No jump in mid-air
-                    player.setStrategyY(StrategyFactory.getInstance().getJumpStrategy());
+                //    player.setStrategyY(StrategyFactory.getInstance().getJumpStrategy());
                 break;
         }
     }
@@ -179,15 +179,15 @@ public class LevelTwoState extends GameState {
             case KeyEvent.VK_LEFT:
                 if(!player.isMovingRight())
                     player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-                player.setMovingLeft(false);
+                //player.setMovingRight(true);
                 break;
             case KeyEvent.VK_RIGHT:
-                if(!player.isMovingLeft())
+                if(player.isMovingRight())
                     player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-                player.setMovingRight(false);
+                //player.setMovingRight(false);
                 break;
             case KeyEvent.VK_UP:
-                player.setStrategyY(StrategyFactory.getInstance().getFallStrategy());
+               // player.setStrategyY(StrategyFactory.getInstance().getFallStrategy());
                 break;
         }
     }

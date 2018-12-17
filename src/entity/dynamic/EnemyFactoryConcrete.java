@@ -1,6 +1,5 @@
 package entity.dynamic;
 
-import entity.DynamicSprite;
 import tilemap.TileMap;
 
 import java.security.InvalidParameterException;

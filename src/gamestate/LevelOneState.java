@@ -228,16 +228,27 @@ public class LevelOneState extends GameState {
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
-				player.setStrategyX(StrategyFactory.getInstance().getMoveLeftStrategy());
 				player.setMovingLeft(true);
+				player.setMovingRight(false);
+				player.setFacingRight(false);
+				player.setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
+
 				break;
 			case KeyEvent.VK_RIGHT:
-				player.setStrategyX(StrategyFactory.getInstance().getMoveRightStrategy());
 				player.setMovingRight(true);
+				player.setMovingLeft(false);
+				player.setFacingRight(true);
+				player.setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
+
 				break;
 			case KeyEvent.VK_UP:
-				if(!player.isFalling()) // No jump in mid-air
-					player.setStrategyY(StrategyFactory.getInstance().getJumpStrategy());
+				if(!player.isFalling()){ // No jump in mid-air
+					player.setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
+					player.setFalling(false);
+				}
+
+
+
 				break;
 			case KeyEvent.VK_SPACE:
 				if(player.getRemainingBullets() > 0) {
@@ -255,15 +266,20 @@ public class LevelOneState extends GameState {
 			case KeyEvent.VK_LEFT:
 				if(!player.isMovingRight())
 					player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
+
 				player.setMovingLeft(false);
+				player.setFacingRight(false);
 				break;
 			case KeyEvent.VK_RIGHT:
 				if(!player.isMovingLeft())
 					player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
+
 				player.setMovingRight(false);
+				player.setFacingRight(true);
 				break;
 			case KeyEvent.VK_UP:
-				player.setStrategyY(StrategyFactory.getInstance().getFallStrategy());
+				player.setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
+				player.setFalling(true);
 				break;
 			case KeyEvent.VK_SPACE:
 				player.setFiring(false);

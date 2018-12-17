@@ -1,6 +1,5 @@
 package entity.dynamic;
 
-import entity.DynamicSprite;
 import entity.strategy.StrategyFactory;
 import tilemap.TileMap;
 
@@ -10,25 +9,23 @@ import java.awt.*;
 public class Projectile extends DynamicSprite {
 
     private Image image;
-    private boolean facingRight;
     private boolean remove;
+
+    private double factorX;
+    private double factorY;
 
 
     public Projectile(TileMap tm, boolean facingRight) {
         super(tm);
-        this.facingRight = facingRight;
 
 
+        factorX = 2.0;
+        factorY = 0;
 
 
+        setFacingRight(facingRight);
 
-        if(facingRight) { // Set the direction of the projectile
-            setStrategyX(StrategyFactory.getInstance().getMoveRightStrategy());
-        } else {
-            setStrategyX(StrategyFactory.getInstance().getMoveLeftStrategy());
-        }
-
-        // No movement on the Y-axis
+        setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
         setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
 
         this.image = new ImageIcon("resources/Objects/Bullet.png").getImage();
@@ -42,7 +39,7 @@ public class Projectile extends DynamicSprite {
     @Override
     public void update() {
         System.out.println(getX()+": Before Update");
-        getNextDelta();
+        setNextDelta(factorX,factorY);
         setDx(getDx()*2);
         checkTileMapCollision();
 
@@ -59,7 +56,7 @@ public class Projectile extends DynamicSprite {
 
     @Override
     public void draw(Graphics2D g) {
-        if(facingRight) {
+        if(isFacingRight()) {
             g.drawImage(image, (int)(getX()+tileMap.getX()-width/2), (int)(getY()+tileMap.getY()-height/2), null);
         }
         else {

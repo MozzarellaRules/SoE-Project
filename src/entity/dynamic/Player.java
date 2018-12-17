@@ -1,16 +1,12 @@
 package entity.dynamic;
 
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import javax.swing.*;
 
-import entity.DynamicSprite;
 import entity.IObservable;
 import entity.IObserver;
 import entity.strategy.*;
 import tilemap.TileMap;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public abstract class Player extends DynamicSprite implements IObservable {
     private int health;
@@ -21,19 +17,22 @@ public abstract class Player extends DynamicSprite implements IObservable {
     private boolean flinching;
     private long flinchTimer;
 
-    private boolean movingLeft;
-    private boolean movingRight;
 
-    private boolean facingRight;
+    private double factorX;
+    private double factorY;
+
+
 
     public Player(TileMap tm) {
         super(tm);
 
+
         observers = new ArrayList<>();
+        setFalling(true);
 
         // Falling when the game starts
         setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-        setStrategyY(StrategyFactory.getInstance().getFallStrategy());
+        setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
 
         // Init parameters
         this.maxHealth = 3;
@@ -41,24 +40,23 @@ public abstract class Player extends DynamicSprite implements IObservable {
         this.flinching = false;
 
         setFacingRight(true);
+
+        factorX = 1.0;
+        factorY = 1.0;
     }
 
     /**
      * GETTERS
      */
     public boolean isDead() { return isDead; }
-    public boolean isMovingLeft() { return movingLeft; }
-    public boolean isMovingRight() { return movingRight; }
-    public boolean isFacingRight() { return facingRight; }
+
     public int getHealth() { return health; }
     public int getMaxHealth() { return maxHealth; }
 
     /**
      * SETTERS
      */
-    public void setMovingLeft(boolean movingLeft) { this.movingLeft = movingLeft; }
-    public void setMovingRight(boolean movingRight) { this.movingRight = movingRight; }
-    public void setFacingRight(boolean facingRight) { this.facingRight = facingRight; }
+
 
     /**
      * An enemy hit the player. Decreases the health only if the flinching is set to false.
@@ -89,8 +87,13 @@ public abstract class Player extends DynamicSprite implements IObservable {
 
     @Override
     public void update(){
-        getNextDelta();
+        setNextDelta(factorX,factorY);
         checkTileMapCollision();
+
+        System.out.println(getStrategyX().getClass().getName());
+
+        if(!isFalling())
+            setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
 
         hookAnimation();
         getImageAnimator().update();

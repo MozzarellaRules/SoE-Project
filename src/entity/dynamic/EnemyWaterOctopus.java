@@ -1,6 +1,5 @@
 package entity.dynamic;
 
-import entity.DynamicSprite;
 import entity.ImageAnimator;
 import entity.strategy.StrategyFactory;
 import tilemap.TileMap;
@@ -12,11 +11,19 @@ public class EnemyWaterOctopus extends DynamicSprite {
     private final int[] numFrames = {6};
     private boolean up ;
 
+
+    private double factorX;
+    private double factorY;
+
+
     public EnemyWaterOctopus(TileMap tm) {
         super(tm);
 
+        factorX = 0;
+        factorY = 2.0;
+
         setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-        setStrategyY(StrategyFactory.getInstance().getSwimDownStrategyY()); // Initially the oktopus is moving down
+        setStrategyY(StrategyFactory.getInstance().getSwimStrategyY()); // Initially the oktopus is moving down
 
         up = false ; // This boolean value shows if the oktopus is moving up or down
 
@@ -32,16 +39,16 @@ public class EnemyWaterOctopus extends DynamicSprite {
     @Override
     public void update() {
 
-        getNextDelta();
+        setNextDelta(factorX,factorY);
         checkTileMapCollision();
 
         if(getDy()==0){ // collision detected
             if(up){
                 up = false;
-                this.setStrategyY(StrategyFactory.getInstance().getSwimDownStrategyY());
+
             }else {
                 up = true;
-                this.setStrategyY(StrategyFactory.getInstance().getSwimUpStrategyY());
+
             }
         }
 
@@ -57,6 +64,16 @@ public class EnemyWaterOctopus extends DynamicSprite {
                 (int)(width*1.5),
                 (int)(height*1.5),
                 null);
+    }
+
+
+    @Override
+    public void setNextDelta(double factorX,double factorY) {
+
+        double dy = getStrategyY().recalcDy(getDy(),up,factorY);
+
+        setDx(0);
+        setDy(dy);
     }
 
 }
