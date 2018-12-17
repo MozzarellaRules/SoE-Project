@@ -32,6 +32,6 @@ public class MoveStrategyY implements StrategyY {
 
         }
 
-        else return jump;
+        else return jump*factor;
     }
 }

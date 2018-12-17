@@ -268,14 +268,14 @@ public class LevelOneState extends GameState {
 					player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
 
 				player.setMovingLeft(false);
-				player.setFacingRight(false);
+
 				break;
 			case KeyEvent.VK_RIGHT:
 				if(!player.isMovingLeft())
 					player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
 
 				player.setMovingRight(false);
-				player.setFacingRight(true);
+
 				break;
 			case KeyEvent.VK_UP:
 				player.setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());

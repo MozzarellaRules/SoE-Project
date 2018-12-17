@@ -21,7 +21,7 @@ public class EnemyWaterShark extends DynamicSprite {
         setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
         setStrategyY(StrategyFactory.getInstance().getStopStrategyY()); // Initially the shark is moving left
 
-        factorX = 2.0;
+        factorX = 1.0;
         factorY= 0;
 
 
@@ -36,9 +36,10 @@ public class EnemyWaterShark extends DynamicSprite {
     @Override
     public void update() {
 
+
         setNextDelta(factorX,factorY);
         checkTileMapCollision();
-
+        setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
 
         imageAnimator.update();
     }

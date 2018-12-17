@@ -18,6 +18,8 @@ public class PlayerWater extends Player {
         setCurrentRow(DEFAULT_ROW);
         loadSpriteAsset(numFrames, "/Pirates/pirate_swimming.png");
 
+        setFactorY(0.4);
+
         imageAnimator = new ImageAnimator();
         imageAnimator.setFrames(getSprites().get(SWIMMING_ROW));
         imageAnimator.setDelay(100);

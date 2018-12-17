@@ -23,6 +23,7 @@ public class Projectile extends DynamicSprite {
         factorY = 0;
 
 
+        setMovingRight(facingRight);
         setFacingRight(facingRight);
 
         setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
@@ -38,16 +39,12 @@ public class Projectile extends DynamicSprite {
 
     @Override
     public void update() {
-        System.out.println(getX()+": Before Update");
+
         setNextDelta(factorX,factorY);
-        setDx(getDx()*2);
         checkTileMapCollision();
 
 
-        // Force no-movement on the Y-axis
         setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
-
-        //setX(getX() + (int)getDx());
 
         // The projectile is not moving... so it hit something... remove it
         if(getDx() == 0.0 || notOnScreen())

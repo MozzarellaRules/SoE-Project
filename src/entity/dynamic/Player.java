@@ -55,8 +55,10 @@ public abstract class Player extends DynamicSprite implements IObservable {
 
     /**
      * SETTERS
+     *
      */
-
+    public void setFactorY(double factorY){this.factorY = factorY;}
+    public void setFactorX(double factorX){this.factorX = factorX;}
 
     /**
      * An enemy hit the player. Decreases the health only if the flinching is set to false.
