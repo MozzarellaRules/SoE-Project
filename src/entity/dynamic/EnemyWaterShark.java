@@ -25,7 +25,7 @@ public class EnemyWaterShark extends DynamicSprite {
         factorY= 0;
 
 
-        loadSpriteAsset(numFrames, "/Enemies/Shark.png");
+        loadSpriteAsset(numFrames, "/Enemies/enemy_shark.png");
 
         // Animate sprite
         imageAnimator = new ImageAnimator();

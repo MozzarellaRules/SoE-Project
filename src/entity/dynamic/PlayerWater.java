@@ -1,7 +1,6 @@
 package entity.dynamic;
 
 import entity.ImageAnimator;
-import entity.dynamic.Player;
 import tilemap.TileMap;
 
 public class PlayerWater extends Player {
@@ -29,11 +28,11 @@ public class PlayerWater extends Player {
     public PlayerWater(TileMap tm) {
         super(tm);
         setCurrentRow(DEFAULT_ROW);
-        loadSpriteAsset(numFrames, "/Pirates/pirate_swimming.png");
+        loadSpriteAsset(numFrames, "/Pirates/pirate_level_two.png");
 
         setFactorY(0.4);
 
-        oxygen = 20;
+        oxygen = 50;
         oxygenTimer = System.nanoTime();
 
 

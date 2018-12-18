@@ -15,9 +15,9 @@ import tilemap.*;
 
 
 public class LevelOneState extends GameState {
-	public static String BG_PATH = "/Background/full_background2.jpeg";
-	public static String TILESET_PATH = "/Tilesets/tileset_sarah.png";
-	public static String MAP_PATH = "/Maps/new_map.txt";
+	public static String BG_PATH = "/Background/bg_level_one.jpeg";
+	public static String TILESET_PATH = "/Tilesets/tileset_level_one.png";
+	public static String MAP_PATH = "/Maps/map_level_one.txt";
 
 	private GameStateManager gsm;
 	
@@ -111,18 +111,18 @@ public class LevelOneState extends GameState {
 		};
 
 		for(int i=0; i<pos.length; i++) {
-			Item a = new Item(tileMap, "/Objects/AmmoDrop.png", 6);
+			Item a = new Item(tileMap, "/Objects/asset_ammo.png", 6);
 			a.setPosition(tileMap.getTileSize()*pos[i][1],tileMap.getTileSize()*pos[i][0]+6);
 			ammo.add(a);
 		}
 	}
 
 	private void createTreasureMap() {
-		treasureMap = new Item(tileMap, "/Objects/Map.png", 12);
+		treasureMap = new Item(tileMap, "/Objects/asset_map.png", 12);
 		treasureMap.setPosition(tileMap.getTileSize()*121,tileMap.getTileSize()*51);
 	}
 
-	private void createProjectile() {
+	public void createProjectile() {
 		Projectile p = new Projectile(tileMap, player.isFacingRight());
 		p.setPosition(player.getX(), player.getY());
 		projectiles.add(p);
@@ -225,31 +225,29 @@ public class LevelOneState extends GameState {
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		switch(e.getKeyCode()) {
+	public void keyPressed(int keyCode) {
+		switch(keyCode) {
 			case KeyEvent.VK_LEFT:
 				player.setMovingLeft(true);
 				player.setMovingRight(false);
 				player.setFacingRight(false);
 				player.setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
-
 				break;
+
 			case KeyEvent.VK_RIGHT:
 				player.setMovingRight(true);
 				player.setMovingLeft(false);
 				player.setFacingRight(true);
 				player.setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
-
 				break;
+
 			case KeyEvent.VK_UP:
 				if(!player.isFalling()){ // No jump in mid-air
 					player.setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
 					player.setFalling(false);
 				}
-
-
-
 				break;
+
 			case KeyEvent.VK_SPACE:
 				if(player.getRemainingBullets() > 0) {
 					createProjectile();
@@ -261,26 +259,25 @@ public class LevelOneState extends GameState {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		switch(e.getKeyCode()) {
+	public void keyReleased(int keyCode) {
+		switch(keyCode) {
 			case KeyEvent.VK_LEFT:
 				if(!player.isMovingRight())
 					player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-
 				player.setMovingLeft(false);
-
 				break;
+
 			case KeyEvent.VK_RIGHT:
 				if(!player.isMovingLeft())
 					player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-
 				player.setMovingRight(false);
-
 				break;
+
 			case KeyEvent.VK_UP:
 				player.setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
 				player.setFalling(true);
 				break;
+
 			case KeyEvent.VK_SPACE:
 				player.setFiring(false);
 				break;

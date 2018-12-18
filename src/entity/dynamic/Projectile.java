@@ -29,7 +29,7 @@ public class Projectile extends DynamicSprite {
         setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
         setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
 
-        this.image = new ImageIcon("resources/Objects/Bullet.png").getImage();
+        this.image = new ImageIcon("resources/Objects/bullet.png").getImage();
     }
 
     public boolean shouldRemove() {

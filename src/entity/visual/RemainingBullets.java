@@ -16,7 +16,7 @@ public class RemainingBullets extends Sprite implements IObserver {
     public RemainingBullets(TileMap tm) {
         super(tm);
 
-        this.image = new ImageIcon("resources/Objects/BulletIcon.png").getImage();
+        this.image = new ImageIcon("resources/Objects/icon_bullet.png").getImage();
     }
 
     public int getRemainingBullets() {

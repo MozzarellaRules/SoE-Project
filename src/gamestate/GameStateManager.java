@@ -16,7 +16,7 @@ public class GameStateManager implements KeyListener {
 	private gamestate.GameState currentState;
 	
 	public GameStateManager() {
-		currentState = new LevelTwoState(this);
+		currentState = new GameOverState(this);
 	}
 	
 	public void setState(State state) {
@@ -34,7 +34,7 @@ public class GameStateManager implements KeyListener {
 				currentState = new GameOverState(this);
 				break;
 			case DEMO:
-				//currentState = new DemoState(this);
+				currentState = new DemoState(this);
 		}
 		currentState.init();
 	}
@@ -49,12 +49,12 @@ public class GameStateManager implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		currentState.keyPressed(e);
+		currentState.keyPressed(e.getKeyCode());
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		currentState.keyReleased(e);
+		currentState.keyReleased(e.getKeyCode());
 	}
 
 	@Override

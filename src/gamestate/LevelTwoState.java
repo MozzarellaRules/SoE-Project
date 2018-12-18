@@ -3,6 +3,7 @@ package gamestate;
 import entity.dynamic.*;
 import entity.objects.Item;
 import entity.strategy.StrategyFactory;
+import entity.visual.Health;
 import entity.visual.OxygenLevel;
 import main.GamePanelController;
 import tilemap.Background;
@@ -14,9 +15,9 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class LevelTwoState extends GameState {
-    public static String BG_PATH = "/Background/bg_level_one.jpeg";
-    public static String TILESET_PATH = "/Tilesets/tileset_sarah.png";
-    public static String MAP_PATH = "/Maps/mappa_livello2.txt";
+    public static String BG_PATH = "/Background/bg_level_two.jpeg";
+    public static String TILESET_PATH = "/Tilesets/tileset_level_two.png";
+    public static String MAP_PATH = "/Maps/map_level_two.txt";
 
     private GameStateManager gsm;
 
@@ -28,6 +29,7 @@ public class LevelTwoState extends GameState {
     private ArrayList<EnemyWaterShark> sharks;
     private ArrayList<Item> oxygenBubbles;
 
+    private Health health;
     private OxygenLevel oxygenLevel;
 
     public LevelTwoState(GameStateManager gsm) {
@@ -47,12 +49,13 @@ public class LevelTwoState extends GameState {
         createPlayer();
         createOctopusEnemies();
         createSharkEnemies();
+        createHealth();
         createOxygenBubbles();
         this.oxygenLevel = new OxygenLevel(tileMap);
         this.oxygenLevel.setOxygen(player.getOxygen());
         player.addObserver(oxygenLevel);
 
-        bg = new Background(BG_PATH,0.5);
+        bg = new Background(BG_PATH,1);
 
         // The camera is centered on the player
         tileMap.setPosition(GamePanelController.WIDTH/2-player.getX(), GamePanelController.HEIGHT/2-player.getY());
@@ -95,13 +98,19 @@ public class LevelTwoState extends GameState {
         }
     }
 
+    private void createHealth() {
+        this.health = new Health(tileMap);
+        this.health.setHealth(player.getMaxHealth());
+        this.player.addObserver(health);
+    }
+
     public void createOxygenBubbles() {
         int pos[][] = {
                 {3,3}
         };
 
         for(int i=0; i<pos.length; i++) {
-            Item o = new Item(tileMap, "/Objects/Bubbles.png", 5);
+            Item o = new Item(tileMap, "/Objects/asset_bubbles.png", 5);
             o.setPosition(tileMap.getTileSize()*pos[i][1],tileMap.getTileSize()*pos[i][0]+6);
             oxygenBubbles.add(o);
         }
@@ -140,6 +149,7 @@ public class LevelTwoState extends GameState {
             o.update();
         }
 
+        health.update();
         oxygenLevel.update();
     }
 
@@ -162,12 +172,13 @@ public class LevelTwoState extends GameState {
             o.draw(g);
         }
 
+        health.draw(g);
         oxygenLevel.draw(g);
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        switch(e.getKeyCode()) {
+    public void keyPressed(int keyCode) {
+        switch(keyCode) {
             case KeyEvent.VK_LEFT:
                 player.setMovingLeft(true);
                 player.setMovingRight(false);
@@ -192,8 +203,8 @@ public class LevelTwoState extends GameState {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        switch(e.getKeyCode()) {
+    public void keyReleased(int keyCode) {
+        switch(keyCode) {
             case KeyEvent.VK_LEFT:
                 if(!player.isMovingRight())
                     player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());

@@ -37,7 +37,7 @@ public class EnemyGround extends DynamicSprite {
         factorY = 1.0;
 
 
-        loadSpriteAsset(numFrames, "/Enemies/BaseEnemy.png");
+        loadSpriteAsset(numFrames, "/Enemies/enemy_ground.png");
 
         // Animate sprite
         imageAnimator = new ImageAnimator();

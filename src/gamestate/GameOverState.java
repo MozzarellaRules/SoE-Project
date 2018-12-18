@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import main.GamePanelController;
 import tilemap.Background;
 
 public class GameOverState extends GameState {
@@ -25,12 +26,11 @@ public class GameOverState extends GameState {
 
 	@Override
 	public void init() {
-		bg = new Background("/Background/Immagine.png",1);
-		bg.setVector(-0.1,0);
+		bg = new Background("/Background/bg_gameover.jpeg",1);
 
 		titleColor = new Color(128,0,0);
 		titleFont = new Font("Century Gothic",Font.PLAIN,28);
-		optionsFont = new Font("Arial",Font.PLAIN,12);
+		optionsFont = new Font("Arial",Font.PLAIN,14);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class GameOverState extends GameState {
 		// Draw title
 		g.setColor(titleColor);
 		g.setFont(titleFont);
-		g.drawString("Captain Corkleg",80,70);
+		g.drawString("Captain Corkleg",76,70);
 
 		// Draw menu options
 		g.setFont(optionsFont);
@@ -50,24 +50,26 @@ public class GameOverState extends GameState {
 			} else {
 				g.setColor(Color.RED);
 			}
-			g.drawString(options[i], 175, 140+i*15);
+			FontMetrics fm = g.getFontMetrics();
+			int x = (GamePanelController.WIDTH - fm.stringWidth(options[i])) / 2;
+			g.drawString(options[i], x, 140+i*20);
 		}
 
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+	public void keyPressed(int keyCode) {
+		if(keyCode == KeyEvent.VK_ENTER) {
 			submitOption();
 		}
-		if(e.getKeyCode() == KeyEvent.VK_UP) {
+		if(keyCode == KeyEvent.VK_UP) {
 			currentChoice--;
 			if(currentChoice == -1) {
 				currentChoice = options.length-1;
 			}
 		}
 
-		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+		if(keyCode == KeyEvent.VK_DOWN) {
 			currentChoice++;
 			if(currentChoice == options.length) {
 				currentChoice = 0;
@@ -76,7 +78,7 @@ public class GameOverState extends GameState {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) { }
+	public void keyReleased(int keyCode) { }
 
 	private void submitOption() {
 		if(currentChoice == 0)

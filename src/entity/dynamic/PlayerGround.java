@@ -1,7 +1,6 @@
 package entity.dynamic;
 
 import entity.ImageAnimator;
-import entity.dynamic.Player;
 import tilemap.TileMap;
 
 public class PlayerGround extends Player {
@@ -22,7 +21,7 @@ public class PlayerGround extends Player {
     public PlayerGround(TileMap tm) {
         super(tm);
         setCurrentRow(IDLE_ROW);
-        loadSpriteAsset(numFrames, "/Pirates/pirate_1.png");
+        loadSpriteAsset(numFrames, "/Pirates/pirate_level_one.png");
 
         imageAnimator = new ImageAnimator();
         imageAnimator.setFrames(getSprites().get(IDLE_ROW));

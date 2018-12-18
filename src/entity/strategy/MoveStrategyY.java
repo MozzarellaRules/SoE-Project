@@ -12,7 +12,7 @@ public class MoveStrategyY implements StrategyY {
     public MoveStrategyY(){
         jump = -5.8 ;
         fallSpeed = 0.15;
-        maxFallSpeed = 4.0;
+        maxFallSpeed = 3.0;
         stopJumpSpeed = 0.3;
     }
 

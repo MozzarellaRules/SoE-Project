@@ -28,7 +28,7 @@ public class EnemyWaterOctopus extends DynamicSprite {
         up = false ; // This boolean value shows if the oktopus is moving up or down
 
 
-        loadSpriteAsset(numFrames, "/Enemies/Oktopus.png");
+        loadSpriteAsset(numFrames, "/Enemies/enemy_octopus.png");
 
         // Animate sprite
         imageAnimator = new ImageAnimator();
@@ -61,8 +61,8 @@ public class EnemyWaterOctopus extends DynamicSprite {
                 imageAnimator.getImage(),
                 (int)(getX()+tileMap.getX()-width/2),
                 (int)(getY()+tileMap.getY()-height/2),
-                (int)(width*1.5),
-                (int)(height*1.5),
+                width,
+                height,
                 null);
     }
 

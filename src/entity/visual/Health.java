@@ -4,7 +4,6 @@ import entity.IObservable;
 import entity.IObserver;
 import entity.Sprite;
 import entity.dynamic.Player;
-import entity.dynamic.PlayerGround;
 import tilemap.TileMap;
 
 import javax.imageio.ImageIO;
@@ -21,7 +20,7 @@ public class Health extends Sprite implements IObserver {
         super(tm);
 
         try {
-            imageHealth = ImageIO.read((getClass().getResourceAsStream("/Icons/life.png")));
+            imageHealth = ImageIO.read((getClass().getResourceAsStream("/Objects/icon_health.png")));
         } catch(Exception e) {
             e.printStackTrace();
         }

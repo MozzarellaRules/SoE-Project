@@ -21,7 +21,7 @@ public class OxygenLevel extends Sprite implements IObserver {
 
         /*
         try {
-            imageHealth = ImageIO.read((getClass().getResourceAsStream("/Icons/life.png")));
+            imageHealth = ImageIO.read((getClass().getResourceAsStream("/Icons/icon_health.png")));
         } catch(Exception e) {
             e.printStackTrace();
         }
