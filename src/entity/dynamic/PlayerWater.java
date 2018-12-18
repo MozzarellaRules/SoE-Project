@@ -1,5 +1,6 @@
 package entity.dynamic;
 
+import entity.IObservable;
 import entity.ImageAnimator;
 import tilemap.TileMap;
 
@@ -21,6 +22,7 @@ public class PlayerWater extends Player {
     }
 
     private int oxygen;
+    private int maxOxygen;
     private long oxygenTimer;
 
 
@@ -30,9 +32,10 @@ public class PlayerWater extends Player {
         setCurrentRow(DEFAULT_ROW);
         loadSpriteAsset(numFrames, "/Pirates/pirate_level_two.png");
 
-        setFactorY(0.4);
+        setFactorY(0.6);
 
         oxygen = 50;
+        maxOxygen = 50;
         oxygenTimer = System.nanoTime();
 
 
@@ -42,6 +45,8 @@ public class PlayerWater extends Player {
         imageAnimator.setFrames(getSprites().get(SWIMMING_ROW));
         imageAnimator.setDelay(100);
     }
+
+
 
     @Override
     public void hookUpdate() {
@@ -58,6 +63,18 @@ public class PlayerWater extends Player {
 
             //System.out.println(oxygen);
     }
+
+
+    //Increment the oxygen level by ten if a bubble is catched
+    public void incrementOxygenLevel(){
+        if(oxygen+10 > maxOxygen){
+            oxygen = maxOxygen;
+        }else
+            oxygen+=10;
+        notifyObserver(IObservable.PlayerEvent.OXYGEN_MODIFIED);
+    }
+
+
 
 
 

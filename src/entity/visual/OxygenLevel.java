@@ -28,12 +28,12 @@ public class OxygenLevel extends Sprite implements IObserver {
         */
     }
 
-    public void setOxygen(int oxygen) {
-        this.oxygen = oxygen;
-    }
+
+    public void setOxygen(int oxygenLevel){this.oxygen = oxygenLevel; }
 
     @Override
     public void update() {
+
 
     }
 
