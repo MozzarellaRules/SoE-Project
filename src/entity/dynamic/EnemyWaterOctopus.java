@@ -15,11 +15,12 @@ public class EnemyWaterOctopus extends DynamicSprite {
         super(tm);
 
         setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-        setStrategyY(StrategyFactory.getInstance().getSwimStrategyY()); // Initially the octopus is moving down
+        setStrategyY(StrategyFactory.getInstance().getSwimStrategyY());
         setFactorX(0);
-        setFactorY(2.0);
-        setCollisionBoxHeight(30);
+        setFactorY(1.5);
 
+
+        setCollisionBoxHeight((int)(getHeight()*1.3));
         up = false ; // This boolean value shows if the oktopus is moving up or down
 
 
@@ -29,6 +30,7 @@ public class EnemyWaterOctopus extends DynamicSprite {
         imageAnimator = new ImageAnimator();
         imageAnimator.setFrames(getSprites().get(DEFAULT_ROW));
         imageAnimator.setDelay(70);
+
     }
 
     @Override
@@ -56,7 +58,7 @@ public class EnemyWaterOctopus extends DynamicSprite {
                 (int)(getX()+tileMap.getX()-width/2),
                 (int)(getY()+tileMap.getY()-height/2),
                 width,
-                height,
+                (int) (height *1.3),
                 null);
     }
 

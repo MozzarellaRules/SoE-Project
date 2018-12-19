@@ -25,11 +25,11 @@ public class EnemyFactoryConcrete implements EnemyFactory {
                 return enemyGround;
             case OKTOPUS:
                 EnemyWaterOctopus enemyOctopus = new EnemyWaterOctopus(tm);
-                enemyOctopus.setPosition(tm.getTileSize()*col+15,tm.getTileSize()*row);
+                enemyOctopus.setPosition(tm.getTileSize()*col+16,tm.getTileSize()*row+16);
                 return enemyOctopus;
             case SHARK:
                 EnemyWaterShark enemyShark = new EnemyWaterShark(tm);
-                enemyShark.setPosition(tm.getTileSize()*col,tm.getTileSize()*row+15);
+                enemyShark.setPosition(tm.getTileSize()*col,tm.getTileSize()*row+16);
                 return enemyShark;
             default:
                 throw new InvalidParameterException();

@@ -1,6 +1,5 @@
 package gamestate;
 
-import java.awt.event.KeyEvent;
 
 public abstract class GameState {
 

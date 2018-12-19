@@ -58,6 +58,8 @@ public class EnemyWaterShark extends DynamicSprite {
     @Override
     public void draw(Graphics2D g) {
         if(!isFacingRight()){
+
+
         g.drawImage(
                 imageAnimator.getImage(),
                 (int)(getX()+tileMap.getX()-width/2),
