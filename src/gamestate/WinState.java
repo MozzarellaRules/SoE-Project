@@ -22,6 +22,9 @@ public class WinState extends GameState {
         init();
     }
 
+    /**
+     * Init the element of the the WinState
+     */
     @Override
     public void init() {
         bg = new Background("/Background/bg_level_two.jpeg",1);
@@ -31,6 +34,11 @@ public class WinState extends GameState {
         optionsFont = new Font("Arial",Font.PLAIN,14);
     }
 
+
+    /**
+     * Draws the WinState elements
+     * @param g
+     */
     @Override
     public void draw(Graphics2D g) {
         bg.draw(g);
@@ -58,6 +66,10 @@ public class WinState extends GameState {
 
     }
 
+    /**
+     *
+     * @param keyCode this parameter is used to choose between different options
+     */
     @Override
     public void keyPressed(int keyCode) {
         if(keyCode == KeyEvent.VK_ENTER) {
@@ -85,9 +97,14 @@ public class WinState extends GameState {
             System.exit(0);
     }
 
-    @Override
-    public void keyReleased(int keyCode) { }
 
+    @Override
+    public void keyReleased(int keyCode){
+    }
+
+    /**
+     * Update the background
+     */
     @Override
     public void update() {
         bg.update();

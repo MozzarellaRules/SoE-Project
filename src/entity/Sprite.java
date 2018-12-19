@@ -1,5 +1,6 @@
 package entity;
 
+import jdk.jshell.spi.ExecutionControl;
 import tilemap.TileMap;
 
 import java.awt.*;
@@ -116,9 +117,6 @@ public abstract class Sprite {
 	 */
 	public int getCurrentRow() { return currentRow; }
 
-	/**
-	 * SETTERS
-	 */
 
 	/**
 	 *
@@ -211,6 +209,6 @@ public abstract class Sprite {
 		}
 	}
 
-	public abstract void update();
+	public abstract void update() throws ExecutionControl.NotImplementedException;
 	public abstract void draw(Graphics2D g);
 }

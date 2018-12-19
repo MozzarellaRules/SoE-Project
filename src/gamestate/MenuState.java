@@ -23,6 +23,9 @@ public class MenuState extends GameState {
 		init();
 	}
 
+	/**
+	 * Init the MenuState Object
+	 */
 	@Override
 	public void init() {
 		bg = new Background("/Background/bg_menu.jpeg",1);
@@ -32,6 +35,10 @@ public class MenuState extends GameState {
 		optionsFont = new Font("Arial",Font.PLAIN,14);
 	}
 
+	/**
+	 * Draws the elements of the MenuState on the g element
+	 * @param g
+	 */
 	@Override
 	public void draw(Graphics2D g) {
 		bg.draw(g);
@@ -56,6 +63,10 @@ public class MenuState extends GameState {
 		
 	}
 
+	/**
+	 *
+	 * @param keyCode this parameter is used to choose between different options
+	 */
 	@Override
 	public void keyPressed(int keyCode) {
 		if(keyCode == KeyEvent.VK_ENTER) {
@@ -89,6 +100,9 @@ public class MenuState extends GameState {
 			System.exit(0);
 	}
 
+	/**
+	 * Update the background
+	 */
 	@Override
 	public void update() {
 		bg.update();

@@ -24,10 +24,17 @@ public class Health extends Sprite implements PlayerObserver {
         }
     }
 
+    /**
+     * set the health field
+     * @param health
+     */
     public void setHealth(int health) {
         this.health = health;
     }
 
+    /**
+     * set the health image ( hearts)
+     */
     private void setHealthImage() {
         int widthFrame = 19;
         int heightFrame = 16;
@@ -38,16 +45,28 @@ public class Health extends Sprite implements PlayerObserver {
         else if(health==1) { subImageHealth=imageHealth.getSubimage(0, 0, widthFrame, heightFrame); }
     }
 
+    /**
+     * Update the Health Image
+     */
     @Override
     public void update() {
         setHealthImage();
     }
 
+    /**
+     *Draw the image on the g panel
+     * @param g
+     */
     @Override
     public void draw(Graphics2D g) {
         g.drawImage(subImageHealth, 10, 10, null);
     }
 
+    /**
+     *
+     * @param context is the player which must be osserved
+     * @param event notify that the player's health is changend
+     */
     @Override
     public void updateObserver(PlayerObservable context, PlayerObservable.PlayerEvent event) {
         if(event == PlayerObservable.PlayerEvent.HEALTH_MODIFIED) {

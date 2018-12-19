@@ -2,6 +2,7 @@ package entity.visual;
 
 import entity.Sprite;
 import entity.dynamic.PlayerWater;
+import jdk.jshell.spi.ExecutionControl;
 import tilemap.TileMap;
 
 import java.awt.*;
@@ -15,24 +16,24 @@ public class OxygenLevel extends Sprite implements PlayerObserver {
     public OxygenLevel(TileMap tm) {
         super(tm);
 
-        /*
-        try {
-            imageHealth = ImageIO.read((getClass().getResourceAsStream("/Icons/icon_health_player.png")));
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        */
     }
 
-
+    /**
+     *
+     * @param oxygenLevel
+     */
     public void setOxygen(int oxygenLevel){this.oxygen = oxygenLevel; }
 
+
     @Override
-    public void update() {
-
-
+    public void update() throws UnsupportedOperationException{
+        throw new UnsupportedOperationException();
     }
 
+    /**
+     * Draws the Oxygen Level Bar
+     * @param g
+     */
     @Override
     public void draw(Graphics2D g) {
         g.setFont(new Font("Arial",Font.BOLD,10));
@@ -42,6 +43,11 @@ public class OxygenLevel extends Sprite implements PlayerObserver {
         g.drawString("Oxygen: " + oxygen, 15, 50);
     }
 
+    /**
+     *
+     * @param context is the Observable Object.
+     * @param event indicates that the oxygen level is changed
+     */
     @Override
     public void updateObserver(PlayerObservable context, PlayerObservable.PlayerEvent event) {
         if(event == PlayerObservable.PlayerEvent.OXYGEN_MODIFIED) {

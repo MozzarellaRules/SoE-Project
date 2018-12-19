@@ -40,6 +40,9 @@ public class LevelTwoState extends GameState {
         init();
     }
 
+    /**
+     * Init the elements of the LevelTwoState
+     */
     @Override
     public void init() {
         tileMap = new TileMap(32);
@@ -65,11 +68,17 @@ public class LevelTwoState extends GameState {
         tileMap.setPosition(GamePanelController.WIDTH/2-player.getX(), GamePanelController.HEIGHT/2-player.getY());
     }
 
+    /**
+     * This method creates the player
+     */
     public void createPlayer() {
         this.player = new PlayerWater(tileMap);
         this.player.setPosition(tileMap.getTileSize()*3,tileMap.getTileSize()*3);
     }
 
+    /**
+     * This methods create the Octopuses
+     */
     public void createOctopusEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
         int[][] pos = {
@@ -90,6 +99,9 @@ public class LevelTwoState extends GameState {
         }
     }
 
+    /**
+     * This method creates the Sharks
+     */
     public void createSharkEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
         int[][] pos = {
@@ -110,12 +122,18 @@ public class LevelTwoState extends GameState {
         }
     }
 
+    /**
+     * This method create a Health Object. This one is needed to set Visible the health of the player on the screen
+     */
     private void createHealth() {
         this.health = new Health(tileMap);
         this.health.setHealth(player.getHealth());
         this.player.addObserver(health);
     }
 
+    /**
+     * This method creates the oxygen bubbles
+     */
     public void createOxygenBubbles() {
         int[][] pos = {
                 {15, 19},
@@ -132,17 +150,26 @@ public class LevelTwoState extends GameState {
         }
     }
 
+    /**
+     * This method creates the Tresure Object
+     */
     public void createTresure(){
         treasure = new Item(tileMap,"/Objects/asset_final_chest.png",16);
-        treasure.setPosition(32,(32*18)+16);
+        treasure.setPosition(32*60,(32*18)+16);
     }
 
+    /**
+     * This method checks if the player win
+     */
     public void checkWin()  {
         if(player.intersects(treasure)) {
             gsm.setState(GameStateManager.State.WINSTATE);
         }
     }
 
+    /**
+     * Updates the elements of the LevelTwoState. For instance all the enemies,animations,the pirate etc
+     */
     @Override
     public void update() {
         player.update();
@@ -192,6 +219,10 @@ public class LevelTwoState extends GameState {
         checkWin();
     }
 
+    /**
+     * Draws the elements of the LevelTwoState on the g element
+     * @param g
+     */
     @Override
     public void draw(Graphics2D g) {
         bg.draw(g);
@@ -216,6 +247,10 @@ public class LevelTwoState extends GameState {
         treasure.draw(g);
     }
 
+    /**
+     * This method interacts with the user input, allowing the movement of the pirate
+     * @param keyCode is the integer code that represents a key
+     */
     @Override
     public void keyPressed(int keyCode) {
         switch(keyCode) {
@@ -238,6 +273,10 @@ public class LevelTwoState extends GameState {
         }
     }
 
+    /**
+     * This method interacts with the user input, allowing the movement of the pirate
+     * @param keyCode is the integer code that represents a key
+     */
     @Override
     public void keyReleased(int keyCode) {
         switch(keyCode) {

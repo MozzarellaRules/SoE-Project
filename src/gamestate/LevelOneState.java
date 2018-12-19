@@ -178,7 +178,6 @@ public class LevelOneState extends GameState {
 		}
 
 		health.update();
-		remainingBullets.update();
 		treasureMap.update();
 
 		checkWin();

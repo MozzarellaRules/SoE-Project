@@ -17,17 +17,33 @@ public class RemainingBullets extends Sprite implements PlayerObserver {
         this.image = new ImageIcon("resources/Objects/icon_bullet.png").getImage();
     }
 
+    /**
+     *
+     * @return the remainingBullets field
+     */
     public int getRemainingBullets() {
         return remainingBullets;
     }
 
+    /**
+     *
+     * @param remainingBullets
+     */
     public void setRemainingBullets(int remainingBullets) {
         this.remainingBullets = remainingBullets;
     }
 
-    @Override
-    public void update() { }
 
+    @Override
+    public void update() throws UnsupportedOperationException{
+        throw new UnsupportedOperationException();
+    }
+
+
+    /**
+     * Draws on the g element the Remaining Bullet class
+     * @param g
+     */
     @Override
     public void draw(Graphics2D g) {
         g.drawImage(image, 0, 25, null);
@@ -38,6 +54,12 @@ public class RemainingBullets extends Sprite implements PlayerObserver {
         g.drawString("x"+(remainingBullets), 26, 51);
     }
 
+
+    /**
+     *
+     * @param context is the parameter that must be observed
+     * @param event is the parameter that indicates that the number of bullets is changed
+     */
     @Override
     public void updateObserver(PlayerObservable context, PlayerObservable.PlayerEvent event) {
         if(event == PlayerObservable.PlayerEvent.BULLETS_MODIFIED) {

@@ -17,7 +17,7 @@ public class ImageAnimator {
 	}
 
 	/**
-	 * SETTER
+	 *
 	 * @param frames set the array that contains the images that must be shown in sequence
 	 */
 	public void setFrames(BufferedImage[] frames) {
