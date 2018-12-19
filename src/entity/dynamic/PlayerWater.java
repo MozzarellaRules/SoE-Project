@@ -23,6 +23,7 @@ public class PlayerWater extends Player {
         loadSpriteAsset(numFrames, "/Pirates/pirate_level_two.png");
 
         setFactorY(0.6);
+        setHealth(4);
 
         oxygen = 50;
         maxOxygen = 50;

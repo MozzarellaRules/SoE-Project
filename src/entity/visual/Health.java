@@ -29,9 +29,11 @@ public class Health extends Sprite implements PlayerObserver {
     }
 
     private void setHealthImage() {
-        int widthFrame = 18;
+        int widthFrame = 19;
         int heightFrame = 16;
-        if(health==3) { subImageHealth=imageHealth.getSubimage(0, 0, widthFrame*3, heightFrame); }
+
+        if(health==4) { subImageHealth=imageHealth.getSubimage(0, 0, widthFrame*4, heightFrame); }
+        else if(health==3) { subImageHealth=imageHealth.getSubimage(0, 0, widthFrame*3, heightFrame); }
         else if(health==2) { subImageHealth=imageHealth.getSubimage(0, 0, widthFrame*2, heightFrame); }
         else if(health==1) { subImageHealth=imageHealth.getSubimage(0, 0, widthFrame, heightFrame); }
     }

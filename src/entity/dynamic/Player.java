@@ -10,7 +10,6 @@ import java.awt.*;
 
 public abstract class Player extends DynamicSprite implements PlayerObservable {
     private int health;
-    private int maxHealth;
     private boolean isDead;
     private ArrayList<PlayerObserver> observers;
 
@@ -31,8 +30,7 @@ public abstract class Player extends DynamicSprite implements PlayerObservable {
         setFacingRight(true);
 
         // Init parameters
-        this.maxHealth = 3;
-        this.health = maxHealth;
+        this.health = 3;
         this.flinching = false;
     }
 
@@ -41,15 +39,12 @@ public abstract class Player extends DynamicSprite implements PlayerObservable {
      */
     public boolean isDead() { return isDead; }
     public int getHealth() { return health; }
-    public int getMaxHealth() { return maxHealth; }
 
     /**
      * SETTERS
      *
      */
     public void setHealth(int health){this.health = health;}
-    public void setMaxHealth(int maxHealth){this.maxHealth = maxHealth;}
-
     public void setDead(boolean dead) { isDead = dead; }
 
     /**

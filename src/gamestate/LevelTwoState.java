@@ -112,7 +112,7 @@ public class LevelTwoState extends GameState {
 
     private void createHealth() {
         this.health = new Health(tileMap);
-        this.health.setHealth(player.getMaxHealth());
+        this.health.setHealth(player.getHealth());
         this.player.addObserver(health);
     }
 
