@@ -18,7 +18,7 @@ public class Health extends Sprite implements PlayerObserver {
         super(tm);
 
         try {
-            imageHealth = ImageIO.read((getClass().getResourceAsStream("/Objects/icon_health.png")));
+            imageHealth = ImageIO.read((getClass().getResourceAsStream("/Objects/icon_health_player.png")));
         } catch(Exception e) {
             e.printStackTrace();
         }
