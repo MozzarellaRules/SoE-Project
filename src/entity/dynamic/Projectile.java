@@ -11,6 +11,11 @@ public class Projectile extends DynamicSprite {
     private Image image;
     private boolean remove;
 
+    /**
+     * This method creates a new projectile whenever the player character attacks.
+     * @param tm is the map.
+     * @param facingRight is used to determine if the bullet is moving to the right or not.
+     */
     public Projectile(TileMap tm, boolean facingRight) {
         super(tm);
 
@@ -24,9 +29,18 @@ public class Projectile extends DynamicSprite {
         this.image = new ImageIcon("resources/Objects/bullet.png").getImage();
     }
 
+    /**
+     * This method tells if a bullet should be removable or not.
+     * @return true.
+     */
     public boolean shouldRemove() {
         return remove;
     }
+
+    /**
+     * This method removes a bullet whenever it touches a wall/enemy or goes beyond the screen boundaries.
+     * @param remove
+     */
     public void setRemove(boolean remove) { this.remove = remove; }
 
     /**

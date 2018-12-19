@@ -14,6 +14,10 @@ public class EnemyFactoryConcrete implements EnemyFactory {
 
     private EnemyFactoryConcrete() { }
 
+    /**
+     * This method gets a new enemyfactoryconcrete instance if it's null, otherwise it returns the currently existing one.
+     * @return the new/old instance.
+     */
     public static EnemyFactory getInstace(){
         if (instace == null)
             instace = new EnemyFactoryConcrete();

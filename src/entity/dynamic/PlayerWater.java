@@ -17,6 +17,11 @@ public class PlayerWater extends Player {
     private int maxOxygen;
     private long oxygenTimer;
 
+    /**
+     * This method creates a player character to be used in the second level. It lacks the offensive capabilities of
+     * it's 1st level counterpart, but it can swim.
+     * @param tm is the map on which to generate it.
+     */
     public PlayerWater(TileMap tm) {
         super(tm);
         setCurrentRow(DEFAULT_ROW);
@@ -34,10 +39,21 @@ public class PlayerWater extends Player {
         imageAnimator.setDelay(100);
     }
 
+    /**
+     * Returns the remaining oxygen.
+     * @return how much oxygen the player has left before dying.
+     */
     public int getOxygen() { return oxygen; }
 
+    /**
+     * This method is used to set the amount of oxygen the player currently has.
+     * @param oxygen is said amount of oxygen.
+     */
     public void setOxygen(int oxygen) { this.oxygen = oxygen; }
 
+    /**
+     * This method updates both the oxygen meter and the player character's animations.
+     */
     @Override
     public void hookUpdate() {
         long elapsed = (System.nanoTime()-oxygenTimer)/1000000;
@@ -65,7 +81,9 @@ public class PlayerWater extends Player {
         }
     }
 
-    //Increment the oxygen level by ten if a bubble is touched.
+    /**
+     * Increments the oxygen level by ten whenever a bubble is touched.
+     */
     public void incrementOxygenLevel(){
         if(oxygen+10 > maxOxygen) {
             oxygen = maxOxygen;
