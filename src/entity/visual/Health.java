@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Health extends Sprite implements IObserver {
+public class Health extends Sprite implements PlayerObserver {
     private BufferedImage imageHealth;
     private BufferedImage subImageHealth;
 
@@ -47,8 +47,8 @@ public class Health extends Sprite implements IObserver {
     }
 
     @Override
-    public void updateObserver(IObservable context, IObservable.PlayerEvent event) {
-        if(event == IObservable.PlayerEvent.HEALTH_MODIFIED) {
+    public void updateObserver(PlayerObservable context, PlayerObservable.PlayerEvent event) {
+        if(event == PlayerObservable.PlayerEvent.HEALTH_MODIFIED) {
             Player player = (Player) context;
             setHealth(player.getHealth());
         }

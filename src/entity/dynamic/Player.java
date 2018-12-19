@@ -2,17 +2,17 @@ package entity.dynamic;
 
 import java.util.ArrayList;
 
-import entity.visual.IObservable;
-import entity.visual.IObserver;
+import entity.visual.PlayerObservable;
+import entity.visual.PlayerObserver;
 import entity.strategy.*;
 import tilemap.TileMap;
 import java.awt.*;
 
-public abstract class Player extends DynamicSprite implements IObservable {
+public abstract class Player extends DynamicSprite implements PlayerObservable {
     private int health;
     private int maxHealth;
     private boolean isDead;
-    private ArrayList<IObserver> observers;
+    private ArrayList<PlayerObserver> observers;
 
     private boolean flinching;
     private long flinchTimer;
@@ -121,18 +121,18 @@ public abstract class Player extends DynamicSprite implements IObservable {
     }
 
     @Override
-    public void addObserver(IObserver o) {
+    public void addObserver(PlayerObserver o) {
         observers.add(o);
     }
 
     @Override
-    public void deleteObserver(IObserver o) {
+    public void deleteObserver(PlayerObserver o) {
         observers.remove(o);
     }
 
     @Override
     public void notifyObserver(PlayerEvent event) {
-        for(IObserver o:observers) {
+        for(PlayerObserver o:observers) {
             o.updateObserver(this, event);
         }
     }

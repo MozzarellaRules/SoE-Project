@@ -11,6 +11,7 @@ import entity.strategy.*;
 import entity.visual.Health;
 import entity.visual.RemainingBullets;
 import main.GamePanelController;
+import music.MusicHandler;
 import tilemap.*;
 
 
@@ -32,6 +33,7 @@ public class LevelOneState extends GameState {
 
 	private ArrayList<Item> ammo;
 	private Item treasureMap;
+
 
 	public LevelOneState(GameStateManager gsm) {
 		this.gsm = gsm;
@@ -62,6 +64,8 @@ public class LevelOneState extends GameState {
 
 		// The camera is centered on the player
 		tileMap.setPosition(GamePanelController.WIDTH/2-player.getX(), GamePanelController.HEIGHT/2-player.getY());
+		gsm.addObserver(MusicHandler.getInstance());
+
 	}
 
 	private void createPlayer() {

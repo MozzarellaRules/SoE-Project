@@ -1,6 +1,5 @@
 package gamestate;
 
-import entity.visual.IObservable;
 import entity.dynamic.*;
 import entity.Item;
 import entity.strategy.StrategyFactory;
@@ -19,7 +18,7 @@ public class LevelTwoState extends GameState {
     public static String BG_PATH = "/Background/bg_level_two.jpeg";
     public static String TILESET_PATH = "/Tilesets/tileset_level_two.png";
     public static String MAP_PATH = "/Maps/map_level_two.txt";
-    public static String TRESURE_PATH = "/Objects/ammo_final_chest.png";
+
 
     private GameStateManager gsm;
 
@@ -74,7 +73,8 @@ public class LevelTwoState extends GameState {
     public void createOctopusEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
         int[][] pos = {
-                {5, 5}
+
+                {16,6}
         };
 
         try {
@@ -90,7 +90,10 @@ public class LevelTwoState extends GameState {
     public void createSharkEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
         int[][] pos = {
-                {5, 8}
+                {5, 8},
+
+
+
         };
 
         try {
@@ -152,6 +155,9 @@ public class LevelTwoState extends GameState {
             // If the enemy is not on the screen, he does not move
             if(!o.notOnScreen()){
                 o.update();
+                if(o.intersects(player)){
+                    player.hit(1);
+                }
             }
         }
 
@@ -159,6 +165,9 @@ public class LevelTwoState extends GameState {
             // If the enemy is not on the screen, he does not move
             if(!s.notOnScreen()){
                 s.update();
+                if(s.intersects(player)){
+                    player.hit(1);
+                }
             }
         }
 
@@ -172,10 +181,9 @@ public class LevelTwoState extends GameState {
         }
 
         health.update();
-        //oxygenLevel.update();
-        treasure.update();
 
-        checkWin();
+        treasure.update();
+checkWin();
     }
 
     @Override

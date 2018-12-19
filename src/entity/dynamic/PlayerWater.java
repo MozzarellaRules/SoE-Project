@@ -1,6 +1,6 @@
 package entity.dynamic;
 
-import entity.visual.IObservable;
+import entity.visual.PlayerObservable;
 import entity.ImageAnimator;
 import tilemap.TileMap;
 
@@ -57,7 +57,6 @@ public class PlayerWater extends Player {
             if (oxygen == 0)
                 setDead(true);
 
-            //System.out.println(oxygen);
     }
 
 
@@ -67,7 +66,7 @@ public class PlayerWater extends Player {
             oxygen = maxOxygen;
         }else
             oxygen+=10;
-        notifyObserver(IObservable.PlayerEvent.OXYGEN_MODIFIED);
+        notifyObserver(PlayerObservable.PlayerEvent.OXYGEN_MODIFIED);
     }
 
 

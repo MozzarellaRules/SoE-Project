@@ -18,6 +18,7 @@ public class EnemyWaterOctopus extends DynamicSprite {
         setStrategyY(StrategyFactory.getInstance().getSwimStrategyY()); // Initially the octopus is moving down
         setFactorX(0);
         setFactorY(2.0);
+        setCollisionBoxHeight(30);
 
         up = false ; // This boolean value shows if the oktopus is moving up or down
 
@@ -64,7 +65,7 @@ public class EnemyWaterOctopus extends DynamicSprite {
     public void setNextDelta(double factorX,double factorY) {
         double dy = getStrategyY().recalcDy(getDy(),up,factorY);
 
-        setDx(0);
+
         setDy(dy);
     }
 

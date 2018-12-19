@@ -23,6 +23,7 @@ public class EnemyWaterShark extends DynamicSprite {
         setFactorY(0);
 
         loadSpriteAsset(numFrames, "/Enemies/enemy_shark.png");
+        setCollisionBoxWidth((int)(getCollisionBoxWidth()*1.5));
 
         // Animate sprite
         imageAnimator = new ImageAnimator();
@@ -61,7 +62,7 @@ public class EnemyWaterShark extends DynamicSprite {
                 imageAnimator.getImage(),
                 (int)(getX()+tileMap.getX()-width/2),
                 (int)(getY()+tileMap.getY()-height/2),
-                width,
+                (int)(width*1.5),
                 height,
                 null);}
         else {
@@ -69,7 +70,7 @@ public class EnemyWaterShark extends DynamicSprite {
                 imageAnimator.getImage(),
                 (int)(getX()+tileMap.getX()-width/2+width),
                 (int)(getY()+tileMap.getY()-height/2),
-                -width,
+                    (int)(-width*1.5),
                 height,
                 null);
             }
