@@ -36,6 +36,14 @@ public class PlayerWater extends Player {
         imageAnimator.setDelay(100);
     }
 
+    public int getOxygen() {
+        return oxygen;
+    }
+
+    public void setOxygen(int oxygen) {
+        this.oxygen = oxygen;
+    }
+
     @Override
     public void hookUpdate() {
 

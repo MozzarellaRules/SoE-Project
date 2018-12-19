@@ -1,6 +1,6 @@
 package gamestate;
 
-import entity.IObservable;
+import entity.visual.IObservable;
 import entity.dynamic.*;
 import entity.Item;
 import entity.strategy.StrategyFactory;
@@ -59,7 +59,6 @@ public class LevelTwoState extends GameState {
         this.oxygenLevel.setOxygen(player.getOxygen());
         player.addObserver(oxygenLevel);
         createTresure();
-
 
         bg = new Background(BG_PATH,1);
 
@@ -122,7 +121,6 @@ public class LevelTwoState extends GameState {
         }
     }
 
-
     public void createTresure(){
         treasure = new Item(tileMap,"/Objects/asset_final_chest.png",16);
         treasure.setPosition(32,32);
@@ -177,12 +175,8 @@ public class LevelTwoState extends GameState {
         //oxygenLevel.update();
         treasure.update();
 
-
         checkWin();
     }
-
-
-
 
     @Override
     public void draw(Graphics2D g) {
@@ -216,20 +210,16 @@ public class LevelTwoState extends GameState {
                 player.setMovingRight(false);
                 player.setFacingRight(false);
                 player.setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
-
                 break;
             case KeyEvent.VK_RIGHT:
                 player.setMovingRight(true);
                 player.setMovingLeft(false);
                 player.setFacingRight(true);
                 player.setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
-
                 break;
             case KeyEvent.VK_UP:
-
-                    player.setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
-                    player.setFalling(false);
-
+                player.setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
+                player.setFalling(false);
                 break;
         }
     }
@@ -240,16 +230,12 @@ public class LevelTwoState extends GameState {
             case KeyEvent.VK_LEFT:
                 if(!player.isMovingRight())
                     player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-
                 player.setMovingLeft(false);
-
                 break;
             case KeyEvent.VK_RIGHT:
                 if(!player.isMovingLeft())
                     player.setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-
                 player.setMovingRight(false);
-
                 break;
             case KeyEvent.VK_UP:
                 player.setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());

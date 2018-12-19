@@ -74,8 +74,8 @@ public class DemoState extends GameState {
 
         movementsPressed.put(new Integer[]{48,16},KeyEvent.VK_RIGHT);
 
-        movementsPressed.put(new Integer[]{48,20},KeyEvent.VK_SPACE);
-        movementsPressed.put(new Integer[]{48,22},KeyEvent.VK_SPACE);
+        movementsPressed.put(new Integer[]{48,21},KeyEvent.VK_SPACE);
+        movementsPressed.put(new Integer[]{48,23},KeyEvent.VK_SPACE);
 
         movementsPressed.put(new Integer[]{48,28},KeyEvent.VK_UP);
         movementsReleased.put(new Integer[]{47,29},KeyEvent.VK_UP);
