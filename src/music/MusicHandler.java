@@ -35,6 +35,10 @@ public class MusicHandler implements StateObserver {
         return instance;
     }
 
+    /**
+     * This method is used to update the music handler and reproduce the corresponding BGM.
+     * @param state is the current state.
+     */
     @Override
     public void updateObserver(GameStateManager.State state) {
         clip.stop();

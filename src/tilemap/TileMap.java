@@ -35,7 +35,11 @@ public class TileMap {
 	private int colOffset; // which column to start drawing
 	private int numRowsToDraw;
 	private int numColsToDraw;
-	
+
+	/**
+	 * This method sets the size of the whole map and creates an instance of it.
+	 * @param tileSize
+	 */
 	public TileMap(int tileSize) {
 		this.tileSize = tileSize;
 
@@ -44,17 +48,54 @@ public class TileMap {
 	}
 
 	/**
-	 * GETTERS
+	 * This method returns the size of the map.
+	 * @return the size.
 	 */
 	public int getTileSize() { return tileSize;	}
+
+	/**
+	 * This method returns the current coordinate on the X axis.
+	 * @return the coordinate.
+	 */
 	public int getX() {	return (int) x;	}
+
+	/**
+	 * This method returns the current coordinate on the Y axis.
+	 * @return the coordinate.
+	 */
 	public int getY() {	return (int) y;	}
+
+	/**
+	 * This method returns the width of the map.
+	 * @return the width.
+	 */
 	public int getWidth() {	return width; }
+
+	/**
+	 * Returns the height of the map.
+	 * @return the height.
+	 */
 	public int getHeight() { return height; }
+
+	/**
+	 * Returns the number of rows in the map.
+	 * @return the number of rows.
+	 */
 	public int getNumRows() { return numRows; }
+
+	/**
+	 * Returns the number of columns in the map.
+	 * @return the number of columns
+	 */
 	public int getNumCols() { return numCols; }
+
 	public Tile[][] getTiles(){return tiles;}
 
+	/**
+	 * This method sets what part of the map to show at a time.
+	 * @param x is the X coordinate.
+	 * @param y is the Y coordinate.
+	 */
 	public void setPosition(double x,double y) {
 		this.x += (x-this.x);
 		this.y += (y-this.y);
@@ -64,6 +105,9 @@ public class TileMap {
 		rowOffset = (int)-this.y/tileSize;
 	}
 
+	/**
+	 * This method sets the axis when the player character tries to move beyond the screen boundaries.
+	 */
 	private void fixBounds() {
 		if(x < xmin)
 			x = xmin;
