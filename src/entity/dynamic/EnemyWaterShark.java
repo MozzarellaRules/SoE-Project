@@ -32,12 +32,11 @@ public class EnemyWaterShark extends DynamicSprite {
 
     @Override
     public void update() {
-        setNextDelta(getFactorX(),getFactorY()); //I prossimi dx e dy che dovrebbe assumere lo shark
-        checkTileMapCollision(); // Qui dato che i tile al di sotto dello squalo potrebbero essere non bloccanti la strategy viene settata automaticamante
-        //a MoveStrategyY con falling a true
-        setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
 
-        System.out.println(getDx());
+        setNextDelta(getFactorX(),getFactorY()); //The next dx,dy that the shark should assume.
+        checkTileMapCollision(); //Because the tiles should be "NORMAL" the strategy of the shark will be setted to MoveStrategyY
+        setStrategyY(StrategyFactory.getInstance().getStopStrategyY());//So we have to force the StopStrategyY
+
 
         if (getDx() == 0) { // Not moving -> collision detected
             // Revert facing and moving strategy
