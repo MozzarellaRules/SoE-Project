@@ -7,7 +7,7 @@ public class PlayerGround extends Player {
 
     // The integer refers to the row of the sprite asset
     private int IDLE_ROW = 0;
-    private int WALKING_ROW = 1;
+    private int MOVING_ROW = 1;
     private int SHOOTING_ROW = 2;
 
     // Each element of the array refers to the number of frames (or columns) in a row of the sprite asset
@@ -53,9 +53,9 @@ public class PlayerGround extends Player {
             setFacingRight(false);
 
         if(getDx() != 0) {
-            if(getCurrentRow() != WALKING_ROW) {
-                setCurrentRow(WALKING_ROW);
-                imageAnimator.setFrames(getSprites().get(WALKING_ROW));
+            if(getCurrentRow() != MOVING_ROW) {
+                setCurrentRow(MOVING_ROW);
+                imageAnimator.setFrames(getSprites().get(MOVING_ROW));
                 imageAnimator.setDelay(100);
             }
         }

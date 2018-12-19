@@ -1,6 +1,6 @@
 package entity.dynamic;
 
-import entity.visual.PlayerObservable;
+import entity.visual.IObservable;
 import entity.ImageAnimator;
 import tilemap.TileMap;
 
@@ -11,7 +11,7 @@ public class PlayerWater extends Player {
 
     // The integer refers to the row of the sprite asset
     private int DEFAULT_ROW = 0;
-    private int SWIMMING_ROW = 1;
+    private int MOVING_ROW = 1;
 
     private int oxygen;
     private int maxOxygen;
@@ -28,37 +28,41 @@ public class PlayerWater extends Player {
         maxOxygen = 50;
         oxygenTimer = System.nanoTime();
 
-
-
-
         imageAnimator = new ImageAnimator();
-        imageAnimator.setFrames(getSprites().get(SWIMMING_ROW));
+        imageAnimator.setFrames(getSprites().get(MOVING_ROW));
         imageAnimator.setDelay(100);
     }
 
-    public int getOxygen() {
-        return oxygen;
-    }
+    public int getOxygen() { return oxygen; }
 
-    public void setOxygen(int oxygen) {
-        this.oxygen = oxygen;
-    }
+    public void setOxygen(int oxygen) { this.oxygen = oxygen; }
 
     @Override
     public void hookUpdate() {
-
-            long elapsed = (System.nanoTime()-oxygenTimer)/1000000;
-            if(elapsed > 2000) {
-                oxygen -=1 ;
-                oxygenTimer = System.nanoTime();
-                notifyObserver(PlayerEvent.OXYGEN_MODIFIED);
-
+        long elapsed = (System.nanoTime()-oxygenTimer)/1000000;
+        if(elapsed > 2000) {
+            oxygen -=1 ;
+            oxygenTimer = System.nanoTime();
+            notifyObserver(PlayerEvent.OXYGEN_MODIFIED);
         }
-            if (oxygen == 0)
-                setDead(true);
 
+        if(oxygen == 0)
+            setDead(true);
+
+        if(getDx() != 0) {
+            if(getCurrentRow() != MOVING_ROW) {
+                setCurrentRow(MOVING_ROW);
+                imageAnimator.setFrames(getSprites().get(MOVING_ROW));
+                imageAnimator.setDelay(100);
+            }
+        } else {
+            if(getCurrentRow() != DEFAULT_ROW) {
+                setCurrentRow(DEFAULT_ROW);
+                imageAnimator.setFrames(getSprites().get(DEFAULT_ROW));
+                imageAnimator.setDelay(100);
+            }
+        }
     }
-
 
     //Increment the oxygen level by ten if a bubble is catched
     public void incrementOxygenLevel(){
@@ -66,11 +70,6 @@ public class PlayerWater extends Player {
             oxygen = maxOxygen;
         }else
             oxygen+=10;
-        notifyObserver(PlayerObservable.PlayerEvent.OXYGEN_MODIFIED);
+        notifyObserver(IObservable.PlayerEvent.OXYGEN_MODIFIED);
     }
-
-
-
-
-
 }

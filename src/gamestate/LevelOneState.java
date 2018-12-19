@@ -122,7 +122,7 @@ public class LevelOneState extends GameState {
 
 	private void createTreasureMap() {
 		treasureMap = new Item(tileMap, "/Objects/asset_map.png", 12);
-		treasureMap.setPosition(tileMap.getTileSize()*120,tileMap.getTileSize()*52-treasureMap.getHeight()/2);
+		treasureMap.setPosition(tileMap.getTileSize()*122,tileMap.getTileSize()*52-treasureMap.getHeight()/2);
 	}
 
 	public void createProjectile() {

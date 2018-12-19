@@ -20,7 +20,7 @@ public class GameStateManager implements KeyListener,StateObservable {
 	private ArrayList<gamestate.GameState> states;
 	private gamestate.GameState currentState;
 	private ArrayList<StateObserver> observers;
-	
+
 	public GameStateManager()  {
 		observers = new ArrayList<>();
 		currentState = new LevelTwoState(this);
