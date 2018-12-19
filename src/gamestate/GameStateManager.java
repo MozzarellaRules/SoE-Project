@@ -21,7 +21,7 @@ public class GameStateManager implements KeyListener,StateObservable {
 
 	public GameStateManager()  {
 		observers = new ArrayList<>();
-		currentState = new LevelTwoState(this);
+		currentState = new MenuState(this);
 	}
 	
 	public void setState(State state) {
@@ -44,7 +44,6 @@ public class GameStateManager implements KeyListener,StateObservable {
 			case WINSTATE:
 				currentState = new WinState(this);
 				break;
-
 		}
 		notifyObserver(state);
 		currentState.init();

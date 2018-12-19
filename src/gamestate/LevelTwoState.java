@@ -123,7 +123,6 @@ public class LevelTwoState extends GameState {
                 {7,12},
                 {18,21},
                 {14,45}
-
         };
 
         for(int i=0; i<pos.length; i++) {
@@ -136,8 +135,6 @@ public class LevelTwoState extends GameState {
     public void createTresure(){
         treasure = new Item(tileMap,"/Objects/asset_final_chest.png",16);
         treasure.setPosition(32,(32*18)+16);
-
-
     }
 
     public void checkWin()  {
@@ -157,11 +154,11 @@ public class LevelTwoState extends GameState {
         bg.setPosition(tileMap.getX(), 0);
 
         // If the player is dead... set state GameOver
-        if(player.isDead() || player.notOnScreen()){
+        if(player.isDead() || player.notOnScreen()) {
             gsm.setState(GameStateManager.State.GAMEOVER);
         }
 
-        for(EnemyWaterOctopus o : octopus){
+        for(EnemyWaterOctopus o : octopus) {
             // If the enemy is not on the screen, he does not move
             o.update();
             if(o.intersects(player)){
@@ -172,11 +169,9 @@ public class LevelTwoState extends GameState {
 
         for(EnemyWaterShark s : sharks){
             // If the enemy is not on the screen, he does not move
-
-                s.update();
-                if(s.intersects(player)){
-                    player.hit(1);
-
+            s.update();
+            if(s.intersects(player)) {
+                player.hit(1);
             }
         }
 
@@ -204,15 +199,12 @@ public class LevelTwoState extends GameState {
 
         player.draw(g);
 
-
-        for(EnemyWaterOctopus o : octopus){
+        for(EnemyWaterOctopus o : octopus) {
             o.draw(g);
         }
 
-        for(EnemyWaterShark s : sharks){
+        for(EnemyWaterShark s : sharks) {
             s.draw(g);
-
-
         }
 
         for(Item o : oxygenBubbles) {
