@@ -26,6 +26,10 @@ public class DemoState extends GameState {
     private Map<Integer[],Integer> movementsPressed;
     private Map<Integer[],Integer> movementsReleased;
 
+    /**
+     * This method sets the state to the L1 in order to show the demo of the game.
+     * @param gsm is the game state manager.
+     */
     public DemoState(GameStateManager gsm) {
         this.gsm = gsm;
         this.levelOne = new LevelOneState(gsm);
@@ -34,6 +38,10 @@ public class DemoState extends GameState {
         init();
     }
 
+    /**
+     * This method initialises the "fake level". It creates an array of "suggestions" that will thell the
+     * player which buttons to press in order to perform a certain action.
+     */
     @Override
     public void init() {
         this.gamePaused = false;
@@ -49,6 +57,9 @@ public class DemoState extends GameState {
         createMovements();
     }
 
+    /**
+     * This method creates the "suggestions" that will be shown to the player during the demo.
+     */
     private void createSuggestions() {
         Suggestion s1 = new Suggestion("resources/Objects/suggest_go_right.png", 45, 13, KeyEvent.VK_RIGHT);
         Suggestion s2 = new Suggestion("resources/Objects/suggest_go_left.png", 51, 31, KeyEvent.VK_LEFT);
@@ -67,6 +78,10 @@ public class DemoState extends GameState {
         suggests.add(s7);
     }
 
+    /**
+     * This method will resume the game whenever the correct key is pressed during the
+     * various suggestions.
+     */
     private void createMovements() {
         movementsPressed.put(new Integer[]{45,13},KeyEvent.VK_RIGHT);
         movementsReleased.put(new Integer[]{45,16},KeyEvent.VK_RIGHT);
@@ -87,6 +102,9 @@ public class DemoState extends GameState {
         movementsPressed.put(new Integer[]{51,22},KeyEvent.VK_SPACE);
     }
 
+    /**
+     * This method updates the CPU-controlled player character during the demo.
+     */
     @Override
     public void update() {
         if(!gamePaused) {
@@ -120,6 +138,10 @@ public class DemoState extends GameState {
         }
     }
 
+    /**
+     * This method calls the draw method from the actual L1 class and draws the additional suggestions.
+     * @param g is the Graphics2D object used to draw everything.
+     */
     @Override
     public void draw(Graphics2D g) {
         levelOne.draw(g);
@@ -131,6 +153,10 @@ public class DemoState extends GameState {
         }
     }
 
+    /**
+     * This method checks whether the correct key has been pressed during its corresponding suggestion.
+     * @param keyCode represents the desired key.
+     */
     @Override
     public void keyPressed(int keyCode) {
         if(gamePaused) {
@@ -145,9 +171,10 @@ public class DemoState extends GameState {
         }
     }
 
-    @Override
-    public void keyReleased(int keyCode) {
 
+    @Override
+    public void keyReleased(int keyCode) throws UnsupportedOperationException {
+       throw new UnsupportedOperationException();
     }
 
     class Suggestion {
@@ -163,9 +190,28 @@ public class DemoState extends GameState {
             this.wantedInput = wantedInput;
         }
 
+        /**
+         * This method returns the row on which to place the suggestion.
+         * @return the row.
+         */
         public int getRow() { return row; }
+
+        /**
+         * This method returns the column on which to place the suggestion.
+         * @return the column
+         */
         public int getCol() { return col; }
+
+        /**
+         * Returns the image to draw.
+         * @return the image.
+         */
         public Image getImage() { return image; }
+
+        /**
+         * Tells what key needs to be pressed in order to make the suggestion disappear.
+         * @return the desired input.
+         */
         public int getWantedInput() { return wantedInput; }
     }
 }
