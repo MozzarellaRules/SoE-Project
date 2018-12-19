@@ -1,5 +1,6 @@
 package gamestate;
 
+import entity.IObservable;
 import entity.dynamic.*;
 import entity.Item;
 import entity.strategy.StrategyFactory;
@@ -18,6 +19,7 @@ public class LevelTwoState extends GameState {
     public static String BG_PATH = "/Background/bg_level_two.jpeg";
     public static String TILESET_PATH = "/Tilesets/tileset_level_two.png";
     public static String MAP_PATH = "/Maps/map_level_two.txt";
+    public static String TRESURE_PATH = "/Objects/ammo_final_chest.png";
 
     private GameStateManager gsm;
 
@@ -31,6 +33,8 @@ public class LevelTwoState extends GameState {
 
     private Health health;
     private OxygenLevel oxygenLevel;
+
+    private Item treasure;
 
     public LevelTwoState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -54,6 +58,8 @@ public class LevelTwoState extends GameState {
         this.oxygenLevel = new OxygenLevel(tileMap);
         this.oxygenLevel.setOxygen(player.getOxygen());
         player.addObserver(oxygenLevel);
+        createTresure();
+
 
         bg = new Background(BG_PATH,1);
 
@@ -68,8 +74,8 @@ public class LevelTwoState extends GameState {
 
     public void createOctopusEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
-        int pos[][] = {
-                {5,5}
+        int[][] pos = {
+                {5, 5}
         };
 
         try {
@@ -84,8 +90,8 @@ public class LevelTwoState extends GameState {
 
     public void createSharkEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
-        int pos[][] = {
-                {5,8}
+        int[][] pos = {
+                {5, 8}
         };
 
         try {
@@ -105,14 +111,27 @@ public class LevelTwoState extends GameState {
     }
 
     public void createOxygenBubbles() {
-        int pos[][] = {
-                {3,3}
+        int[][] pos = {
+                {5, 6}
         };
 
         for(int i=0; i<pos.length; i++) {
             Item o = new Item(tileMap, "/Objects/asset_bubbles.png", 5);
             o.setPosition(tileMap.getTileSize()*pos[i][1],tileMap.getTileSize()*pos[i][0]+6);
             oxygenBubbles.add(o);
+        }
+    }
+
+
+    public void createTresure(){
+        treasure = new Item(tileMap,"/Objects/asset_final_chest.png",16);
+        treasure.setPosition(32,32);
+    }
+
+    public void checkWin() {
+        if(player.intersects(treasure)) {
+            //gsm.setState(GameStateManager.State.LEVEL2STATE);
+            System.out.println("You win!");
         }
     }
 
@@ -147,11 +166,23 @@ public class LevelTwoState extends GameState {
 
         for(Item o : oxygenBubbles) {
             o.update();
+            if(player.intersects(o)){
+                oxygenBubbles.remove(o);
+                player.incrementOxygenLevel();
+                break;
+            }
         }
 
         health.update();
-        oxygenLevel.update();
+        //oxygenLevel.update();
+        treasure.update();
+
+
+        checkWin();
     }
+
+
+
 
     @Override
     public void draw(Graphics2D g) {
@@ -174,6 +205,7 @@ public class LevelTwoState extends GameState {
 
         health.draw(g);
         oxygenLevel.draw(g);
+        treasure.draw(g);
     }
 
     @Override
@@ -194,10 +226,10 @@ public class LevelTwoState extends GameState {
 
                 break;
             case KeyEvent.VK_UP:
-                //if(!player.isFalling()){ // No jump in mid-air
+
                     player.setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
                     player.setFalling(false);
-                //}
+
                 break;
         }
     }
