@@ -7,7 +7,7 @@ import tilemap.TileMap;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class OxygenLevel extends Sprite implements IObserver {
+public class OxygenLevel extends Sprite implements PlayerObserver {
     private BufferedImage imageHealth;
     private BufferedImage subImageHealth;
     private int oxygen;
@@ -43,8 +43,8 @@ public class OxygenLevel extends Sprite implements IObserver {
     }
 
     @Override
-    public void updateObserver(IObservable context, IObservable.PlayerEvent event) {
-        if(event == IObservable.PlayerEvent.OXYGEN_MODIFIED) {
+    public void updateObserver(PlayerObservable context, PlayerObservable.PlayerEvent event) {
+        if(event == PlayerObservable.PlayerEvent.OXYGEN_MODIFIED) {
             PlayerWater player = (PlayerWater) context;
             this.oxygen = player.getOxygen();
         }

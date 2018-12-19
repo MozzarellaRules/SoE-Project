@@ -7,7 +7,7 @@ import tilemap.TileMap;
 import javax.swing.*;
 import java.awt.*;
 
-public class RemainingBullets extends Sprite implements IObserver {
+public class RemainingBullets extends Sprite implements PlayerObserver {
     private int remainingBullets;
     private Image image;
 
@@ -39,8 +39,8 @@ public class RemainingBullets extends Sprite implements IObserver {
     }
 
     @Override
-    public void updateObserver(IObservable context, IObservable.PlayerEvent event) {
-        if(event == IObservable.PlayerEvent.BULLETS_MODIFIED) {
+    public void updateObserver(PlayerObservable context, PlayerObservable.PlayerEvent event) {
+        if(event == PlayerObservable.PlayerEvent.BULLETS_MODIFIED) {
             PlayerGround player = (PlayerGround) context;
             setRemainingBullets(player.getRemainingBullets());
         }

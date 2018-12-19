@@ -1,9 +1,13 @@
 package gamestate;
+import music.MusicHandler;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class GameStateManager implements KeyListener {
+public class GameStateManager implements KeyListener,StateObservable {
+
+
 	public static enum State {
 		MENUSTATE,
 		LEVEL1STATE,
@@ -14,9 +18,11 @@ public class GameStateManager implements KeyListener {
 
 	private ArrayList<gamestate.GameState> states;
 	private gamestate.GameState currentState;
-	
-	public GameStateManager() {
-		currentState = new MenuState(this);
+	private ArrayList<StateObserver> observers;
+
+	public GameStateManager()  {
+		observers = new ArrayList<>();
+		currentState = new LevelOneState(this);
 	}
 	
 	public void setState(State state) {
@@ -36,6 +42,7 @@ public class GameStateManager implements KeyListener {
 			case DEMO:
 				currentState = new DemoState(this);
 		}
+		notifyObserver(state);
 		currentState.init();
 	}
 	
@@ -59,4 +66,23 @@ public class GameStateManager implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) { }
+
+
+	@Override
+	public void addObserver(StateObserver obj) {
+		observers.add(obj);
+	}
+
+	@Override
+	public void deleteObserver(StateObserver obj) {
+		observers.remove(obj);
+	}
+
+	@Override
+	public void notifyObserver(State state) {
+		for (StateObserver o:observers){
+			o.updateObserver(state);
+		}
+	}
+
 }
