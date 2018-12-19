@@ -20,11 +20,18 @@ public class Item extends Sprite {
         imageAnimator.setDelay(100);
     }
 
+    /**
+     * Update the animation of the item
+     */
     @Override
     public void update() {
         imageAnimator.update();
     }
 
+    /**
+     * This method draws the image Item on the g element
+     * @param g
+     */
     @Override
     public void draw(Graphics2D g) {
         g.drawImage(imageAnimator.getImage(), (int)(getX()+tileMap.getX()-width/2), (int)(getY()+tileMap.getY()-height/2), null);
