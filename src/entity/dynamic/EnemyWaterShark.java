@@ -37,8 +37,6 @@ public class EnemyWaterShark extends DynamicSprite {
         //a MoveStrategyY con falling a true
         setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
 
-        System.out.println(getDx());
-
         if (getDx() == 0) { // Not moving -> collision detected
             // Revert facing and moving strategy
             if(isFacingRight()) {

@@ -35,9 +35,11 @@ public class OxygenLevel extends Sprite implements IObserver {
 
     @Override
     public void draw(Graphics2D g) {
-        g.setFont(new Font("Arial",Font.BOLD,12));
-        g.setColor(new Color(212, 154, 60));
-        g.drawString("Oxygen: " + oxygen, 25, 50);
+        g.setFont(new Font("Arial",Font.BOLD,10));
+        g.setColor(new Color(212, 198, 61));
+        g.fillRect(10, 36, oxygen*2, 20);
+        g.setColor(new Color(41, 25, 212));
+        g.drawString("Oxygen: " + oxygen, 15, 50);
     }
 
     @Override

@@ -9,7 +9,6 @@ public class StrategyFactory {
 
     private SwimStrategyY swimStrategyY;
 
-
     private static StrategyFactory instance;
 
     private StrategyFactory() {

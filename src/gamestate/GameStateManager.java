@@ -16,7 +16,7 @@ public class GameStateManager implements KeyListener {
 	private gamestate.GameState currentState;
 	
 	public GameStateManager() {
-		currentState = new LevelTwoState(this);
+		currentState = new MenuState(this);
 	}
 	
 	public void setState(State state) {
