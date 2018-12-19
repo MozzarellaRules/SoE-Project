@@ -2,8 +2,8 @@ package entity.dynamic;
 
 import java.util.ArrayList;
 
-import entity.IObservable;
-import entity.IObserver;
+import entity.visual.IObservable;
+import entity.visual.IObserver;
 import entity.strategy.*;
 import tilemap.TileMap;
 import java.awt.*;
@@ -17,15 +17,8 @@ public abstract class Player extends DynamicSprite implements IObservable {
     private boolean flinching;
     private long flinchTimer;
 
-
-    private double factorX;
-    private double factorY;
-
-
-
     public Player(TileMap tm) {
         super(tm);
-
 
         observers = new ArrayList<>();
         setFalling(true);
@@ -33,23 +26,20 @@ public abstract class Player extends DynamicSprite implements IObservable {
         // Falling when the game starts
         setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
         setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
+        setFactorX(1.0);
+        setFactorY(1.0);
+        setFacingRight(true);
 
         // Init parameters
         this.maxHealth = 3;
         this.health = maxHealth;
         this.flinching = false;
-
-        setFacingRight(true);
-
-        factorX = 1.0;
-        factorY = 1.0;
     }
 
     /**
      * GETTERS
      */
     public boolean isDead() { return isDead; }
-
     public int getHealth() { return health; }
     public int getMaxHealth() { return maxHealth; }
 
@@ -57,8 +47,6 @@ public abstract class Player extends DynamicSprite implements IObservable {
      * SETTERS
      *
      */
-    public void setFactorY(double factorY){this.factorY = factorY;}
-    public void setFactorX(double factorX){this.factorX = factorX;}
     public void setHealth(int health){this.health = health;}
     public void setMaxHealth(int maxHealth){this.maxHealth = maxHealth;}
 
@@ -93,7 +81,7 @@ public abstract class Player extends DynamicSprite implements IObservable {
 
     @Override
     public void update(){
-        setNextDelta(factorX,factorY);
+        setNextDelta(getFactorX(),getFactorY());
         checkTileMapCollision();
 
         if(!isFalling())

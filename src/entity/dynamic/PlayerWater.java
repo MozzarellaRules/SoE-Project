@@ -12,18 +12,8 @@ public class PlayerWater extends Player {
     private int DEFAULT_ROW = 0;
     private int SWIMMING_ROW = 1;
 
-    public int getOxygen() {
-        return oxygen;
-    }
-
-    public void setOxygen(int oxygen) {
-        this.oxygen = oxygen;
-    }
-
     private int oxygen;
     private long oxygenTimer;
-
-
 
     public PlayerWater(TileMap tm) {
         super(tm);
@@ -35,12 +25,16 @@ public class PlayerWater extends Player {
         oxygen = 50;
         oxygenTimer = System.nanoTime();
 
-
-
-
         imageAnimator = new ImageAnimator();
         imageAnimator.setFrames(getSprites().get(SWIMMING_ROW));
         imageAnimator.setDelay(100);
+    }
+
+    public int getOxygen() {
+        return oxygen;
+    }
+    public void setOxygen(int oxygen) {
+        this.oxygen = oxygen;
     }
 
     @Override

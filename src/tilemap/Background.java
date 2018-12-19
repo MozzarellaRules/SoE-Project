@@ -2,9 +2,7 @@ package tilemap;
 
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-
 import main.GamePanelController;
-
 import java.awt.*;
 
 public class Background {
@@ -27,18 +25,18 @@ public class Background {
 	}
 	
 	public void setPosition(double x, double y) {
-		this.x=(x*moveScale) % GamePanelController.WIDTH;
-		this.y=(y*moveScale) % GamePanelController.HEIGHT;
+		this.x = (x*moveScale) % GamePanelController.WIDTH;
+		this.y = (y*moveScale) % GamePanelController.HEIGHT;
 	}
 	
 	public void setVector(double dx, double dy) {
-		this.dx=dx;
-		this.dy=dy;
+		this.dx = dx;
+		this.dy = dy;
 	}
 	
 	public void update() {
-		x+=dx;
-		y+=dy;
+		x += dx;
+		y += dy;
 	}
 	
 	public void draw(Graphics2D g) {
@@ -52,6 +50,4 @@ public class Background {
 			
 		}
 	}
-	
-	
 }

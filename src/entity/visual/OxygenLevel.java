@@ -1,13 +1,9 @@
 package entity.visual;
 
-import entity.IObservable;
-import entity.IObserver;
 import entity.Sprite;
-import entity.dynamic.Player;
 import entity.dynamic.PlayerWater;
 import tilemap.TileMap;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

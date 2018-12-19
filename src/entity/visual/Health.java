@@ -1,7 +1,5 @@
 package entity.visual;
 
-import entity.IObservable;
-import entity.IObserver;
 import entity.Sprite;
 import entity.dynamic.Player;
 import tilemap.TileMap;

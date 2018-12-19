@@ -73,8 +73,8 @@ public abstract class Sprite {
 
 	public Rectangle getRectangle() {
 		return new Rectangle(
-				(int)x,
-				(int)y,
+				(int)x-collisionBoxWidth/2,
+				(int)y-collisionBoxHeight/2,
 				collisionBoxWidth,
 				collisionBoxHeight);
 	}

@@ -6,7 +6,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 import entity.dynamic.*;
-import entity.objects.Item;
+import entity.Item;
 import entity.strategy.*;
 import entity.visual.Health;
 import entity.visual.RemainingBullets;
@@ -20,7 +20,6 @@ public class LevelOneState extends GameState {
 	public static String MAP_PATH = "/Maps/map_level_one.txt";
 
 	private GameStateManager gsm;
-	
 	private TileMap tileMap;
 	private Background bg;
 
@@ -106,20 +105,20 @@ public class LevelOneState extends GameState {
 
 	private void createAmmo() {
 		int pos[][] = {
-				{48,14},
-				{51,16}
+				{49,12},
+				{52,16}
 		};
 
 		for(int i=0; i<pos.length; i++) {
 			Item a = new Item(tileMap, "/Objects/asset_ammo.png", 6);
-			a.setPosition(tileMap.getTileSize()*pos[i][1],tileMap.getTileSize()*pos[i][0]+6);
+			a.setPosition(tileMap.getTileSize()*pos[i][1],tileMap.getTileSize()*pos[i][0]-a.getHeight()/2);
 			ammo.add(a);
 		}
 	}
 
 	private void createTreasureMap() {
 		treasureMap = new Item(tileMap, "/Objects/asset_map.png", 12);
-		treasureMap.setPosition(tileMap.getTileSize()*121,tileMap.getTileSize()*51);
+		treasureMap.setPosition(tileMap.getTileSize()*120,tileMap.getTileSize()*52-treasureMap.getHeight()/2);
 	}
 
 	public void createProjectile() {
@@ -212,6 +211,8 @@ public class LevelOneState extends GameState {
 		treasureMap.draw(g);
 
 		for(Item a : ammo) {
+			//Rectangle r = a.getRectangle();
+			//g.fillRect((int)r.getX()+tileMap.getX(),(int)r.getY()+tileMap.getY(), (int)r.getWidth(), (int)r.getHeight());
 			a.draw(g);
 		}
 		for(Projectile p : projectiles) {

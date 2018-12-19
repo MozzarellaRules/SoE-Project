@@ -1,6 +1,4 @@
-package entity;
-
-import java.util.Observer;
+package entity.visual;
 
 public interface IObservable {
 

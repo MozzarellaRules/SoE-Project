@@ -26,14 +26,13 @@ public class DemoState extends GameState {
     private Map<Integer[],Integer> movementsPressed;
     private Map<Integer[],Integer> movementsReleased;
 
-    private Component component;
-
     public enum DemoSuggestion {
         MOVE_LEFT,
         MOVE_RIGHT,
         JUMP,
         SHOOT,
         GRAB_AMMO,
+        COMPLETED_DEMO,
         NO_SUGGEST
     }
 
@@ -62,19 +61,31 @@ public class DemoState extends GameState {
 
     private void createSuggestions() {
         suggestions.put(new Integer[]{45,13},DemoSuggestion.MOVE_RIGHT);
-        suggestions.put(new Integer[]{48,17},DemoSuggestion.MOVE_LEFT);
-        suggestions.put(new Integer[]{48,15},DemoSuggestion.GRAB_AMMO);
-        suggestions.put(new Integer[]{48,24},DemoSuggestion.SHOOT);
-        suggestions.put(new Integer[]{48,28},DemoSuggestion.JUMP);
+        suggestions.put(new Integer[]{51,31},DemoSuggestion.MOVE_LEFT);
+        suggestions.put(new Integer[]{48,12},DemoSuggestion.GRAB_AMMO);
+        suggestions.put(new Integer[]{48,20},DemoSuggestion.SHOOT);
+        suggestions.put(new Integer[]{48,14},DemoSuggestion.JUMP);
+        suggestions.put(new Integer[]{51,14},DemoSuggestion.COMPLETED_DEMO);
     }
 
     private void createMovements() {
         movementsPressed.put(new Integer[]{45,13},KeyEvent.VK_RIGHT);
         movementsReleased.put(new Integer[]{45,16},KeyEvent.VK_RIGHT);
+
         movementsPressed.put(new Integer[]{48,16},KeyEvent.VK_RIGHT);
-        movementsReleased.put(new Integer[]{48,17},KeyEvent.VK_RIGHT);
-        movementsPressed.put(new Integer[]{48,17},KeyEvent.VK_LEFT);
-        movementsPressed.put(new Integer[]{48,14},KeyEvent.VK_RIGHT);
+
+        movementsPressed.put(new Integer[]{48,20},KeyEvent.VK_SPACE);
+        movementsPressed.put(new Integer[]{48,22},KeyEvent.VK_SPACE);
+
+        movementsPressed.put(new Integer[]{48,28},KeyEvent.VK_UP);
+        movementsReleased.put(new Integer[]{47,29},KeyEvent.VK_UP);
+
+        movementsReleased.put(new Integer[]{48,32},KeyEvent.VK_RIGHT);
+
+        movementsPressed.put(new Integer[]{51,32},KeyEvent.VK_LEFT);
+
+        movementsPressed.put(new Integer[]{51,24},KeyEvent.VK_SPACE);
+        movementsPressed.put(new Integer[]{51,22},KeyEvent.VK_SPACE);
     }
 
     @Override
@@ -110,24 +121,6 @@ public class DemoState extends GameState {
                 break;
             }
         }
-
-
-        //levelOne.keyPressed(KeyEvent.VK_RIGHT);
-
-        /*
-        if(tile_row_player == 45 && tile_col_player >= 13 && tile_col_player < 15) {
-            new PlayerControl().goRight(false);
-        } else if(tile_col_player == 16 && player.isFalling()) {
-            new PlayerControl().goRight(true);
-        } else if(tile_col_player == 16 && !player.isFalling()) {
-            new PlayerControl().goRight(false);
-        } else if(tile_col_player == 17 && !player.isFalling()) {
-            new PlayerControl().goRight(true);
-            new PlayerControl().goLeft(false);
-        } else if(tile_col_player == 14 && !player.isFalling()) {
-            new PlayerControl().goLeft(true);
-        }
-        */
     }
 
     @Override
@@ -151,23 +144,26 @@ public class DemoState extends GameState {
         } else if(currentSuggestion == DemoSuggestion.GRAB_AMMO) {
             g.drawImage(new ImageIcon("resources/Objects/suggest_ammo.png").getImage(),
                     GamePanelController.WIDTH-150, 20, null);
+        } else if(currentSuggestion == DemoSuggestion.COMPLETED_DEMO) {
+            g.drawImage(new ImageIcon("resources/Objects/suggest_demo_completed.png").getImage(),
+                    GamePanelController.WIDTH-150, 20, null);
         }
     }
 
     @Override
     public void keyPressed(int keyCode) {
-
         if(gamePaused) {
+            if(currentSuggestion == DemoSuggestion.COMPLETED_DEMO) {
+                gsm.setState(GameStateManager.State.LEVEL1STATE);
+            }
             completedSuggestions.put(currentSuggestion, true);
             gamePaused = false;
             currentSuggestion = DemoSuggestion.NO_SUGGEST;
         }
-
-        //levelOne.keyPressed(e);
     }
 
     @Override
     public void keyReleased(int keyCode) {
-        //levelOne.keyReleased(keyCode);
+
     }
 }

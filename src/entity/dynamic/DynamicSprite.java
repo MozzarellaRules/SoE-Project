@@ -10,30 +10,21 @@ import tilemap.TileMap;
 import java.awt.*;
 
 public abstract class DynamicSprite extends Sprite {
-    private boolean falling;
-
-    protected boolean topLeftBlocked;
-    protected boolean topRightBlocked;
+    private boolean topLeftBlocked;
+    private boolean topRightBlocked;
     private boolean bottomLeftBlocked;
     private boolean bottomRightBlocked;
-
-    private int currRow;
-    private int currCol;
-    private double xNew;
-    private double yNew;
-
-    private double xCurrent;
-    private double yCurrent;
 
     private StrategyX strategyX;
     private StrategyY strategyY;
 
+    private double factorX;
+    private double factorY;
+
     private boolean facingRight;
-
-
     private boolean movingLeft;
     private boolean movingRight;
-
+    private boolean falling;
 
     public DynamicSprite(TileMap tm) {
         super(tm);
@@ -42,37 +33,38 @@ public abstract class DynamicSprite extends Sprite {
     /**
      * GETTERS
      */
-    public boolean isFalling() { return falling; }
-    public boolean isFacingRight(){return facingRight;}
-
     public StrategyX getStrategyX() { return strategyX; }
     public StrategyY getStrategyY() { return strategyY; }
-
+    public double getFactorX() { return factorX; }
+    public double getFactorY() { return factorY; }
+    public boolean isFacingRight(){return facingRight;}
     public boolean isMovingLeft() { return movingLeft; }
     public boolean isMovingRight() { return movingRight; }
+    public boolean isFalling() { return falling; }
 
     /**
      * SETTERS
      */
     public void setStrategyX(StrategyX strategyX) { this.strategyX = strategyX; }
     public void setStrategyY(StrategyY strategyY) { this.strategyY = strategyY; }
-    public void setFalling(boolean falling){ this.falling = falling;}
+    public void setFactorX(double factorX){this.factorX = factorX;}
+    public void setFactorY(double factorY){this.factorY = factorY;}
     public void setFacingRight(boolean facingRight){this.facingRight=facingRight;}
-
     public void setMovingLeft(boolean movingLeft) { this.movingLeft = movingLeft; }
     public void setMovingRight(boolean movingRight) { this.movingRight = movingRight; }
+    public void setFalling(boolean falling){ this.falling = falling;}
 
     /**
      * Set dx/dy to zero if the character collide with a blocked tile
      * Set current position
      */
     public void checkTileMapCollision() {
-        currCol = (int)getX()/tileSize;
-        currRow = (int)getY()/tileSize;
-        xNew = getX()+getDx();
-        yNew = getY()+getDy();
-        xCurrent = getX();
-        yCurrent = getY();
+        int currCol = (int) getX() / tileSize;
+        int currRow = (int) getY() / tileSize;
+        double xNew = getX() + getDx();
+        double yNew = getY() + getDy();
+        double xCurrent = getX();
+        double yCurrent = getY();
 
         /**
          * Movement on the Y-axis
@@ -147,8 +139,6 @@ public abstract class DynamicSprite extends Sprite {
         return r1.intersects(r2);
     }
 
-
-
     /**
      * Determine if the tiles around the player are blocked
      * Set the variables topLeftBlocked, topRightBlocked, bottomLeftBlocked, bottomRightBlocked
@@ -157,12 +147,12 @@ public abstract class DynamicSprite extends Sprite {
      */
     public void calculateCorners(double x, double y) {
         // Determine the column of the tile on the left/right of the character
-        int leftTileColumn = (int)(x- collisionBoxWidth /2)/tileSize;
-        int rightTileColumn = (int)(x+ collisionBoxWidth /2-1)/tileSize;
+        int leftTileColumn = (int)(x-collisionBoxWidth/2)/tileSize;
+        int rightTileColumn = (int)(x+collisionBoxWidth/2-1)/tileSize;
 
         // Determine the row of the tile above/below the character
-        int topTileRow = (int)(y- collisionBoxHeight /2)/tileSize;
-        int bottomTileRow = (int)(y+ collisionBoxHeight /2-1)/tileSize;
+        int topTileRow = (int)(y-collisionBoxHeight/2)/tileSize;
+        int bottomTileRow = (int)(y+collisionBoxHeight/2-1)/tileSize;
 
         // Reached the bounds of the map
         if(topTileRow < 0 || bottomTileRow >= tileMap.getNumRows() ||

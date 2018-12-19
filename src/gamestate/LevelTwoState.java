@@ -1,7 +1,7 @@
 package gamestate;
 
 import entity.dynamic.*;
-import entity.objects.Item;
+import entity.Item;
 import entity.strategy.StrategyFactory;
 import entity.visual.Health;
 import entity.visual.OxygenLevel;

@@ -1,4 +1,4 @@
-package entity.objects;
+package entity;
 
 import entity.ImageAnimator;
 import entity.Sprite;
@@ -27,6 +27,6 @@ public class Item extends Sprite {
 
     @Override
     public void draw(Graphics2D g) {
-        g.drawImage(imageAnimator.getImage(), getX()+tileMap.getX(), getY()+tileMap.getY(), null);
+        g.drawImage(imageAnimator.getImage(), (int)(getX()+tileMap.getX()-width/2), (int)(getY()+tileMap.getY()-height/2), null);
     }
 }

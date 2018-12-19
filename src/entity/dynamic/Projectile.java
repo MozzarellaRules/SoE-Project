@@ -11,23 +11,15 @@ public class Projectile extends DynamicSprite {
     private Image image;
     private boolean remove;
 
-    private double factorX;
-    private double factorY;
-
-
     public Projectile(TileMap tm, boolean facingRight) {
         super(tm);
 
-
-        factorX = 2.0;
-        factorY = 0;
-
-
-        setMovingRight(facingRight);
-        setFacingRight(facingRight);
-
         setStrategyX(StrategyFactory.getInstance().getMoveStrategyX());
         setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
+        setFactorX(2.0);
+        setFactorY(0);
+        setMovingRight(facingRight);
+        setFacingRight(facingRight);
 
         this.image = new ImageIcon("resources/Objects/bullet.png").getImage();
     }
@@ -39,10 +31,8 @@ public class Projectile extends DynamicSprite {
 
     @Override
     public void update() {
-
-        setNextDelta(factorX,factorY);
+        setNextDelta(getFactorX(),getFactorY());
         checkTileMapCollision();
-
 
         setStrategyY(StrategyFactory.getInstance().getStopStrategyY());
 

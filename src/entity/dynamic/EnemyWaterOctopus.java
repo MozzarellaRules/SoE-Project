@@ -11,19 +11,13 @@ public class EnemyWaterOctopus extends DynamicSprite {
     private final int[] numFrames = {6};
     private boolean up ;
 
-
-    private double factorX;
-    private double factorY;
-
-
     public EnemyWaterOctopus(TileMap tm) {
         super(tm);
 
-        factorX = 0;
-        factorY = 2.0;
-
         setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
-        setStrategyY(StrategyFactory.getInstance().getSwimStrategyY()); // Initially the oktopus is moving down
+        setStrategyY(StrategyFactory.getInstance().getSwimStrategyY()); // Initially the octopus is moving down
+        setFactorX(0);
+        setFactorY(2.0);
 
         up = false ; // This boolean value shows if the oktopus is moving up or down
 
@@ -38,8 +32,7 @@ public class EnemyWaterOctopus extends DynamicSprite {
 
     @Override
     public void update() {
-
-        setNextDelta(factorX,factorY);
+        setNextDelta(getFactorX(),getFactorY());
         checkTileMapCollision();
 
         if(getDy()==0){ // collision detected
@@ -69,7 +62,6 @@ public class EnemyWaterOctopus extends DynamicSprite {
 
     @Override
     public void setNextDelta(double factorX,double factorY) {
-
         double dy = getStrategyY().recalcDy(getDy(),up,factorY);
 
         setDx(0);

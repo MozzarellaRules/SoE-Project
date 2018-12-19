@@ -11,11 +11,6 @@ public class EnemyGround extends DynamicSprite {
     private int DEFAULT_ROW = 0;
     private final int[] numFrames = {12};
 
-    private double factorX;
-    private double factorY;
-
-
-
     private boolean isDead;
     private int health;
 
@@ -23,19 +18,15 @@ public class EnemyGround extends DynamicSprite {
         super(tm);
 
         setFalling(true);
-
         setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
         setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
-
+        setFactorX(1.5);
+        setFactorY(1.0);
         setCollisionBoxWidth(20);
         setCollisionBoxHeight(30);
 
         health = 2;
         isDead = false;
-
-        factorX = 1.5 ;
-        factorY = 1.0;
-
 
         loadSpriteAsset(numFrames, "/Enemies/enemy_ground.png");
 
@@ -49,8 +40,6 @@ public class EnemyGround extends DynamicSprite {
      * GETTERS
      */
     public boolean isDead(){ return isDead; }
-
-
 
     /**
      * The player hit the enemy. Set a damage.
@@ -69,7 +58,7 @@ public class EnemyGround extends DynamicSprite {
 
     @Override
     public void update(){
-        setNextDelta(factorX,factorY);
+        setNextDelta(getFactorX(),getFactorY());
         checkTileMapCollision();
 
         if(!isFalling()) { // Not falling
