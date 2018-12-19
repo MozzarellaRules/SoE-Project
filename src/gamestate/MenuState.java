@@ -100,11 +100,9 @@ public class MenuState extends GameState {
 			System.exit(0);
 	}
 
-	/**
-	 * Update the background
-	 */
+
 	@Override
 	public void update() {
-		bg.update();
+
 	}
 }

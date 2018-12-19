@@ -28,6 +28,10 @@ public class GamePanelController {
 		initThread();
 	}
 
+	/**
+	 *
+	 * @return the JPanel
+	 */
 	public JPanel getPanel() { return panel; }
 
 	/**

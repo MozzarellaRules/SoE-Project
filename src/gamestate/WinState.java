@@ -107,6 +107,6 @@ public class WinState extends GameState {
      */
     @Override
     public void update() {
-        bg.update();
+
     }
 }

@@ -109,12 +109,10 @@ public class GameOverState extends GameState {
 			System.exit(0);
 	}
 
-	/**
-	 * This method updates the background.
-	 */
+
 	@Override
 	public void update() {
-		bg.update();
+
 	}
 	
 }

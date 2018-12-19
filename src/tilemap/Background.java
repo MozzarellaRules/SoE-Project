@@ -23,22 +23,21 @@ public class Background {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Set the x and y needed to change the background movement.
+	 * @param x is the position of the player on the x-axis
+	 * @param y is the position of the player on the y-axis
+	 */
 	public void setPosition(double x, double y) {
 		this.x = (x*moveScale) % GamePanelController.WIDTH;
 		this.y = (y*moveScale) % GamePanelController.HEIGHT;
 	}
-	
-	public void setVector(double dx, double dy) {
-		this.dx = dx;
-		this.dy = dy;
-	}
-	
-	public void update() {
-		x += dx;
-		y += dy;
-	}
-	
+
+	/**
+	 * Draws the background on the g element
+	 * @param g
+	 */
 	public void draw(Graphics2D g) {
 		g.drawImage(image, (int)x,(int)y, null);
 
