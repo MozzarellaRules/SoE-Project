@@ -51,7 +51,7 @@ public class MusicHandler implements StateObserver {
         clip.stop();
 
         try{
-        if(state == GameStateManager.State.LEVEL1STATE){
+        if(state == GameStateManager.State.LEVEL1STATE || state == GameStateManager.State.DEMO){
 
             audioInputStream = AudioSystem.getAudioInputStream(new File(MusicHandler.FIRST_LEVEL_THEME));
             clip = AudioSystem.getClip();

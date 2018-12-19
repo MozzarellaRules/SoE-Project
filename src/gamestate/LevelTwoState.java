@@ -73,7 +73,6 @@ public class LevelTwoState extends GameState {
     public void createOctopusEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
         int[][] pos = {
-
                 {16,6}
         };
 
@@ -181,9 +180,8 @@ public class LevelTwoState extends GameState {
         }
 
         health.update();
-
         treasure.update();
-checkWin();
+        checkWin();
     }
 
     @Override
@@ -192,6 +190,9 @@ checkWin();
         tileMap.draw(g);
 
         player.draw(g);
+
+        Rectangle r = player.getRectangle();
+        g.fillRect((int)r.getX()+tileMap.getX(),(int)r.getY()+tileMap.getY(), (int)r.getWidth(), (int)r.getHeight());
 
         for(EnemyWaterOctopus o : octopus){
             o.draw(g);

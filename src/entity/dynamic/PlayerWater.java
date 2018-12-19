@@ -1,6 +1,6 @@
 package entity.dynamic;
 
-import entity.visual.IObservable;
+import entity.visual.PlayerObservable;
 import entity.ImageAnimator;
 import tilemap.TileMap;
 
@@ -41,7 +41,7 @@ public class PlayerWater extends Player {
     public void hookUpdate() {
         long elapsed = (System.nanoTime()-oxygenTimer)/1000000;
         if(elapsed > 2000) {
-            oxygen -=1 ;
+            oxygen -=1;
             oxygenTimer = System.nanoTime();
             notifyObserver(PlayerEvent.OXYGEN_MODIFIED);
         }
@@ -66,10 +66,10 @@ public class PlayerWater extends Player {
 
     //Increment the oxygen level by ten if a bubble is catched
     public void incrementOxygenLevel(){
-        if(oxygen+10 > maxOxygen){
+        if(oxygen+10 > maxOxygen) {
             oxygen = maxOxygen;
-        }else
-            oxygen+=10;
-        notifyObserver(IObservable.PlayerEvent.OXYGEN_MODIFIED);
+        } else
+            oxygen += 10;
+        notifyObserver(PlayerObservable.PlayerEvent.OXYGEN_MODIFIED);
     }
 }

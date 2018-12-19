@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 public class GameStateManager implements KeyListener,StateObservable {
 
-
-	public static enum State {
+	public enum State {
 		MENUSTATE,
 		LEVEL1STATE,
 		LEVEL2STATE,
@@ -16,13 +15,12 @@ public class GameStateManager implements KeyListener,StateObservable {
 		DEMO
 	}
 
-	private ArrayList<gamestate.GameState> states;
 	private gamestate.GameState currentState;
 	private ArrayList<StateObserver> observers;
 
 	public GameStateManager()  {
 		observers = new ArrayList<>();
-		currentState = new LevelOneState(this);
+		currentState = new LevelTwoState(this);
 	}
 	
 	public void setState(State state) {
@@ -66,7 +64,6 @@ public class GameStateManager implements KeyListener,StateObservable {
 
 	@Override
 	public void keyTyped(KeyEvent e) { }
-
 
 	@Override
 	public void addObserver(StateObserver obj) {
