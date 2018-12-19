@@ -6,9 +6,15 @@ public class SwimStrategyY implements StrategyY {
 
     public SwimStrategyY(){swimSpeed = 1.0;}
 
+    /**
+     *
+     * @param currentValue not used
+     * @param state if true indicates that the character is swimming up
+     * @param factor is the coefficient which varies the swimming velocity
+     * @return the next dy increment
+     */
     @Override
     public double recalcDy(double currentValue, boolean state, double factor) {
-        //If setted true, state indicates that the character is swimming up
 
         if(state){
             return -factor*swimSpeed;

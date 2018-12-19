@@ -1,5 +1,8 @@
 package entity.strategy;
 
+/**
+ * We can have only one instance of this class.(Singletone pattern)
+ */
 public class StrategyFactory {
     private StopStrategyX stopStrategyX;
     private StopStrategyY stopStrategyY;
@@ -25,12 +28,36 @@ public class StrategyFactory {
         return instance;
     }
 
+
+    /**
+     *
+     * @return an instance of StopStrategyX
+     */
     public StopStrategyX getStopStrategyX() { return stopStrategyX; }
+
+    /**
+     *
+     * @return an instance of StopStrategyY
+     */
     public StopStrategyY getStopStrategyY() { return stopStrategyY; }
 
+
+    /**
+     *
+     * @return an instance of MoveStrategyX
+     */
     public MoveStrategyX getMoveStrategyX(){return moveStrategyX;}
+
+    /**
+     *
+     * @return an instance of MoveStrategyY
+     */
     public MoveStrategyY getMoveStrategyY(){return moveStrategyY;}
 
+    /**
+     *
+     * @return an instance of SwimStrategyY
+     */
     public SwimStrategyY getSwimStrategyY() {return swimStrategyY;}
 
 }

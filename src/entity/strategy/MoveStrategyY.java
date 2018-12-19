@@ -16,6 +16,15 @@ public class MoveStrategyY implements StrategyY {
         stopJumpSpeed = 0.3;
     }
 
+
+    /**
+     *
+     * @param currentValue is the current dy increment of the player on the y-axis
+     * @param state is the parameter that indicates if the character is moving up or down
+     * @param factor factor is the coefficient that modify the way in which the next "dy" is calculated
+     * @return The possibile next "dy" position.
+     */
+
     @Override
     public double recalcDy(double currentValue, boolean state, double factor) {
         //If setted,state indicates that the character is falling

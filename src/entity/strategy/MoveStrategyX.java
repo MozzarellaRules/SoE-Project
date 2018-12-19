@@ -9,6 +9,14 @@ public class MoveStrategyX implements StrategyX {
         maxSpeed = 2.6;
     }
 
+    /**
+     *
+     * @param currentValue is the current dx increment.
+     * @param state is the parameter that indicates if the character is moving left or right
+     * @param factor is the coefficient that modify the way in which the next "dx" is calculated
+     * @return the next "dx" position.
+     */
+
     @Override
     public double recalcDx(double currentValue, boolean state, double factor) {
         double moveSpeed = factor*this.moveSpeed;
