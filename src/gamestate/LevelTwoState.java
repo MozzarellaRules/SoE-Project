@@ -73,8 +73,11 @@ public class LevelTwoState extends GameState {
     public void createOctopusEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
         int[][] pos = {
-
-                {16,6}
+                {16,6},
+                {10,23},
+                {13,42},
+                {6,48},
+                {14,47}
         };
 
         try {
@@ -90,10 +93,11 @@ public class LevelTwoState extends GameState {
     public void createSharkEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
         int[][] pos = {
-                {5, 8},
-
-
-
+                {13,17},
+                {9,14},
+                {10,33},
+                {6,48},
+                {16,49}
         };
 
         try {
@@ -114,25 +118,31 @@ public class LevelTwoState extends GameState {
 
     public void createOxygenBubbles() {
         int[][] pos = {
-                {5, 6}
+                {15, 19},
+                {7,7},
+                {7,12},
+                {18,21},
+                {14,45}
+
         };
 
         for(int i=0; i<pos.length; i++) {
             Item o = new Item(tileMap, "/Objects/asset_bubbles.png", 5);
-            o.setPosition(tileMap.getTileSize()*pos[i][1],tileMap.getTileSize()*pos[i][0]+6);
+            o.setPosition(tileMap.getTileSize()*pos[i][1]+16,tileMap.getTileSize()*pos[i][0]+16);
             oxygenBubbles.add(o);
         }
     }
 
     public void createTresure(){
         treasure = new Item(tileMap,"/Objects/asset_final_chest.png",16);
-        treasure.setPosition(32,32);
+        treasure.setPosition(32,(32*18)+16);
+
+
     }
 
-    public void checkWin() {
+    public void checkWin()  {
         if(player.intersects(treasure)) {
-            //gsm.setState(GameStateManager.State.LEVEL2STATE);
-            System.out.println("You win!");
+            gsm.setState(GameStateManager.State.WINSTATE);
         }
     }
 
@@ -153,25 +163,25 @@ public class LevelTwoState extends GameState {
 
         for(EnemyWaterOctopus o : octopus){
             // If the enemy is not on the screen, he does not move
-            if(!o.notOnScreen()){
-                o.update();
-                if(o.intersects(player)){
+            o.update();
+            if(o.intersects(player)){
                     player.hit(1);
-                }
+
             }
         }
 
         for(EnemyWaterShark s : sharks){
             // If the enemy is not on the screen, he does not move
-            if(!s.notOnScreen()){
+
                 s.update();
                 if(s.intersects(player)){
                     player.hit(1);
-                }
+
             }
         }
 
         for(Item o : oxygenBubbles) {
+            if(!o.notOnScreen()){
             o.update();
             if(player.intersects(o)){
                 oxygenBubbles.remove(o);
@@ -179,11 +189,12 @@ public class LevelTwoState extends GameState {
                 break;
             }
         }
+        }
 
         health.update();
 
         treasure.update();
-checkWin();
+        checkWin();
     }
 
     @Override
@@ -193,12 +204,15 @@ checkWin();
 
         player.draw(g);
 
+
         for(EnemyWaterOctopus o : octopus){
             o.draw(g);
         }
 
         for(EnemyWaterShark s : sharks){
             s.draw(g);
+
+
         }
 
         for(Item o : oxygenBubbles) {

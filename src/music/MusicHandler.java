@@ -11,7 +11,7 @@ import java.io.File;
 
 public class MusicHandler implements StateObserver {
     private static String FIRST_LEVEL_THEME = "resources/Theme/First_Level_Theme.wav";
-    private static String SECOND_LEVEL_THEME = "resources/Theme/First_Level_Theme.wav";
+    private static String SECOND_LEVEL_THEME = "resources/Theme/Second_Level_Theme.wav";
 
 
     private Clip clip;

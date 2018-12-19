@@ -96,7 +96,7 @@ public abstract class DynamicSprite extends Sprite {
          */
         calculateCorners(xNew,getY());
         if(getDx() < 0) { // Left movement
-            if(topLeftBlocked || topRightBlocked) { // The block on the left is blocked
+            if(topLeftBlocked || bottomLeftBlocked) { // The block on the left is blocked
                 setDx(0);
                 xCurrent = (currCol)*tileSize+collisionBoxWidth/2;
             }

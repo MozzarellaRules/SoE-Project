@@ -13,7 +13,8 @@ public class GameStateManager implements KeyListener,StateObservable {
 		LEVEL1STATE,
 		LEVEL2STATE,
 		GAMEOVER,
-		DEMO
+		DEMO,
+		WINSTATE
 	}
 
 	private ArrayList<gamestate.GameState> states;
@@ -22,7 +23,7 @@ public class GameStateManager implements KeyListener,StateObservable {
 	
 	public GameStateManager()  {
 		observers = new ArrayList<>();
-		currentState = new LevelOneState(this);
+		currentState = new LevelTwoState(this);
 	}
 	
 	public void setState(State state) {
@@ -41,6 +42,11 @@ public class GameStateManager implements KeyListener,StateObservable {
 				break;
 			case DEMO:
 				currentState = new DemoState(this);
+				break;
+			case WINSTATE:
+				currentState = new WinState(this);
+				break;
+
 		}
 		notifyObserver(state);
 		currentState.init();
