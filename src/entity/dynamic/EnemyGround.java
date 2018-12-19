@@ -37,13 +37,14 @@ public class EnemyGround extends DynamicSprite {
     }
 
     /**
-     * GETTERS
+     * This method is used to determine whether an enemy is dead or not
+     * @return the isDead boolean.
      */
     public boolean isDead(){ return isDead; }
 
     /**
-     * The player hit the enemy. Set a damage.
-     * @param damage
+     * The player hits the enemy for a set amount of damage.
+     * @param damage an enemy has 2 health and a bullet deals 1 damage
      */
     public void hit(int damage){
         health -= damage;

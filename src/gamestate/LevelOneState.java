@@ -34,15 +34,31 @@ public class LevelOneState extends GameState {
 	private ArrayList<Item> ammo;
 	private Item treasureMap;
 
-
+	/**
+	 * This method sets the game state manager for the first level.
+	 * @param gsm is the game state manager.
+	 */
 	public LevelOneState(GameStateManager gsm) {
 		this.gsm = gsm;
 		init();
 	}
 
+	/**
+	 * This method returns a player character instance.
+	 * @return the player character.
+	 */
 	public PlayerGround getPlayer() { return player; }
+
+	/**
+	 * This method returns the tilemap, which is the actual map things are drawn on.
+	 * @return the map.
+	 */
 	public TileMap getTileMap() { return tileMap; }
 
+	/**
+	 * This method initializes the map, the player and the enemies, plus the ammo pick-ups.
+	 * It also starts the background music.
+	 */
 	@Override
 	public void init() {
 		tileMap = new TileMap(32);
@@ -68,23 +84,35 @@ public class LevelOneState extends GameState {
 
 	}
 
+	/**
+	 * This method is used to create a new player character.
+	 */
 	private void createPlayer() {
 		this.player = new PlayerGround(tileMap);
 		this.player.setPosition(tileMap.getTileSize()*13,tileMap.getTileSize()*45);
 	}
 
+	/**
+	 * This method is used to create the starting bullets the player character can use.
+	 */
 	private void createRemainingBullets() {
 		this.remainingBullets = new RemainingBullets(tileMap);
 		this.remainingBullets.setRemainingBullets(player.getRemainingBullets());
 		this.player.addObserver(remainingBullets);
 	}
 
+	/**
+	 * This method sets the remaining health for the newly generated player character.
+	 */
 	private void createHealth() {
 		this.health = new Health(tileMap);
 		this.health.setHealth(player.getHealth());
 		this.player.addObserver(health);
 	}
 
+	/**
+	 * This method creates an array of enemies set in different positions.
+	 */
 	private void createEnemies() {
 		EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
 		int pos[][] = {
@@ -107,6 +135,9 @@ public class LevelOneState extends GameState {
 		}
 	}
 
+	/**
+	 * This method creates the ammo crates.
+	 */
 	private void createAmmo() {
 		int pos[][] = {
 				{49,12},
@@ -120,17 +151,26 @@ public class LevelOneState extends GameState {
 		}
 	}
 
+	/**
+	 * This method creates a treasure map, that will end the first level and start the second one.
+	 */
 	private void createTreasureMap() {
 		treasureMap = new Item(tileMap, "/Objects/asset_map.png", 12);
 		treasureMap.setPosition(tileMap.getTileSize()*122,tileMap.getTileSize()*52-treasureMap.getHeight()/2);
 	}
 
+	/**
+	 * This method creates a new projectile in front of the player and adds it to the projectiles currently on the screen.
+	 */
 	public void createProjectile() {
 		Projectile p = new Projectile(tileMap, player.isFacingRight());
 		p.setPosition(player.getX(), player.getY());
 		projectiles.add(p);
 	}
 
+	/**
+	 * This method deals with the camera, the position of the background and the animation for every sprite on the map.
+	 */
 	@Override
 	public void update() {
 		player.update();
@@ -183,6 +223,10 @@ public class LevelOneState extends GameState {
 		checkWin();
 	}
 
+	/**
+	 * This method checks if an enemy has been hit by a projectile
+	 * @param p is the projectile.
+	 */
 	private void checkEnemyHit(Projectile p){
 		for(EnemyGround e : enemies){
 			if(p.intersects(e)) {
@@ -197,12 +241,20 @@ public class LevelOneState extends GameState {
 		}
 	}
 
+	/**
+	 * This method checks if the treasure map has been acquired, and therefore the second level
+	 * can be started.
+	 */
 	private void checkWin() {
 		if(player.intersects(treasureMap)) {
 			gsm.setState(GameStateManager.State.LEVEL2STATE);
 		}
 	}
 
+	/**
+	 * This method draws the map and all the sprites within it.
+	 * @param g
+	 */
 	@Override
 	public void draw(Graphics2D g) {
 		bg.draw(g);
@@ -228,6 +280,10 @@ public class LevelOneState extends GameState {
 		}
 	}
 
+	/**
+	 * This method handles what key has been pressed (and therefore what action the main character is performing).
+	 * @param keyCode is the key that has been pressed.
+	 */
 	@Override
 	public void keyPressed(int keyCode) {
 		switch(keyCode) {
@@ -262,6 +318,10 @@ public class LevelOneState extends GameState {
 		}
 	}
 
+	/**
+	 * This method tells what key has been released (and therefore which action to stop).
+	 * @param keyCode is the key that has been released.
+	 */
 	@Override
 	public void keyReleased(int keyCode) {
 		switch(keyCode) {

@@ -26,32 +26,110 @@ public abstract class DynamicSprite extends Sprite {
     private boolean movingRight;
     private boolean falling;
 
+    /**
+     * This constructor creates the dynamic sprite object .
+     * @param tm is the map where the item is created
+     */
     public DynamicSprite(TileMap tm) {
         super(tm);
     }
 
     /**
-     * GETTERS
+     * This method is used to get the X strategy used by the object.
+     * @return the strategyX.
      */
     public StrategyX getStrategyX() { return strategyX; }
+
+    /**
+     * This method is used to get the Y strategy used by the object.
+     * @return the strategyY
+     */
     public StrategyY getStrategyY() { return strategyY; }
+
+    /**
+     * This method is used to get the multiplicative factor used to set the speed on the X axis.
+     * @return the factorX
+     */
     public double getFactorX() { return factorX; }
+
+    /**
+     * This method is used to get the multiplicative factor used to set the speed on the Y axis.
+     * @return the factorY
+     */
     public double getFactorY() { return factorY; }
+
+    /**
+     * This method is used to determine whether an object is facing right or not
+     * @return the facingRight boolean.
+     */
     public boolean isFacingRight(){return facingRight;}
+
+    /**
+     * This method is used to determine if an object is moving towards the left.
+     * @return the movingLeft boolean.
+     */
     public boolean isMovingLeft() { return movingLeft; }
+
+    /**
+     * This method is used to determine if an object is moving towards the left.
+     * @return the movingRight boolean.
+     */
     public boolean isMovingRight() { return movingRight; }
+
+    /**
+     * This method is used to determine if an object is falling or not.
+     * @return the falling boolean
+     */
     public boolean isFalling() { return falling; }
 
     /**
-     * SETTERS
+     * This method sets the X strategy for an object.
+     * @param strategyX is the chosen strategy.
      */
     public void setStrategyX(StrategyX strategyX) { this.strategyX = strategyX; }
+
+    /**
+     * This method sets the Y strategy for an object.
+     * @param strategyY is the chosen strategy.
+     */
     public void setStrategyY(StrategyY strategyY) { this.strategyY = strategyY; }
+
+    /**
+     * This method is used to set the multiplicative factor for the X axis.
+     * @param factorX is the multiplicative factor.
+     */
     public void setFactorX(double factorX){this.factorX = factorX;}
+
+    /**
+     * This method is used to set the multiplicative factor for the Y axis.
+     * @param factorY is the multiplicative factor.
+     */
     public void setFactorY(double factorY){this.factorY = factorY;}
+
+    /**
+     * This method is used to set the facingRight property of an object.
+     * @param facingRight is either true or false.
+     */
     public void setFacingRight(boolean facingRight){this.facingRight=facingRight;}
+
+    /**
+     * This method is used to set the MovingLeft property of an object (therefore
+     * telling the object to move to the left).
+     * @param movingLeft is either true or false.
+     */
     public void setMovingLeft(boolean movingLeft) { this.movingLeft = movingLeft; }
+
+    /**
+     * This method is used to set the MovingRight property of an object (therefore
+     * telling the object to move to the right).
+     * @param movingRight is either true or false.
+     */
     public void setMovingRight(boolean movingRight) { this.movingRight = movingRight; }
+
+    /**
+     * This method is used to make an object fall (or have it fall).
+     * @param falling is either true or false
+     */
     public void setFalling(boolean falling){ this.falling = falling;}
 
     /**
@@ -129,9 +207,9 @@ public abstract class DynamicSprite extends Sprite {
     }
 
     /**
-     * Determine if the current sprite collided another sprite
-     * @param s
-     * @return
+     * Determines if the current sprite collided with another sprite
+     * @param s is the target sprite.
+     * @return is true or false.
      */
     public boolean intersects(Sprite s){
         Rectangle r1 = getRectangle();
@@ -140,10 +218,10 @@ public abstract class DynamicSprite extends Sprite {
     }
 
     /**
-     * Determine if the tiles around the player are blocked
+     * Determines if the tiles around the player are blocked.
      * Set the variables topLeftBlocked, topRightBlocked, bottomLeftBlocked, bottomRightBlocked
-     * @param x
-     * @param y
+     * @param x is the object's x axis
+     * @param y is the object's y axis
      */
     public void calculateCorners(double x, double y) {
         // Determine the column of the tile on the left/right of the character

@@ -11,7 +11,7 @@ public class EnemyWaterShark extends DynamicSprite {
     private final int[] numFrames = {8};
 
     /**
-     * The shark is an enmemy type exclusive to the second level that moves only on the X axis.
+     * The shark is an enemy type exclusive to the second level that moves only on the X axis.
      * @param tm is the tilemap piece the enemy is generated from.
      */
     public EnemyWaterShark(TileMap tm) {
@@ -63,6 +63,10 @@ public class EnemyWaterShark extends DynamicSprite {
         imageAnimator.update();
     }
 
+    /**
+     * This method draws the shark. It may face right or left.
+     * @param g is the Graphics2D object used to draw the shark.
+     */
     @Override
     public void draw(Graphics2D g) {
         if(!isFacingRight()){

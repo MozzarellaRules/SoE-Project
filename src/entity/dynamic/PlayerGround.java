@@ -18,6 +18,10 @@ public class PlayerGround extends Player {
     private int remainingBullets = 10;
     private boolean firing;
 
+    /**
+     * Creates a player character to use on the first level.
+     * @param tm is the map on which to create the character.
+     */
     public PlayerGround(TileMap tm) {
         super(tm);
         setCurrentRow(IDLE_ROW);
@@ -28,18 +32,34 @@ public class PlayerGround extends Player {
         imageAnimator.setDelay(100);
     }
 
+    /**
+     * This method is used to acknowledge how many bullets the player has.
+     * @return the remaining bullets.
+     */
     public int getRemainingBullets() {
         return remainingBullets;
     }
 
+    /**
+     * This method sets the currently executed action to "firing" (our main and only attack).
+     * @param firing is either true or false.
+     */
     public void setFiring(boolean firing) {
         this.firing = firing;
     }
+
+    /**
+     * Sets the initial amount of bullets the player character starts with.
+     * @param remainingBullets is set to 10 initially.
+     */
     public void setRemainingBullets(int remainingBullets) {
         this.remainingBullets = remainingBullets;
         notifyObserver(PlayerEvent.BULLETS_MODIFIED);
     }
 
+    /**
+     * Every time the player character steps on a bunch of ammo, it gains 3 extra bullets.
+     */
     public void gatherAmmo() {
         this.remainingBullets += 3;
         notifyObserver(PlayerEvent.BULLETS_MODIFIED);

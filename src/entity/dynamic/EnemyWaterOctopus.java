@@ -66,7 +66,12 @@ public class EnemyWaterOctopus extends DynamicSprite {
                 null);
     }
 
-
+    /**
+     * We override this method because the octopus rises very quickly but "falls down"  in a slower
+     * way in order to give players enough time to get under/over it.
+     * @param factorX is unused here
+     * @param factorY is set in its init method.
+     */
     @Override
     public void setNextDelta(double factorX,double factorY) {
         double dy = getStrategyY().recalcDy(getDy(),up,factorY);

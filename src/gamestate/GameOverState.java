@@ -18,12 +18,19 @@ public class GameOverState extends GameState {
 	private Color titleColor;
 	private Font titleFont;
 	private Font optionsFont;
-	
+
+	/**
+	 * This method sets the game state manager.
+	 * @param gsm it's the game state manager.
+	 */
 	public GameOverState(GameStateManager gsm) {
 		this.gsm = gsm;
 		init();
 	}
 
+	/**
+	 * It creates the game-over screen.
+	 */
 	@Override
 	public void init() {
 		bg = new Background("/Background/bg_gameover.jpeg",1);
@@ -33,6 +40,10 @@ public class GameOverState extends GameState {
 		optionsFont = new Font("Arial",Font.PLAIN,14);
 	}
 
+	/**
+	 * This method draws the game-over screen and the options to either retry the level or quit the game.
+	 * @param g is the Graphics2D object.
+	 */
 	@Override
 	public void draw(Graphics2D g) {
 		bg.draw(g);
@@ -40,7 +51,10 @@ public class GameOverState extends GameState {
 		// Draw title
 		g.setColor(titleColor);
 		g.setFont(titleFont);
-		g.drawString("Captain Corkleg",76,70);
+		FontMetrics fm = g.getFontMetrics();
+		String title = "Too bad!";
+		int x = (GamePanelController.WIDTH - fm.stringWidth(title)) / 2;
+		g.drawString(title,x,70);
 
 		// Draw menu options
 		g.setFont(optionsFont);
@@ -50,13 +64,17 @@ public class GameOverState extends GameState {
 			} else {
 				g.setColor(Color.RED);
 			}
-			FontMetrics fm = g.getFontMetrics();
-			int x = (GamePanelController.WIDTH - fm.stringWidth(options[i])) / 2;
+			fm = g.getFontMetrics();
+			x = (GamePanelController.WIDTH - fm.stringWidth(options[i])) / 2;
 			g.drawString(options[i], x, 140+i*20);
 		}
 
 	}
 
+	/**
+	 * This method is used to determine that one of the choices has been selected.
+	 * @param keyCode is the key that has been pressed.
+	 */
 	@Override
 	public void keyPressed(int keyCode) {
 		if(keyCode == KeyEvent.VK_ENTER) {
@@ -78,15 +96,22 @@ public class GameOverState extends GameState {
 	}
 
 	@Override
-	public void keyReleased(int keyCode) { }
+	public void keyReleased(int keyCode)  {
+	}
 
+	/**
+	 * This method submits the chosen option.
+	 */
 	private void submitOption() {
 		if(currentChoice == 0)
 			gsm.setState(GameStateManager.State.LEVEL1STATE);
 		else if(currentChoice == 1)
 			System.exit(0);
 	}
-	
+
+	/**
+	 * This method updates the background.
+	 */
 	@Override
 	public void update() {
 		bg.update();

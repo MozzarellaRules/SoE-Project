@@ -35,16 +35,27 @@ public abstract class Player extends DynamicSprite implements PlayerObservable {
     }
 
     /**
-     * GETTERS
+     * This method is used to determine if the player character has depleted all of its health.
+     * @return the isDead boolean.
      */
     public boolean isDead() { return isDead; }
+
+    /**
+     * This method is used to return the amount of remaining health the player character has.
+     * @return the remaining health.
+     */
     public int getHealth() { return health; }
 
     /**
-     * SETTERS
-     *
+     * This method is used to set the amount of health the player character starts the level with.
+     * @param health is the number of "hearts".
      */
     public void setHealth(int health){this.health = health;}
+
+    /**
+     * This method is used to kill the player whenever its remaining health reaches zero.
+     * @param dead is a boolean (it's set to true).
+     */
     public void setDead(boolean dead) { isDead = dead; }
 
     /**
@@ -74,6 +85,10 @@ public abstract class Player extends DynamicSprite implements PlayerObservable {
      */
     public abstract void hookUpdate();
 
+    /**
+     * This method is used to update the animation of the character and to check for eventual collisions
+     * with the map or with the enemies/items.
+     */
     @Override
     public void update(){
         setNextDelta(getFactorX(),getFactorY());
@@ -119,16 +134,28 @@ public abstract class Player extends DynamicSprite implements PlayerObservable {
         }
     }
 
+    /**
+     * Adds an "observer" that is used to monitor the state of the character.
+     * @param o is the type of observer.
+     */
     @Override
     public void addObserver(PlayerObserver o) {
         observers.add(o);
     }
 
+    /**
+     * Deletes an observer.
+     * @param o is the observer to remove.
+     */
     @Override
     public void deleteObserver(PlayerObserver o) {
         observers.remove(o);
     }
 
+    /**
+     * This method is used to update an observer and notify changes.
+     * @param event is the event that has to be notified.
+     */
     @Override
     public void notifyObserver(PlayerEvent event) {
         for(PlayerObserver o:observers) {
