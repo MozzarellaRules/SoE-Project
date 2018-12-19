@@ -44,7 +44,7 @@ public class GameOverState extends GameState {
 
 		// Draw menu options
 		g.setFont(optionsFont);
-		for(int i= 0; i<options.length; i++) {
+		for(int i=0; i<options.length; i++) {
 			if(currentChoice == i) {
 				g.setColor(Color.GREEN);
 			} else {
