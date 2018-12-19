@@ -56,6 +56,10 @@ public class EnemyGround extends DynamicSprite {
         }
     }
 
+    /**
+     * The update() method deals with the behaviour of the enemy. The enemy changes direction
+     * once it collides with a blocking tile and can fall down platforms (if it walks over their edges).
+     */
     @Override
     public void update(){
         setNextDelta(getFactorX(),getFactorY());
@@ -82,6 +86,10 @@ public class EnemyGround extends DynamicSprite {
         imageAnimator.update();
     }
 
+    /**
+     * Just like the player character, the base enemy is drawn facing right or left
+     * @param g is the Graphics2D object we use to draw it
+     */
     @Override
     public void draw(Graphics2D g) {
         if(isFacingRight()) {

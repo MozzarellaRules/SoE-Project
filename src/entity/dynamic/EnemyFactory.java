@@ -4,6 +4,9 @@ import tilemap.TileMap;
 
 import java.security.InvalidParameterException;
 
+/**
+ * This is the abstract factory interface we use to create the different types of enemies.
+ */
 public interface EnemyFactory {
 
     enum EnemyType{

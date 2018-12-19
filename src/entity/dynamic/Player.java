@@ -53,7 +53,7 @@ public abstract class Player extends DynamicSprite implements PlayerObservable {
     public void setDead(boolean dead) { isDead = dead; }
 
     /**
-     * An enemy hit the player. Decreases the health only if the flinching is set to false.
+     * An enemy can hit the player. Decreases the health only if the flinching is set to false.
      * Notify the update to the observers.
      * @param damage
      */
@@ -100,6 +100,10 @@ public abstract class Player extends DynamicSprite implements PlayerObservable {
         }
     }
 
+    /**
+     * This method draws the sprite depending on which direction it's facing (right or left).
+     * @param g is the Graphics2D object we use to draw the image.
+     */
     @Override
     public void draw(Graphics2D g) {
         if(isFacingRight()) {

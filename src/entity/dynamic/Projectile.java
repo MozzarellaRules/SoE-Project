@@ -29,6 +29,10 @@ public class Projectile extends DynamicSprite {
     }
     public void setRemove(boolean remove) { this.remove = remove; }
 
+    /**
+     * This method deals with the movement of the projectile and its evolution.
+     * Once a projectile hits an enemy or a wall, it's removed.
+     */
     @Override
     public void update() {
         setNextDelta(getFactorX(),getFactorY());
@@ -41,6 +45,10 @@ public class Projectile extends DynamicSprite {
             remove = true;
     }
 
+    /**
+     * This method draws the projectile on the right or the left of our character.
+     * @param g is the Graphics2D object we use to draw it.
+     */
     @Override
     public void draw(Graphics2D g) {
         if(isFacingRight()) {

@@ -10,6 +10,10 @@ public class EnemyWaterShark extends DynamicSprite {
     private int DEFAULT_ROW = 0;
     private final int[] numFrames = {8};
 
+    /**
+     * The shark is an enmemy type exclusive to the second level that moves only on the X axis.
+     * @param tm is the tilemap piece the enemy is generated from.
+     */
     public EnemyWaterShark(TileMap tm) {
         super(tm);
 
@@ -31,6 +35,10 @@ public class EnemyWaterShark extends DynamicSprite {
         imageAnimator.setDelay(100);
     }
 
+    /**
+     * This method deals with the movement of the shark.
+     * It makes it so the shark only moves on the X axis and "never falls".
+     */
     @Override
     public void update() {
 

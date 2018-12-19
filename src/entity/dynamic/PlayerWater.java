@@ -64,7 +64,7 @@ public class PlayerWater extends Player {
         }
     }
 
-    //Increment the oxygen level by ten if a bubble is catched
+    //Increment the oxygen level by ten if a bubble is touched.
     public void incrementOxygenLevel(){
         if(oxygen+10 > maxOxygen) {
             oxygen = maxOxygen;

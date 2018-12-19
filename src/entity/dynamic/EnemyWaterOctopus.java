@@ -11,6 +11,10 @@ public class EnemyWaterOctopus extends DynamicSprite {
     private final int[] numFrames = {6};
     private boolean up ;
 
+    /**
+     * The octopus is an enemy exclusive of the second level and moves only on the Y axis.
+     * @param tm is the tilemap piece we generate the enemy on
+     */
     public EnemyWaterOctopus(TileMap tm) {
         super(tm);
 
@@ -21,7 +25,7 @@ public class EnemyWaterOctopus extends DynamicSprite {
 
 
         setCollisionBoxHeight((int)(getHeight()*1.3));
-        up = false ; // This boolean value shows if the oktopus is moving up or down
+        up = false ; // This boolean value shows if the octopus is moving up or down
 
 
         loadSpriteAsset(numFrames, "/Enemies/enemy_octopus.png");

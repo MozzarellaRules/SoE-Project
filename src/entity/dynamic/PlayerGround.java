@@ -45,6 +45,11 @@ public class PlayerGround extends Player {
         notifyObserver(PlayerEvent.BULLETS_MODIFIED);
     }
 
+    /**
+     * This hook method deals with the movement of the player character used in the first level.
+     * It selects a certain group of frames depending on the action that is being executed (ex.: standing still or
+     * moving).
+     */
     @Override
     public void hookUpdate() {
         if(getDx() > 0)

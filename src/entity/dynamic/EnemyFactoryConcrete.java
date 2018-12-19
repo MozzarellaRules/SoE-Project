@@ -4,6 +4,10 @@ import tilemap.TileMap;
 
 import java.security.InvalidParameterException;
 
+/**
+ * This is the concrete factory method we use to generate the enemy types.
+ * The three subclasses below define the behaviour and the main characteristics of said enemies.
+ */
 public class EnemyFactoryConcrete implements EnemyFactory {
 
     private static EnemyFactory instace;
@@ -16,6 +20,15 @@ public class EnemyFactoryConcrete implements EnemyFactory {
         return instace;
     }
 
+    /**
+     * This method creates a certain enemy class depending on the wanted type
+     * @param type indicates if an enemy is a pirate, an octpus or a shark
+     * @param tm is the tilemap on where the enemy will be generated
+     * @param row is the row on which to place the enemy
+     * @param col is the column on which to place the enemy
+     * @return returns one of the three enemy types
+     * @throws InvalidParameterException
+     */
     public DynamicSprite createEnemy(EnemyType type, TileMap tm,int row, int col) throws InvalidParameterException {
 
         switch(type){
