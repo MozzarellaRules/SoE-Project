@@ -121,8 +121,9 @@ public class LevelOneState extends GameState {
 				{51,121},
 				{51,52},
 				{51,68},
+				{51,81},
 				{48,95},
-				{48,118},
+				{48,118}
 		};
 
 		try {
@@ -141,7 +142,8 @@ public class LevelOneState extends GameState {
 	private void createAmmo() {
 		int pos[][] = {
 				{49,12},
-				{52,16}
+				{52,16},
+				{52,60}
 		};
 
 		for(int i=0; i<pos.length; i++) {
