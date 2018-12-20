@@ -28,7 +28,7 @@ public class MenuState extends GameState {
 	 */
 	@Override
 	public void init() {
-		bg = new Background("/Background/bg_menu.jpeg",1);
+		bg = new Background("/Background/bg_menu2.jpeg",1);
 
 		titleColor = new Color(128,0,0);
 		titleFont = new Font("Century Gothic",Font.PLAIN,28);
