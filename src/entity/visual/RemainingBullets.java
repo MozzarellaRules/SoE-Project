@@ -14,7 +14,7 @@ public class RemainingBullets extends Sprite implements PlayerObserver {
     public RemainingBullets(TileMap tm) {
         super(tm);
 
-        this.image = new ImageIcon("resources/Objects/icon_bullet.png").getImage();
+        this.image = new ImageIcon(getClass().getResource("/Objects/icon_bullet.png")).getImage();
     }
 
     /**

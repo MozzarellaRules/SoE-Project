@@ -26,7 +26,7 @@ public class Projectile extends DynamicSprite {
         setMovingRight(facingRight);
         setFacingRight(facingRight);
 
-        this.image = new ImageIcon("resources/Objects/bullet.png").getImage();
+        this.image = new ImageIcon(getClass().getResource("/Objects/bullet.png")).getImage();
     }
 
     /**

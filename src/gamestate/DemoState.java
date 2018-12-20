@@ -61,13 +61,13 @@ public class DemoState extends GameState {
      * This method creates the "suggestions" that will be shown to the player during the demo.
      */
     private void createSuggestions() {
-        Suggestion s1 = new Suggestion("resources/Objects/suggest_go_right.png", 45, 13, KeyEvent.VK_RIGHT);
-        Suggestion s2 = new Suggestion("resources/Objects/suggest_go_left.png", 51, 31, KeyEvent.VK_LEFT);
-        Suggestion s3 = new Suggestion("resources/Objects/suggest_ammo.png", 51, 16, -1);
-        Suggestion s4 = new Suggestion("resources/Objects/suggest_shoot.png", 48, 19, KeyEvent.VK_SPACE);
-        Suggestion s5 = new Suggestion("resources/Objects/suggest_jump.png", 48, 28, KeyEvent.VK_UP);
-        Suggestion s6 = new Suggestion("resources/Objects/suggest_demo_completed.png", 51, 14, -1);
-        Suggestion s7 = new Suggestion("resources/Objects/suggest_limited_ammo.png", 51, 15, -1);
+        Suggestion s1 = new Suggestion("/Objects/suggest_go_right.png", 45, 13, KeyEvent.VK_RIGHT);
+        Suggestion s2 = new Suggestion("/Objects/suggest_go_left.png", 51, 31, KeyEvent.VK_LEFT);
+        Suggestion s3 = new Suggestion("/Objects/suggest_ammo.png", 51, 16, -1);
+        Suggestion s4 = new Suggestion("/Objects/suggest_shoot.png", 48, 19, KeyEvent.VK_SPACE);
+        Suggestion s5 = new Suggestion("/Objects/suggest_jump.png", 48, 28, KeyEvent.VK_UP);
+        Suggestion s6 = new Suggestion("/Objects/suggest_demo_completed.png", 51, 14, -1);
+        Suggestion s7 = new Suggestion("/Objects/suggest_limited_ammo.png", 51, 15, -1);
 
         suggests.add(s1);
         suggests.add(s2);
@@ -171,7 +171,6 @@ public class DemoState extends GameState {
         }
     }
 
-
     @Override
     public void keyReleased(int keyCode) { }
 
@@ -182,7 +181,7 @@ public class DemoState extends GameState {
         private int wantedInput;
 
         Suggestion(String path, int row, int col, int wantedInput) {
-            this.image = new ImageIcon(path).getImage();
+            this.image = new ImageIcon(getClass().getResource(path)).getImage();
             this.row = row;
             this.col = col;
             this.wantedInput = wantedInput;
