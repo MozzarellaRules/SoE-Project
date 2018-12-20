@@ -76,14 +76,14 @@ public class ItemTest {
 	}
 	
 	@Test
-	//lo schermo  380*250
+	//lo schermo è 380*250 
 	public void TestNotOnScreen() {
 		it.getTileMap().setPosition(0, 0);
-		it.setPosition(413,100);  //l'item  fuori dallo schermo
+		it.setPosition(413,100);  //l'item è fuori dallo schermo 
 		assertTrue(it.notOnScreen());
 		it.setPosition(412,100);
 		assertFalse(it.notOnScreen());
-		it.setPosition(100,283);  //l'item  fuori dallo schermo
+		it.setPosition(100,283);  //l'item è fuori dallo schermo 
 		assertTrue(it.notOnScreen());
 		it.setPosition(100,282);
 		assertFalse(it.notOnScreen());

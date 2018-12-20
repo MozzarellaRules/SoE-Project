@@ -22,11 +22,11 @@ class TileMapTest extends Game {
     void testMapLevel1() {
         tm.loadTiles(LevelOneState.TILESET_PATH);
         tm.loadMap(LevelOneState.MAP_PATH);
-        assertEquals(tm.getNumRows(),54);
-        assertEquals(tm.getNumCols(),149);
+        assertEquals(54,tm.getNumRows());
+        assertEquals(149,tm.getNumCols());
         
-        assertNotEquals(tm.getNumRows(), 0);
-        assertNotEquals(tm.getNumCols(), 0);
+        assertNotEquals(0,tm.getNumRows());
+        assertNotEquals(0,tm.getNumCols());
 
         
         /*assertThrows(NullPointerException.class, () -> {
@@ -39,10 +39,10 @@ class TileMapTest extends Game {
     void testMapLevel2() {
     	tm.loadTiles(LevelTwoState.TILESET_PATH);
     	tm.loadMap(LevelTwoState.MAP_PATH);
-    	//assertEqualsPerLeRighe
-    	//assertEqualsPerLeColonne
-    	assertNotEquals(tm.getNumRows(), 0);
-        assertNotEquals(tm.getNumCols(), 0);
+    	 assertEquals(20,tm.getNumRows());
+         assertEquals(62,tm.getNumCols());
+    	assertNotEquals(0,tm.getNumRows());
+        assertNotEquals(0,tm.getNumCols());
     }
     
     @Test
