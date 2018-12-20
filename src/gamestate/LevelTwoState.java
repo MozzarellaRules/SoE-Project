@@ -52,14 +52,13 @@ public class LevelTwoState extends GameState {
         this.octopus = new ArrayList<>();
         this.sharks = new ArrayList<>();
         this.oxygenBubbles = new ArrayList<>();
+
         createPlayer();
         createOctopusEnemies();
         createSharkEnemies();
         createHealth();
         createOxygenBubbles();
-        this.oxygenLevel = new OxygenLevel(tileMap);
-        this.oxygenLevel.setOxygen(player.getOxygen());
-        player.addObserver(oxygenLevel);
+        createOxygenLevel();
         createTresure();
 
         bg = new Background(BG_PATH,1);
@@ -71,7 +70,7 @@ public class LevelTwoState extends GameState {
     /**
      * This method creates the player
      */
-    public void createPlayer() {
+    private void createPlayer() {
         this.player = new PlayerWater(tileMap);
         this.player.setPosition(tileMap.getTileSize()*3,tileMap.getTileSize()*3);
     }
@@ -79,7 +78,7 @@ public class LevelTwoState extends GameState {
     /**
      * This methods create the Octopuses
      */
-    public void createOctopusEnemies() {
+    private void createOctopusEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
         int[][] pos = {
                 {16,6},
@@ -102,7 +101,7 @@ public class LevelTwoState extends GameState {
     /**
      * This method creates the Sharks
      */
-    public void createSharkEnemies() {
+    private void createSharkEnemies() {
         EnemyFactory enemyFactory = EnemyFactoryConcrete.getInstace();
         int[][] pos = {
                 {13,17},
@@ -134,7 +133,7 @@ public class LevelTwoState extends GameState {
     /**
      * This method creates the oxygen bubbles
      */
-    public void createOxygenBubbles() {
+    private void createOxygenBubbles() {
         int[][] pos = {
                 {15, 19},
                 {7,7},
@@ -151,9 +150,18 @@ public class LevelTwoState extends GameState {
     }
 
     /**
+     * This method creates the indicator that shows the oxygen level
+     */
+    private void createOxygenLevel() {
+        this.oxygenLevel = new OxygenLevel(tileMap);
+        this.oxygenLevel.setOxygen(player.getOxygen());
+        player.addObserver(oxygenLevel);
+    }
+
+    /**
      * This method creates the Tresure Object
      */
-    public void createTresure(){
+    private void createTresure(){
         treasure = new Item(tileMap,"/Objects/asset_final_chest.png",16);
         treasure.setPosition(32*60,(32*18)+16);
     }
@@ -161,7 +169,7 @@ public class LevelTwoState extends GameState {
     /**
      * This method checks if the player win
      */
-    public void checkWin()  {
+    private void checkWin()  {
         if(player.intersects(treasure)) {
             gsm.setState(GameStateManager.State.WINSTATE);
         }
@@ -186,16 +194,14 @@ public class LevelTwoState extends GameState {
         }
 
         for(EnemyWaterOctopus o : octopus) {
-            // If the enemy is not on the screen, he does not move
             o.update();
-            if(o.intersects(player)){
-                    player.hit(1);
+            if(o.intersects(player)) {
+                player.hit(1);
 
             }
         }
 
         for(EnemyWaterShark s : sharks){
-            // If the enemy is not on the screen, he does not move
             s.update();
             if(s.intersects(player)) {
                 player.hit(1);
@@ -203,14 +209,14 @@ public class LevelTwoState extends GameState {
         }
 
         for(Item o : oxygenBubbles) {
-            if(!o.notOnScreen()){
-            o.update();
-            if(player.intersects(o)){
-                oxygenBubbles.remove(o);
-                player.incrementOxygenLevel();
-                break;
+            if(!o.notOnScreen()) {
+                o.update();
+                if(player.intersects(o)) {
+                    oxygenBubbles.remove(o);
+                    player.incrementOxygenLevel();
+                    break;
+                }
             }
-        }
         }
 
         health.update();
