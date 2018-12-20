@@ -173,11 +173,9 @@ public class DemoState extends GameState {
 
 
     @Override
-    public void keyReleased(int keyCode) throws UnsupportedOperationException {
-       throw new UnsupportedOperationException();
-    }
+    public void keyReleased(int keyCode) { }
 
-    class Suggestion {
+    private class Suggestion {
         private int row;
         private int col;
         private Image image;

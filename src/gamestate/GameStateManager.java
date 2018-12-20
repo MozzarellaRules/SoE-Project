@@ -24,7 +24,7 @@ public class GameStateManager implements KeyListener,StateObservable {
 	 */
 	public GameStateManager()  {
 		observers = new ArrayList<>();
-		currentState = new LevelTwoState(this);
+		currentState = new MenuState(this);
 	}
 
 	/**

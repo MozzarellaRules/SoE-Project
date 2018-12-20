@@ -2,20 +2,16 @@ package entity.visual;
 
 import entity.Sprite;
 import entity.dynamic.PlayerWater;
-import jdk.jshell.spi.ExecutionControl;
 import tilemap.TileMap;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class OxygenLevel extends Sprite implements PlayerObserver {
-    private BufferedImage imageHealth;
-    private BufferedImage subImageHealth;
     private int oxygen;
 
     public OxygenLevel(TileMap tm) {
         super(tm);
-
     }
 
     /**
