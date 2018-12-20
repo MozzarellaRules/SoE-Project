@@ -20,7 +20,7 @@ public class EnemyGround extends DynamicSprite {
         setFalling(true);
         setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
         setStrategyY(StrategyFactory.getInstance().getMoveStrategyY());
-        setFactorX(1.5);
+        setFactorX(1.1);
         setFactorY(1.0);
         setCollisionBoxWidth(20);
         setCollisionBoxHeight(30);

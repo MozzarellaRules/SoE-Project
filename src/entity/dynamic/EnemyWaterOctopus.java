@@ -21,7 +21,7 @@ public class EnemyWaterOctopus extends DynamicSprite {
         setStrategyX(StrategyFactory.getInstance().getStopStrategyX());
         setStrategyY(StrategyFactory.getInstance().getSwimStrategyY());
         setFactorX(0);
-        setFactorY(1.5);
+        setFactorY(1.2);
 
 
         setCollisionBoxHeight((int)(getHeight()*1.3));
