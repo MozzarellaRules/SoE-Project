@@ -57,7 +57,7 @@ public class PlayerWater extends Player {
     @Override
     public void hookUpdate() {
         long elapsed = (System.nanoTime()-oxygenTimer)/1000000;
-        if(elapsed > 2000) {
+        if(elapsed > 1000) {
             oxygen -=1;
             oxygenTimer = System.nanoTime();
             notifyObserver(PlayerEvent.OXYGEN_MODIFIED);
