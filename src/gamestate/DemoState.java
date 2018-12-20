@@ -107,33 +107,33 @@ public class DemoState extends GameState {
      */
     @Override
     public void update() {
-        if(!gamePaused) {
-            levelOne.update();
-        }
-
         int current_row_player = player.getY()/tileMap.getTileSize();
         int current_col_player = player.getX()/tileMap.getTileSize();
+
+        if(!gamePaused) {
+            levelOne.update();
+
+            for(Integer[] pos : movementsPressed.keySet()) {
+                if(pos[0] == current_row_player && pos[1] == current_col_player) {
+                    levelOne.keyPressed(movementsPressed.get(pos));
+                    movementsPressed.remove(pos);
+                    break;
+                }
+            }
+
+            for(Integer[] pos : movementsReleased.keySet()) {
+                if(pos[0] == current_row_player && pos[1] == current_col_player) {
+                    levelOne.keyReleased(movementsReleased.get(pos));
+                    movementsReleased.remove(pos);
+                    break;
+                }
+            }
+        }
 
         for(Suggestion s: suggests) {
             if(!player.isFalling() && s.getRow()==current_row_player && s.getCol()==current_col_player) {
                 gamePaused = true;
                 currentSuggestion = s;
-            }
-        }
-
-        for(Integer[] pos : movementsPressed.keySet()) {
-            if(pos[0] == current_row_player && pos[1] == current_col_player) {
-                levelOne.keyPressed(movementsPressed.get(pos));
-                movementsPressed.remove(pos);
-                break;
-            }
-        }
-
-        for(Integer[] pos : movementsReleased.keySet()) {
-            if(pos[0] == current_row_player && pos[1] == current_col_player) {
-                levelOne.keyReleased(movementsReleased.get(pos));
-                movementsReleased.remove(pos);
-                break;
             }
         }
     }
