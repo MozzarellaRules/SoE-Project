@@ -30,8 +30,8 @@ public class MenuState extends GameState {
 	public void init() {
 		bg = new Background("/Background/bg_menu2.jpeg",1);
 
-		titleColor = new Color(128,0,0);
-		titleFont = new Font("Century Gothic",Font.PLAIN,28);
+		titleColor = new Color(57, 110, 249);
+		titleFont = new Font("Century Gothic",Font.PLAIN,16);
 		optionsFont = new Font("Arial",Font.PLAIN,14);
 	}
 
@@ -44,21 +44,24 @@ public class MenuState extends GameState {
 		bg.draw(g);
 		
 		// Draw title
-		g.setColor(titleColor);
-		g.setFont(titleFont);
-		g.drawString("Captain Corkleg",76,140);
+        g.setColor(titleColor);
+        g.setFont(titleFont);
+        FontMetrics fm = g.getFontMetrics();
+        String title = "Captain Corkleg";
+        int x = (GamePanelController.WIDTH - fm.stringWidth(title)) / 2;
+        g.drawString(title,x,70);
 		
 		// Draw menu options
 		g.setFont(optionsFont);
 		for(int i= 0; i<options.length; i++) {
 			if(currentChoice == i) {
-				g.setColor(Color.GREEN);
+				g.setColor(Color.green);
 			} else {
-				g.setColor(Color.RED);
+				g.setColor(Color.GRAY);
 			}
-			FontMetrics fm = g.getFontMetrics();
-			int x = (GamePanelController.WIDTH - fm.stringWidth(options[i])) / 2;
-			g.drawString(options[i], x, 170+i*20);
+			fm = g.getFontMetrics();
+			x = (GamePanelController.WIDTH - fm.stringWidth(options[i])) / 2;
+			g.drawString(options[i], x, 120+i*20);
 		}
 		
 	}
