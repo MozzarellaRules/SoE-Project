@@ -77,11 +77,10 @@ public class LevelOneState extends GameState {
 		createTreasureMap();
 
 		bg = new Background(BG_PATH,0.5);
+		gsm.addObserver(MusicHandler.getInstance());
 
 		// The camera is centered on the player
 		tileMap.setPosition(GamePanelController.WIDTH/2-player.getX(), GamePanelController.HEIGHT/2-player.getY());
-		gsm.addObserver(MusicHandler.getInstance());
-
 	}
 
 	/**
@@ -164,7 +163,7 @@ public class LevelOneState extends GameState {
 	/**
 	 * This method creates a new projectile in front of the player and adds it to the projectiles currently on the screen.
 	 */
-	public void createProjectile() {
+	private void createProjectile() {
 		Projectile p = new Projectile(tileMap, player.isFacingRight());
 		p.setPosition(player.getX(), player.getY());
 		projectiles.add(p);
@@ -188,7 +187,6 @@ public class LevelOneState extends GameState {
 			gsm.setState(GameStateManager.State.GAMEOVER);
 		}
 
-        // Update enemies
 		for(EnemyGround e : enemies){
 			// If the enemy is not on the screen, he does not move
 		    if(!e.notOnScreen()){
@@ -268,16 +266,12 @@ public class LevelOneState extends GameState {
 		treasureMap.draw(g);
 
 		for(Item a : ammo) {
-			//Rectangle r = a.getRectangle();
-			//g.fillRect((int)r.getX()+tileMap.getX(),(int)r.getY()+tileMap.getY(), (int)r.getWidth(), (int)r.getHeight());
 			a.draw(g);
 		}
 		for(Projectile p : projectiles) {
 			p.draw(g);
 		}
 		for(EnemyGround e : enemies) {
-			//Rectangle r = e.getRectangle();
-			//g.fillRect((int)r.getX()+tileMap.getX(),(int)r.getY()+tileMap.getY(), (int)r.getWidth(), (int)r.getHeight());
 			e.draw(g);
 		}
 	}
